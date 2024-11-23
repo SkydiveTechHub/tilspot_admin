@@ -49,7 +49,7 @@ export const LogoutModal = ({children, title, openModal, handleOk, handleCancel 
             <p className="font-mont text-[14px] font-[400] text-[gray]">Are you sure you want to logout?</p>
             <div className="space-x-6">
                 <button className="font-mont text-[16px] w-[150px] font-[400] bg-[#F9F9F9] rounded-lg p-[10px]">Cancel</button>
-                <Link to={'/login'} className="font-mont text-[16px] w-[150px] font-[400] text-[white] bg-primary rounded-lg p-[10px]">Log Out</Link>
+                <Link to={'/'} className="font-mont text-[16px] w-[150px] font-[400] text-[white] bg-primary rounded-lg p-[10px]">Log Out</Link>
             </div>            
         </div>
 

@@ -1,13 +1,12 @@
 import React from 'react'
-import { Logo } from '../../utils/data'
 
 export const AuthLayout = ({children, backgroundImg, headText, headDesc}) => {
   const bg = '/images/auth.png'
   return (
     <div className='flex justify-normal items-center min-h-[100vh] w-full relative'>
 
-        <div style={{backgroundImage: `url(${bg})`}} className='bg-cover bg-center bg-no-repeat w-full md:w-[40%] h-screen'>
-            <Logo/>
+        <div style={{backgroundImage: `url(${bg})`}} className='bg-cover bg-center bg-no-repeat w-full md:w-[40%] p-6 h-screen'>
+            <img src="/images/Logo.png"  className='w-[150px]' alt="" />
             
         </div>
         <div className='w-full md:w-[60%] px-6 md:px-12 max-h-screen pt-[5rem] pb-20 overflow-y-scroll absolute lg:relative  backdrop-blur-lg'>
@@ -27,8 +26,8 @@ export const AuthLayout2 = ({children, headText, headDesc}) => {
   return (
     <div className='flex justify-normal items-center min-h-[100vh] w-full relative'>
 
-        <div  className=' w-[30%] h-screen'>
-            <Logo/>
+        <div  className=' w-[30%] p-6 h-screen'>
+            <img src="/images/Logo.png"  className='w-[150px]' alt="" />
             
         </div>
         <div style={{backgroundImage: `url(/images/padlock.png)`}} className='bg-cover h-screen bg-center bg-no-repeat w-[70%] px-20'>
@@ -53,7 +52,7 @@ export const AuthLayout3 = ({children, backgroundImg, headText, headDesc}) => {
   return (
     <div className='h-screen min-h-screen w-full'>
 
-            <Logo/>
+            <img src="/images/Logo.png"  className='w-[150px]' alt="" />
         <div className='flex justify-center items-center h-full w-full pb-10'>
           <div className='px-6 md:px-10 shadow-2xl rounded-lg py-8 w-[95%] md:w-[50%] space-y-6'>
             <div className=''>

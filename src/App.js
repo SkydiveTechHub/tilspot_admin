@@ -9,8 +9,6 @@ import ApiDoc from "./pages/dashboardPages/ApiDoc";
 import SubscriptionPage from "./pages/dashboardPages/subscription";
 import OPTpage from "./pages/authPages/OTPpage";
 import AccountPage from "./pages/dashboardPages/Account";
-import InstancePreview from "./pages/dashboardPages/instances/InstancePreview";
-import InstanceView from "./pages/dashboardPages/instances/InstanceView";
 import HelpPage from "./pages/dashboardPages/help";
 import Articles from "./pages/dashboardPages/articles";
 import AirtimePage from "./pages/dashboardPages/airtime";
@@ -31,8 +29,6 @@ function App() {
 					<Route path="/dashboard/electricity" element={<ElectricityPage/>}/>
 					<Route path="/dashboard/cable" element={<CablePage/>}/>
 					<Route path="/dashboard/api-docs" element={<ApiDoc/>}/>
-					<Route path="/dashboard/preview-instance" element={<InstancePreview/>}/>
-					<Route path="/dashboard/view-instances" element={<InstanceView/>}/>
 					<Route path="/dashboard/subscription" element={<SubscriptionPage/>}/>
 					<Route path="/dashboard/account" element={<AccountPage/>}/>
 					<Route path="/dashboard/help" element={<HelpPage/>}/>
