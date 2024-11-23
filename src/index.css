@@ -1,0 +1,67 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+body{
+    font-family: "Montserrat, sans-serif";
+    scroll-behavior: smooth;
+}
+
+.css-1f773le-MuiButtonBase-root-MuiAccordionSummary-root{
+    padding: 0 12px !important;
+}
+
+.css-eqpfi5-MuiAccordionSummary-content{
+    margin: 0 !important;
+}
+
+.css-1yq1soz-MuiSvgIcon-root {
+    color:white !important;
+}
+.css-15v22id-MuiAccordionDetails-root{
+    padding: 0 !important;
+    margin: 0 !important;
+    
+}
+
+.ant-upload-wrapper .ant-upload-list.ant-upload-list-picture-circle .ant-upload-list-item {
+    position: relative;
+    height: 66px;
+    padding: 0px !important;
+    border: 1px solid #d9d9d9;
+    /* border-radius: 8px; */
+}
+
+.ant-upload-wrapper.ant-upload-picture-circle-wrapper .ant-upload-list.ant-upload-list-picture-circle {
+    gap: 0px !important; 
+}
+
+/* Customize the scrollbar's width and background */
+::-webkit-scrollbar {
+    width: 8px; /* Width of the scrollbar */
+    height: 8px; /* Width of the scrollbar */
+    background-color: #f0f0f0; /* Background color of the scrollbar track */
+  }
+  
+  /* Customize the scrollbar thumb (the draggable part) */
+  ::-webkit-scrollbar-thumb {
+    background-color: rgba(110, 24, 178, 0.1); /* Color of the scrollbar thumb */
+    border-radius: 6px; /* Rounded corners */
+    border: 2px solid #f0f0f0; /* Optional: border around the thumb */
+  }
+  
+  /* Customize the scrollbar track (the non-draggable part) */
+  ::-webkit-scrollbar-track {
+    background-color: #f0f0f0; /* Background color of the scrollbar track */
+  }
+
+  .react-tel-input .form-control {
+    width: 100% !important;
+    padding-top: 14px !important;
+    padding-bottom: 14px !important;
+    height: 100% !important;
+  }
+  
