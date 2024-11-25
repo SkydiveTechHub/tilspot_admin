@@ -24,7 +24,7 @@ const Login = () => {
 
   return (
     <AuthLayout3 backgroundImg={bg} headDesc={''} headText={'Login'} >
-        <span className='font-mont block text-center text-gray'>Don't have an account, <Link to={'/register'}><AuxAuthText text={'Create Account'}/></Link></span>
+        {/* <span className='font-mont block text-center text-gray'>Don't have an account, <Link to={'/register'}><AuxAuthText text={'Create Account'}/></Link></span> */}
 
         <form onSubmit={handleSubmit} className='flex flex-col space-y-4 md:space-y-8'>
             <FormInput
