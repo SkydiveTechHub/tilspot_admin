@@ -13,6 +13,8 @@ import PreviewAirtimeOrderModal from "../../components/shared/Modals/Airtime/Pre
 import PreviewCableOrderModal from "../../components/shared/Modals/cable/PreviewCable";
 import PreviewInternetOrderModal from "../../components/shared/Modals/Internet/PreviewInternet";
 import PreviewGasOrderModal from "../../components/shared/Modals/gas/PreviewGas";
+import PreviewTransportOrderModal from "../../components/shared/Modals/Transport/PreviewTransport";
+import PreviewParkingOrderModal from "../../components/shared/Modals/parking/PreviewParking";
 
 
 const Dashboard = () => {
@@ -54,6 +56,31 @@ const Dashboard = () => {
                             acctNo={'09022334455'}
                             amount={'500'}
                         />,
+            gas:   <PreviewGasOrderModal
+                            openModal={open}
+                            handleCancel={()=>setOpen(false)}
+                            handleOk={()=>setOpen(false)}
+                            provider={'MTN'}
+                            acctNo={'09022334455'}
+                            amount={'500'}
+                        />,
+            transportation:   <PreviewTransportOrderModal
+                            openModal={open}
+                            handleCancel={()=>setOpen(false)}
+                            handleOk={()=>setOpen(false)}
+                            d_location={'MTN'}
+                            phone={'09022334455'}
+                            amount={'500'}
+                        />,
+            parking:   <PreviewParkingOrderModal
+                            openModal={open}
+                            handleCancel={()=>setOpen(false)}
+                            handleOk={()=>setOpen(false)}
+                            provider={'MTN'}
+                            reg ={'8882288c'}
+                            phone={'09022334455'}
+                            amount={'500'}
+                        />,
         }
    
         const handleFindModal = (service) => {
@@ -83,7 +110,7 @@ const Dashboard = () => {
                             TColor={i.serviceTC}
                             iconUrl={i.service_icon}
                             // date={'Wallet Balance'}
-                            title={'NGN 100,000'}
+                            title={'Pending Order'}
                             bgColor={i.serviceBG}
                             handleClick={()=>handleFindModal(i.service_type)}
 
@@ -175,15 +202,15 @@ const serviceEnum =[
         service_icon: '/images/message.png',
     },
     {
-        service_type: 'airtime',
-        service_name: 'Airtime',
+        service_type: 'waste',
+        service_name: 'Waste',
         serviceBG: 'rgba(34, 34, 34, 0.2)',
         serviceTC: '#000',
         service_icon: '/images/message.png',
     },
     {
-        service_type: 'airtime',
-        service_name: 'Airtime',
+        service_type: 'government',
+        service_name: 'Government',
         serviceBG: 'rgba(34, 34, 34, 0.2)',
         serviceTC: '#000',
         service_icon: '/images/message.png',

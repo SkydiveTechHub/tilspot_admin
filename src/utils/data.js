@@ -53,6 +53,36 @@ export const pageEnum = [
 			"/dashboard/cable"
 		]
 	},
+	{
+		title:'Transport',
+		pages:[
+			"/dashboard/transport"
+		]
+	},
+	{
+		title:'Football Ticket ',
+		pages:[
+			"/dashboard/football"
+		]
+	},
+	{
+		title:'Housing',
+		pages:[
+			"/dashboard/housing"
+		]
+	},
+	{
+		title:'Government',
+		pages:[
+			"/dashboard/government"
+		]
+	},
+	{
+		title:'Waste',
+		pages:[
+			"/dashboard/waste"
+		]
+	},
 	
 ]
 

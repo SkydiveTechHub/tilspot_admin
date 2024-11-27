@@ -176,27 +176,27 @@ const navData = [
       {
         name:'Transport',
         icons:<ChartSquare size={16}/>,
-        url:'/subscription'        
+        url:'/transport'        
       },
       {
         name:'Waste',
         icons:<ChartSquare size={16}/>,
-        url:'/subscription'        
+        url:'/waste'        
       },
       {
         name:'Government',
         icons:<ChartSquare size={16}/>,
-        url:'/subscription'        
+        url:'/government'        
       },
       {
         name:'Football',
         icons:<ChartSquare size={16}/>,
-        url:'/subscription'        
+        url:'/football'        
       },
       {
         name:'Housing',
         icons:<ChartSquare size={16}/>,
-        url:'/subscription'        
+        url:'/housing'        
       },
 
     ]

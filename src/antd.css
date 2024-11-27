@@ -52,3 +52,7 @@
 .ant-table-cell, .ant-table-thead >tr>th{
     font-family: "Montserrat, sans-serif" !important;
 }
+
+.ant-picker .ant-picker-range{
+    width: 100% !important;
+}

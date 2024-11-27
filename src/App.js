@@ -16,6 +16,12 @@ import InternetPage from "./pages/dashboardPages/internet";
 import GasPage from "./pages/dashboardPages/gas";
 import ElectricityPage from "./pages/dashboardPages/electricity";
 import CablePage from "./pages/dashboardPages/cable";
+import ParkingPage from "./pages/dashboardPages/parking";
+import TransportPage from "./pages/dashboardPages/transport";
+import FootballPage from "./pages/dashboardPages/football";
+import GovernmentPage from "./pages/dashboardPages/government";
+import HousingPage from "./pages/dashboardPages/housing";
+import WastePage from "./pages/dashboardPages/Waste";
 function App() {
 	return (
 		<>
@@ -27,11 +33,13 @@ function App() {
 					<Route path="/dashboard/internet" element={<InternetPage/>}/>
 					<Route path="/dashboard/gas" element={<GasPage/>}/>
 					<Route path="/dashboard/electricity" element={<ElectricityPage/>}/>
+					<Route path="/dashboard/parking" element={<ParkingPage/>}/>
+					<Route path="/dashboard/transport" element={<TransportPage/>}/>
 					<Route path="/dashboard/cable" element={<CablePage/>}/>
-					<Route path="/dashboard/api-docs" element={<ApiDoc/>}/>
-					<Route path="/dashboard/subscription" element={<SubscriptionPage/>}/>
-					<Route path="/dashboard/account" element={<AccountPage/>}/>
-					<Route path="/dashboard/help" element={<HelpPage/>}/>
+					<Route path="/dashboard/football" element={<FootballPage/>}/>
+					<Route path="/dashboard/government" element={<GovernmentPage/>}/>
+					<Route path="/dashboard/housing" element={<HousingPage/>}/>
+					<Route path="/dashboard/waste" element={<WastePage/>}/>
 					<Route path="/dashboard/article" element={<Articles/>}/>
 		
 				</Route>

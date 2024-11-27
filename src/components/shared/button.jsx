@@ -21,7 +21,7 @@ export const PryButton = ({ text, imgUrl,handleClick }) => {
 	return (
 		<button
 			onClick={handleClick}
-			className={`bg-gradient-to-r to-purple-500 from-blue-300 rounded-[8px] text-white py-[10px] px-11 text-[16px] font-[500] leading-[24px]`}
+			className={`bg-gradient-to-r to-purple-500 from-blue-300 rounded-[8px] font-mont text-white py-[10px] px-11 text-[16px] font-[500] leading-[24px]`}
 		>
 			
 			{imgUrl && <img src={imgUrl} alt="icon" />}
