@@ -3,7 +3,7 @@ import { Button, Modal } from 'antd';
 import { BlackText, GrayText } from '../typograph';
 import SuccessModal from './SuccessModal';
 
-const DeleteInstanceModal = ({children, title, openModal, handleOk, handleCancel }) => {
+const DeleteInstanceModal = ({children, title, openModal, handleOk, handleCancel, char }) => {
   const [open, setOpen] = useState(false)
   return (
     <>
@@ -13,14 +13,14 @@ const DeleteInstanceModal = ({children, title, openModal, handleOk, handleCancel
         handleOk={()=>setOpen(false)}
 
       >
-        <BlackText style={'font-bold text-[20px]'} text={'Instance Deleted Successfully'}/>
+        <BlackText style={'font-bold text-[20px]'} text={`${char} Deleted Successfully`}/>
       </SuccessModal>
 
       <Modal className='basic-modal' title={title} open={openModal} onOk={handleOk} onCancel={handleCancel}>
         <div  className='flex justify-center items-center flex-col gap-6 px-[2rem]'>
           <img src="/images/delete-dark.png" alt="good-luck" />
 
-          <BlackText style={'font-bold text-[20px]'} text={'Delete Instance'}/>
+          <BlackText style={'font-bold text-[20px]'} text={`Delete ${char}`}/>
           <GrayText text={'Please note, this  action can’t be undone'}/>
 
           <div className='flex items-center justify-between w-full'>

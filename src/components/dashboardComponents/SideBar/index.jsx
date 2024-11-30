@@ -171,7 +171,8 @@ const navData = [
       {
         name:'Parking',
         icons:<ChartSquare size={16}/>,
-        url:'/parking'        
+        url:'/parking',   
+   
       },
       {
         name:'Transport',

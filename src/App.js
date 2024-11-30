@@ -6,7 +6,6 @@ import Register from "./pages/authPages/SignUp";
 import Dashboard from "./pages/dashboardPages";
 import DashboardLayout from "./layouts/dashboardLayout";
 import ApiDoc from "./pages/dashboardPages/ApiDoc";
-import SubscriptionPage from "./pages/dashboardPages/subscription";
 import OPTpage from "./pages/authPages/OTPpage";
 import AccountPage from "./pages/dashboardPages/Account";
 import HelpPage from "./pages/dashboardPages/help";
@@ -22,6 +21,7 @@ import FootballPage from "./pages/dashboardPages/football";
 import GovernmentPage from "./pages/dashboardPages/government";
 import HousingPage from "./pages/dashboardPages/housing";
 import WastePage from "./pages/dashboardPages/Waste";
+import PreviewParkingLocation from "./pages/dashboardPages/parking/InstancePreview";
 function App() {
 	return (
 		<>
@@ -34,6 +34,7 @@ function App() {
 					<Route path="/dashboard/gas" element={<GasPage/>}/>
 					<Route path="/dashboard/electricity" element={<ElectricityPage/>}/>
 					<Route path="/dashboard/parking" element={<ParkingPage/>}/>
+					<Route path="/dashboard/parking-location" element={<PreviewParkingLocation/>}/>
 					<Route path="/dashboard/transport" element={<TransportPage/>}/>
 					<Route path="/dashboard/cable" element={<CablePage/>}/>
 					<Route path="/dashboard/football" element={<FootballPage/>}/>

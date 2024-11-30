@@ -40,8 +40,8 @@ const UserImageUpload = ({ onImageUpload }) => {
         onChange={handleImageChange} 
         style={{ display: 'none' }} 
       />
-        <button onClick={handleButtonClick} className='rounded-md px-6 py-2 bg-transparent border font-mont border-primary text-primary font-semibold flex '>
-          Upload Image
+        <button onClick={handleButtonClick} className='rounded-md px-3 font-light italic  py-1 bg-transparent border font-mont border-primary text-primary flex '>
+          Upload Provider Logo
         </button>
       {error && <p style={{ color: 'red' }}>{error}</p>}
 

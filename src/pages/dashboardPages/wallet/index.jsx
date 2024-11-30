@@ -55,7 +55,7 @@ const Wallet = () => {
         </div>
 
         <Section title={"Transaction History"}>
-            <TransactionsTable columns={columns} data={data}/>            
+            <TransactionsTable columns={usable_column} data={data}/>            
         </Section>    
     </>
 

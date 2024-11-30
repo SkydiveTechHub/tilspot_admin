@@ -135,10 +135,12 @@ export const StatusTag = ({ status }) => {
 		case 'Failed':
 		  return { color: '#950D04', bgColor: '#FAEBEA' };
 		case 'Successful':
+		case 'Enabled':
 		case 'Activated':
 		case 'Active':
 		  return { color: '#2A9504', bgColor: '#DAFECD' };
 		case 'Pending':
+		case 'Disabled':
 		  return { color: '#929502', bgColor: '#FDFECD' };
 		default:
 		  return { color: '#1E1E1E', bgColor: '#F0F2EF' }; // Default colors if the tag doesn't match known values

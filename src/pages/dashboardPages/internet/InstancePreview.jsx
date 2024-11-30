@@ -51,7 +51,7 @@ const InstancePreview = () => {
         </div>
 
         <Section title={"Transaction History"}>
-          <TransactionsTable columns={columns} data={data} handleView={()=>navigate('/dashboard/preview-instance')}/>            
+          <TransactionsTable columns={usable_column} data={data} handleView={()=>navigate('/dashboard/preview-instance')}/>            
         </Section> 
       </div>    
     </>

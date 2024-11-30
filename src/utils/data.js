@@ -32,7 +32,8 @@ export const pageEnum = [
 	{
 		title:'parking',
 		pages:[
-			"/dashboard/parking"
+			"/dashboard/parking",
+			'/dashboard/parking-location'
 		]
 	},
 	{
