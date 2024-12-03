@@ -22,7 +22,7 @@ const InstanceView = () => {
           const { key } = e;
           switch (key) {
             case "1":
-              navigate("/dashboard/parking-location");
+              navigate("/dashboard/preview-internet");
               break;
             case "2":
               // Handle edit action

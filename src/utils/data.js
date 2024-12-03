@@ -26,7 +26,7 @@ export const pageEnum = [
 	{
 		title:'Internet',
 		pages:[
-			"/dashboard/internet", 
+			"/dashboard/internet", "/dashboard/preview-internet"
 		]
 	},
 	{

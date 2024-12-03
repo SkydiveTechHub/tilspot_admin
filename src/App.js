@@ -5,10 +5,7 @@ import ResetPassword from "./pages/authPages/Reset";
 import Register from "./pages/authPages/SignUp";
 import Dashboard from "./pages/dashboardPages";
 import DashboardLayout from "./layouts/dashboardLayout";
-import ApiDoc from "./pages/dashboardPages/ApiDoc";
 import OPTpage from "./pages/authPages/OTPpage";
-import AccountPage from "./pages/dashboardPages/Account";
-import HelpPage from "./pages/dashboardPages/help";
 import Articles from "./pages/dashboardPages/articles";
 import AirtimePage from "./pages/dashboardPages/airtime";
 import InternetPage from "./pages/dashboardPages/internet";
@@ -22,6 +19,7 @@ import GovernmentPage from "./pages/dashboardPages/government";
 import HousingPage from "./pages/dashboardPages/housing";
 import WastePage from "./pages/dashboardPages/Waste";
 import PreviewParkingLocation from "./pages/dashboardPages/parking/InstancePreview";
+import PreviewInternetProvider from "./pages/dashboardPages/internet/InstancePreview";
 function App() {
 	return (
 		<>
@@ -31,6 +29,7 @@ function App() {
 					<Route path="/dashboard" element={<Dashboard />} />
 					<Route path="/dashboard/airtime" element={<AirtimePage/>}/>
 					<Route path="/dashboard/internet" element={<InternetPage/>}/>
+					<Route path="/dashboard/preview-internet" element={<PreviewInternetProvider/>}/>
 					<Route path="/dashboard/gas" element={<GasPage/>}/>
 					<Route path="/dashboard/electricity" element={<ElectricityPage/>}/>
 					<Route path="/dashboard/parking" element={<ParkingPage/>}/>

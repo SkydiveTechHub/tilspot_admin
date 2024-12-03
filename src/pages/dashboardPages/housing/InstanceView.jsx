@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 
 const InstanceView = () => {
   const [open, setOpen] = useState(false)
+  const [openDelete, setOpenDelete] = useState(false)
   const navigate = useNavigate()
 
   const usable_column = [

@@ -35,7 +35,6 @@ const AddAirtimeProvider = ({ title, openModal, handleOk, handleCancel, userData
 
 
   const handleImageUpload = (imageData) => {
-    // Save the image data or process it as needed
     setUploadedImage(imageData);
   };
 

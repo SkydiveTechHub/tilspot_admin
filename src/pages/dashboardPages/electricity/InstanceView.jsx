@@ -9,9 +9,11 @@ import AddElectricityProvider from "../../../components/shared/Modals/electricit
 import { Dropdown, Menu, Space } from "antd";
 import { CiMenuKebab } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
+import DeleteInstanceModal from "../../../components/shared/Modals/DeleteInstanceModal";
 
 const InstanceView = () => {
   const [open, setOpen] = useState(false)
+  const [openDelete, setOpenDelete] = useState(false)
   const navigate = useNavigate()
 
   const usable_column = [
@@ -33,7 +35,7 @@ const InstanceView = () => {
               // Handle enable action
               break;
             case "4":
-              // Handle delete action
+              setOpenDelete(true)
               break;
             default:
               break;
@@ -64,6 +66,13 @@ const InstanceView = () => {
 return (
 
         <div className="space-y-6">
+          <DeleteInstanceModal
+              openModal={open}
+              char={'Electricity Provider'}
+              handleCancel={()=>setOpenDelete(false)}
+              handleOk={()=>setOpenDelete(false)}
+
+          />
           <AddElectricityProvider
               openModal={open}
               handleCancel={()=>setOpen(false)}

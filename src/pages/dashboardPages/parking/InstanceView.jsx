@@ -68,7 +68,7 @@ return (
               handleOk={()=>setOpen(false)}
           /> 
           <div className="">
-            <PryButton handleClick={()=>setOpen(true)} text={'Add Parking Provider'}/>
+            <PryButton handleClick={()=>setOpen(true)} text={'Add Parking Location'}/>
           </div>
 
             <Section title={"Available Parking Providers"}>

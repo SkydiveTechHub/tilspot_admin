@@ -6,6 +6,7 @@ import { Modal } from 'antd';
 import ConfirmModal from '../ConfirmModal';
 import { GrayText } from '../../typograph';
 import SuccessModal from '../SuccessModal';
+import UserImageUpload from '../../UserImageUpload';
 // import SelectPlanModal from '../SelectPlanModal';
 
 const initialState = {
@@ -17,7 +18,7 @@ const AddCableProvider = ({ title, openModal, handleOk, handleCancel }) => {
   const [active, setActive] = useState(false);
   const [more, setMore] = useState(false);
   const [secondModalOpen, setSecondModalOpen] = useState(false);
-
+  const [uploadedImage, setUploadedImage] = useState(null);
   const { values, handleChange, resetForm, errors } = useForm(initialState);
 
   const handleSubmit = (e) => {
@@ -29,6 +30,10 @@ const AddCableProvider = ({ title, openModal, handleOk, handleCancel }) => {
 
   const validate = () => {
     setActive(!!values.instance_name);
+  };
+
+  const handleImageUpload = (imageData) => {
+    setUploadedImage(imageData);
   };
 
   useEffect(() => {
@@ -51,6 +56,18 @@ const AddCableProvider = ({ title, openModal, handleOk, handleCancel }) => {
         onOk={handleOk}
         onCancel={handleCancel}
       >
+
+        <div className="flex items-center gap-2">
+          {uploadedImage && (
+            <div className="image-preview">
+              <img src={uploadedImage} alt="Uploaded Preview" style={{ width: '60px', height: '60px', borderRadius: '50%' }} />
+            </div>
+          )}
+          <UserImageUpload onImageUpload={handleImageUpload} />
+          {
+            uploadedImage === '' || uploadedImage === null && <span className='text-[12px] italic  text-[gray]'>Optional</span>
+          }
+        </div>
         <form className='mt-6 space-y-6' onSubmit={handleSubmit}>
           <FormInput
             label="Provider Name"

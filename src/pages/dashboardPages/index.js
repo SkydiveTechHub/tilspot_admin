@@ -81,6 +81,33 @@ const Dashboard = () => {
                             phone={'09022334455'}
                             amount={'500'}
                         />,
+            football:   <PreviewParkingOrderModal
+                            openModal={open}
+                            handleCancel={()=>setOpen(false)}
+                            handleOk={()=>setOpen(false)}
+                            provider={'MTN'}
+                            reg ={'8882288c'}
+                            phone={'09022334455'}
+                            amount={'500'}
+                        />,
+            waste:   <PreviewParkingOrderModal
+                            openModal={open}
+                            handleCancel={()=>setOpen(false)}
+                            handleOk={()=>setOpen(false)}
+                            provider={'MTN'}
+                            reg ={'8882288c'}
+                            phone={'09022334455'}
+                            amount={'500'}
+                        />,
+            government:   <PreviewParkingOrderModal
+                            openModal={open}
+                            handleCancel={()=>setOpen(false)}
+                            handleOk={()=>setOpen(false)}
+                            provider={'MTN'}
+                            reg ={'8882288c'}
+                            phone={'09022334455'}
+                            amount={'500'}
+                        />,
         }
    
         const handleFindModal = (service) => {
