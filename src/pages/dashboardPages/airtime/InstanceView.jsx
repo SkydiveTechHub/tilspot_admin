@@ -10,10 +10,13 @@ import { CiMenuKebab } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
 import { useAccordion } from "@material-tailwind/react";
 import DeleteInstanceModal from "../../../components/shared/Modals/DeleteInstanceModal";
+import ConfirmModal from "../../../components/shared/Modals/ConfirmModal";
 
 const InstanceView = () => {
   const [open, setOpen] = useState(false)
   const [openDelete, setOpenDelete] = useState(false)
+  const [openStatus, setOpenStatus] = useState(false)
+  const [status, setStatus] = useState('')
   const navigate = useNavigate()
 
   const usable_column = [
@@ -32,7 +35,8 @@ const InstanceView = () => {
               // Handle edit action
               break;
             case "3":
-              // Handle enable action
+              setOpenStatus(true)
+              setStatus(record.tags[0])
               break;
             case "4":
                 setOpenDelete(true)
@@ -46,7 +50,7 @@ const InstanceView = () => {
           <Menu onClick={handleMenuClick}>
             <Menu.Item key="1">View</Menu.Item>
             <Menu.Item key="2">Edit</Menu.Item>
-            <Menu.Item key="3">Enable</Menu.Item>
+            <Menu.Item key="3">{record.tags[0] === 'Enabled'?'Disable':'Enable'}</Menu.Item>
             <Menu.Item key="4">Delete</Menu.Item>
           </Menu>
         );
@@ -66,6 +70,19 @@ const InstanceView = () => {
 return (
 
         <div className="space-y-6">
+          <ConfirmModal
+              openModal={openStatus}
+              title={status === 'Enabled'?'Disable Provider':'Enable Provider'}
+              handleCancel={()=>setOpenStatus(false)}
+              handleProceed={()=>setOpenStatus(false)}
+              handleReturn={()=>setOpenStatus(false)}
+              handleOk={()=>setOpenStatus(false)}  
+              proceedText={status === 'Enabled'?'Disable':'Enable'}
+              returnText={'Cancel'}        
+          >
+            <span>Are you sure you want to Enable this Provider?</span>
+
+          </ConfirmModal>
           <DeleteInstanceModal
               openModal={open}
               char={'Airtime Provider'}
