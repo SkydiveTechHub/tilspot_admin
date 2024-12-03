@@ -8,7 +8,7 @@ export const AuthButton = ({ value, inactive,  handleClick }) => {
 			disabled={inactive}
 			onClick={handleClick}
 			className={`${
-				inactive ? "bg-[#919191] text-[#DADADA]" : "bg-gradient-to-r to-purple-500 from-blue-300 text-white"
+				inactive ? "bg-[#919191] text-[#DADADA]" : "bg-gradient-to-r to-[#002b6f] from-blue-300 text-white"
 			}  p-[10px] rounded-lg font-[500] font-mont text-[16px] w-full`}
 			type="submit"
 		>
