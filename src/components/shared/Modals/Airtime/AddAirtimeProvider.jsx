@@ -9,17 +9,26 @@ import SuccessModal from '../SuccessModal';
 import UserImageUpload from '../../UserImageUpload';
 // import SelectPlanModal from '../SelectPlanModal';
 
-const initialState = {
-  instance_name: '',
-  type: '',
-};
 
-const AddAirtimeProvider = ({ title, openModal, handleOk, handleCancel, userData }) => {
+
+const AddAirtimeProvider = ({ action, userData, openModal, handleOk, handleCancel }) => {
   const [active, setActive] = useState(false);
   const [more, setMore] = useState(false);
   const [secondModalOpen, setSecondModalOpen] = useState(false);
   const [uploadedImage, setUploadedImage] = useState(null);
-  const { values, handleChange, resetForm, errors } = useForm(initialState);
+  let initialState; 
+
+  if (action === 'edit'){
+    initialState = {p_name: userData.name};
+  }  else{
+    initialState = {p_name: ''};
+  }
+const { values, handleChange, resetForm, errors } = useForm(initialState);
+  useEffect(() => {
+    resetForm(initialState);
+    setUploadedImage(userData?.icon) 
+  }, [userData]);
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -29,7 +38,7 @@ const AddAirtimeProvider = ({ title, openModal, handleOk, handleCancel, userData
   };
 
   const validate = () => {
-    setActive(!!values.instance_name);
+    setActive(!!values.p_name);
   };
 
 
@@ -45,7 +54,7 @@ const AddAirtimeProvider = ({ title, openModal, handleOk, handleCancel, userData
   return (
     <>
       <SuccessModal
-        title={'Airtime Provider has been added Successfully'}
+        title={`Airtime Provider has been ${action === 'edit'?'edited' :'added'} Successfully`}
         openModal={secondModalOpen}
         handleContinue={()=>setSecondModalOpen(false)}
         handleCancel={()=>setSecondModalOpen(false)}
@@ -53,7 +62,7 @@ const AddAirtimeProvider = ({ title, openModal, handleOk, handleCancel, userData
       />
       <Modal
         className="basic-modal"
-        title={'Add Airtime Provider'}
+        title={`${action === 'edit'?'Edit' :'Add'} Airtime Provider`}
         open={openModal}
         onOk={handleOk}
         onCancel={handleCancel}
@@ -75,35 +84,19 @@ const AddAirtimeProvider = ({ title, openModal, handleOk, handleCancel, userData
           <FormInput
             label="Provider Name"
             type="text"
-            name="instance_name"
-            value={values.instance_name}
+            name="p_name"
+            value={values.p_name}
             onChange={handleChange}
             placeholder="Enter provider name"
-            error={errors?.instance_name}
+            error={errors?.p_name}
   
           />
-          {/* <FormInput
-            label=""
-            type="select"
-            name="type"
-            value={values.type}
-            onChange={handleChange}
-            placeholder="Select Type"
-            options={[
-                {
-                  name: 'Enabled',
-                  value:'enabled'    },
-                {
-                  name: 'Disabled',
-                  value:'disabled'    },
-            ]}
-            error={errors?.type}
-          /> */}
+
 
           <AuthButton handleClick={()=>{
             setSecondModalOpen(true)
             handleCancel()
-            }} inactive={!active} value="Add Provider" />
+            }} inactive={!active} value={`${action === 'edit'?'Edit' :'Add'} Provider`} />
         </form>
       </Modal>    
     </>

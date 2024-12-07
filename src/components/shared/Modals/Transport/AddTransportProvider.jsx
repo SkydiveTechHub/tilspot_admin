@@ -9,22 +9,38 @@ import SuccessModal from '../SuccessModal';
 import { Flex, TimePicker } from 'antd';
 const { RangePicker } = TimePicker;
 
-const initialState = {
-  instance_name: '',
-  type: '',
-};
-
-const AddTransportProvider = ({ title, openModal, handleOk, handleCancel }) => {
+const AddTransportProvider = ({ action, userData, openModal, handleOk, handleCancel }) => {
   const [active, setActive] = useState(false);
   const [more, setMore] = useState(false);
   const [secondModalOpen, setSecondModalOpen] = useState(false);
   const format = 'HH:mm';
-  const { values, handleChange, resetForm, errors } = useForm(initialState);
+
+  let initialState; 
+
+  if (action === 'edit'){
+    initialState = {
+      departure: userData.departure,
+      destination: userData.destination,
+      amount: userData.price,
+    };
+  }  else{
+    initialState = {
+      departure: '',
+      destination: '',
+      amount: '',
+    };
+  }
+const { values, handleChange, resetForm, errors } = useForm(initialState);
+  useEffect(() => {
+    resetForm(initialState);
+  }, [userData]);
+
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('Form submitted:', values);
-    handleOk(); // Optional: close modal on submit
+    handleOk();
     resetForm();
   };
 
@@ -34,7 +50,7 @@ const AddTransportProvider = ({ title, openModal, handleOk, handleCancel }) => {
 
   useEffect(() => {
     validate();
-  }, [values]); // Re-run validation when `values` change
+  }, [values]); 
 
   return (
     <>
@@ -56,43 +72,25 @@ const AddTransportProvider = ({ title, openModal, handleOk, handleCancel }) => {
           <FormInput
             label="Departure Location"
             type="text"
-            name="instance_name"
-            value={values.instance_name}
+            name="departure"
+            value={values.departure}
             onChange={handleChange}
             placeholder="Enter provider name"
-            error={errors?.instance_name}
+            error={errors?.departure}
   
           />
-          <FormInput
-            label="Departure Zone"
-            type="text"
-            name="instance_name"
-            value={values.instance_name}
-            onChange={handleChange}
-            placeholder="Enter provider name"
-            error={errors?.instance_name}
-  
-          />
+
           <FormInput
             label="Destination"
             type="text"
-            name="instance_name"
-            value={values.instance_name}
+            name="destination"
+            value={values.destination}
             onChange={handleChange}
             placeholder="Enter provider name"
-            error={errors?.instance_name}
+            error={errors?.destination}
   
           />
-          <FormInput
-            label="Destination Zone"
-            type="text"
-            name="instance_name"
-            value={values.instance_name}
-            onChange={handleChange}
-            placeholder="Enter provider name"
-            error={errors?.instance_name}
-  
-          />
+
           <Flex vertical gap={12}>
             <Flex gap={8}>
               <RangePicker format={format} placeholder={['Departure Time', 'Arrival Time']} />
@@ -102,11 +100,11 @@ const AddTransportProvider = ({ title, openModal, handleOk, handleCancel }) => {
           <FormInput
             label="Amount"
             type="text"
-            name="instance_name"
-            value={values.instance_name}
+            name="amount"
+            value={values.amount}
             onChange={handleChange}
             placeholder="Enter provider amount"
-            error={errors?.instance_name}
+            error={errors?.amount}
   
           />
           {/* <FormInput

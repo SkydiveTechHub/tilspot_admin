@@ -3,13 +3,19 @@ import { Section } from "../../../components/shared/container/container";
 import TransactionsTable from "../../../components/dashboardComponents/transactions";
 import { PryButton, StatusTag } from "../../../components/shared/button";
 import { FaChevronRight } from "react-icons/fa";
-import AddParkingProvider from "../../../components/shared/Modals/parking/AddParkingProvider";
+import AddGovernmentProvider from "../../../components/shared/Modals/government/AddGovernmentProvider";
 import { Dropdown, Menu, Space } from "antd";
 import { CiMenuKebab } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
+import AddStaffModal from "../../../components/shared/Modals/staff/AddStaffModal";
+import DeleteInstanceModal from "../../../components/shared/Modals/DeleteInstanceModal";
+import EditStaffModal from "../../../components/shared/Modals/staff/EditStaffModal";
 
 const InstanceView = () => {
   const [open, setOpen] = useState(false)
+  const [openDelete, setOpenDelete] = useState(false)
+  const [userData, setUserData] = useState([])
+  const [openEdit, setOpenEdit] = useState(false)
   const navigate = useNavigate()
 
   const usable_column = [
@@ -22,16 +28,17 @@ const InstanceView = () => {
           const { key } = e;
           switch (key) {
             case "1":
-              navigate("/dashboard/parking-location");
+              // 
               break;
             case "2":
-              // Handle edit action
+              setUserData(record)
+              setOpenEdit(true)
               break;
             case "3":
               // Handle enable action
               break;
             case "4":
-              // Handle delete action
+              setOpenDelete(true)
               break;
             default:
               break;
@@ -60,18 +67,30 @@ const InstanceView = () => {
 
 
 return (
-
         <div className="space-y-6">
-          <AddParkingProvider
+          <DeleteInstanceModal
+              openModal={openDelete}
+              char={'Staff'}
+              handleCancel={()=>setOpenDelete(false)}
+              handleOk={()=>setOpenDelete(false)}
+
+          />
+          <AddStaffModal
               openModal={open}
               handleCancel={()=>setOpen(false)}
               handleOk={()=>setOpen(false)}
           /> 
+          <EditStaffModal
+              openModal={openEdit}
+              handleCancel={()=>setOpenEdit(false)}
+              handleOk={()=>setOpenEdit(false)}
+              userData={userData}
+          /> 
           <div className="">
-            <PryButton handleClick={()=>setOpen(true)} text={'Add Parking Location'}/>
+            <PryButton handleClick={()=>{setOpen(true)}} text={'Add Staff'}/>
           </div>
 
-            <Section title={"Available Parking Providers"}>
+            <Section title={"Registered Staffs"}>
                 <TransactionsTable handleDelete={()=>{}} columns={usable_column} data={data}/>            
             </Section> 
 
@@ -99,37 +118,27 @@ export const Card = ({bgColor, TColor, iconUrl, date, title,tag }) =>{
 
 const columns = [
     {
-      title: 'Transaction ID',
-      dataIndex: 'tranx_id',
-      key: 'tranx_id',
+      title: 'First Name',
+      dataIndex: 'fname',
+      key: 'fname',
+    },
+    {
+      title: 'Last Name',
+      dataIndex: 'lname',
+      key: 'lname',
+    },
+    {
+      title: 'Email',
+      dataIndex: 'email',
+      key: 'email',
       render: (text) => <a>{text}</a>,
     },
     {
-      title: 'Type',
-      dataIndex: 'type',
-      key: 'type',
+      title: 'Role',
+      dataIndex: 'role',
+      key: 'role',
     },
-    {
-      title: 'Transaction Means',
-      dataIndex: 'tranx_means',
-      key: 'tranx_means',
-      render: (text) => <a>{text}</a>,
-    },
-    {
-      title: 'Date',
-      dataIndex: 'date',
-      key: 'date',
-    },
-    {
-      title: 'Status',
-      key: 'status',
-      dataIndex: 'tags', // Fixing the property name
-      render: (_, { tags }) => (
-        <>
-            <StatusTag status={tags}/>
-        </>
-      ),
-    },
+
 
 
   ];
@@ -137,36 +146,26 @@ const columns = [
 
 const data = [
     {
-    //   key: '1',
-      tranx_id: '31366633',
-      type: 'Fund Added',
-      tranx_means: 'Bank Transfer',
-      date: '24 Jan, 2023',
-      tags: ['Successful'],
+      key: '1',
+      fname: 'Michael',
+      lname: 'Shalom',
+      email: 'awesome@gmail.com',
+      role:'Admin'
     },
     {
-    //   key: '1',
-      tranx_id: '31366633',
-      type: 'Fund Added',
-      tranx_means: 'Bank Transfer',
-      date: '24 Jan, 2023',
-      tags: ['Failed'],
+      key: '2',
+      fname: 'Till',
+      lname: 'Shalom',
+      email: 'awesome@gmail.com',
+      role:'Operator'
     },
     {
-    //   key: '1',
-      tranx_id: '31366633',
-      type: 'Fund Added',
-      tranx_means: 'Bank Transfer',
-      date: '24 Jan, 2023',
-      tags: ['Pending'],
+      key: '3',
+      fname: 'Awesome',
+      lname: 'Shalom',
+      email: 'awesome@gmail.com',
+      role:'Operator'
     },
-    {
-    //   key: '1',
-      tranx_id: '31366633',
-      type: 'Fund Added',
-      tranx_means: 'Bank Transfer',
-      date: '24 Jan, 2023',
-      tags: ['Successful'],
-    },
+
 
   ];

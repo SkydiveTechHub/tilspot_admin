@@ -6,15 +6,15 @@ import { Section } from '../../../components/shared/container/container'
 import DeleteInstanceModal from '../../../components/shared/Modals/DeleteInstanceModal'
 import { Switch } from 'antd'
 import { useNavigate } from 'react-router-dom'
-import PlnaUpgradeModal from '../../../components/shared/Modals/PlanUpgradeModal'
+import AddFootballTicketProvider from '../../../components/shared/Modals/football/AddFootballProvider'
 
-const InstancePreview = () => {
+const PreviewFootballMatches = () => {
   const navigate = useNavigate()
   const [open, setOpen] = useState(false)
   const [upgradeModal, setUpgradeModal] = useState(false)
   return (
     <>
-      <PlnaUpgradeModal
+      <AddFootballTicketProvider
         openModal={upgradeModal}
         handleCancel={()=>setUpgradeModal(false)}
         handleOk={()=>setUpgradeModal(false)}
@@ -22,36 +22,32 @@ const InstancePreview = () => {
       />
       <DeleteInstanceModal
         openModal={open}
+        char={'Parking Location'}
         handleCancel={()=>setOpen(false)}
         handleOk={()=>setOpen(false)}
 
     />
       <div>
         <div >
-          <div className='flex justify-between w-full'>
+          <div className='flex justify-between items-start w-full'>
               <ul className='space-y-3'>
-                  <li><BlackText style={'font-bold text-[14px] capitalize'} text={'Instance Name:'}/><GrayText style={'text-[16px]'} text={'Nitty Gritty'}/></li>
-                  <li><BlackText style={'font-bold text-[14px] capitalize'} text={'Registered Phone no:'}/><GrayText style={'text-[16px]'} text={'03936463473'}/></li>
-                  <li><BlackText style={'font-bold text-[14px] capitalize'} text={'Subscription Plan:'}/><GrayText style={'text-[16px]'} text={'Free Plan'}/></li>
-                  <li><BlackText style={'font-bold text-[14px] capitalize'} text={'Status:'}/><GrayText style={'text-[16px]'} text={'Enabled'}/></li>
-                  <li><BlackText style={'font-bold text-[14px] capitalize'} text={'Instance Activation:'}/><GrayText style={'text-[16px]'} text={'Nitty Gritty'}/></li>
-                  <li><BlackText style={'font-bold text-[14px] capitalize'} text={'Allocated messages :'}/><GrayText style={'text-[16px]'} text={'100'}/></li>
-                  <li><BlackText style={'font-bold text-[14px] capitalize'} text={'Created date:'}/><GrayText style={'text-[16px]'} text={'10th September, 2020'}/></li>
-                  <li><BlackText style={'font-bold text-[14px] capitalize'} text={'Expiry date:'}/><GrayText style={'text-[16px]'} text={'2th September, 2020'}/></li>
+                  <li><BlackText style={'font-bold text-[14px] capitalize'} text={'League Name:'}/><GrayText style={'text-[16px]'} text={'Champions League'}/></li>
+                  <li><BlackText style={'font-bold text-[14px] capitalize'} text={'Home Team:'}/><GrayText style={'text-[16px]'} text={'Real Madrid'}/></li>
+                  <li><BlackText style={'font-bold text-[14px] capitalize'} text={'Away Team:'}/><GrayText style={'text-[16px]'} text={'Chelsea'}/></li>
+                  <li><BlackText style={'font-bold text-[14px] capitalize'} text={'Stadium:'}/><GrayText style={'text-[16px]'} text={'Old traford'}/></li>
+                  <li><BlackText style={'font-bold text-[14px] capitalize'} text={'Date & Time:'}/><GrayText style={'text-[16px]'} text={'10/12/2202 - 10:00 GMT'}/></li>
               </ul>
-              <img src="/images/phone.png" alt="" />
+              <div className='flex items-center  gap-4'>
+                <button onClick={()=>{setUpgradeModal(true)}} className='bg-[#219653] rounded-[8px] font-mont text-white py-[6px] px-11 text-[16px] font-[500] leading-[24px]'><img src='/images/add-icon.png' className='inline-flex pr-2' alt='account'/>Edit Match</button>
+                <button onClick={()=>{setOpen(true)}} className='bg-[#FF0000] rounded-[8px] font-mont text-white py-[6px] px-11 text-[16px] font-[500] leading-[24px]'><img src='/images/bin-icon.png' className='inline-flex pr-2' alt='account'/>Delete Match</button>
+              </div>   
           </div>
-          <div className='w-full py-[3rem]'>
-              <div className='mx-auto flex items-center justify-between w-full md:w-[50%]'>
-                <button onClick={()=>{setUpgradeModal(true)}} className='bg-[#219653] rounded-[8px] font-mont text-white py-[6px] px-11 text-[16px] font-[500] leading-[24px]'><img src='/images/add-icon.png' className='inline-flex pr-2' alt='account'/>Upgrade Plan</button>
-                <button onClick={()=>{setOpen(true)}} className='bg-[#FF0000] rounded-[8px] font-mont text-white py-[6px] px-11 text-[16px] font-[500] leading-[24px]'><img src='/images/bin-icon.png' className='inline-flex pr-2' alt='account'/>Delete Instance</button>
-              </div>     
-          </div>
+
           
         </div>
 
-        <Section title={"Transaction History"}>
-          <TransactionsTable columns={usable_column} data={data} handleView={()=>navigate('/dashboard/preview-instance')}/>            
+        <Section title={"Available Zones"}>
+          <TransactionsTable columns={columns} data={data} handleView={()=>navigate('/dashboard/preview-instance')}/>            
         </Section> 
       </div>    
     </>
@@ -59,68 +55,35 @@ const InstancePreview = () => {
   )
 }
 
-export default InstancePreview
+export default PreviewFootballMatches
 
 
 
 const columns = [
   {
-    title: 'INSTANCE ID',
-    dataIndex: 'tranx_id',
-    key: 'tranx_id',
-    render: (text) => <a>{text}</a>,
+    title: 'Seat Area',
+    dataIndex: 'seat',
+    key: 'seat',
   },
   {
-    title: 'NAME',
-    dataIndex: 'type',
-    key: 'type',
+    title: 'Price Per Ticket',
+    dataIndex: 'price',
+    key: 'price',
   },
   {
-    title: 'STATUS',
-    key: 'status',
-    dataIndex: 'tags', // Fixing the property name
-    render: (_, { tags }) => (
-      <>
-          <StatusTag status={tags}/>
-      </>
-    ),
+    title: 'Description',
+    dataIndex: 'desc',
+    key: 'desc',
   },
-
-  {
-    title: 'SUBSCRIPTION PLAN',
-    dataIndex: 'tranx_means',
-    key: 'tranx_means',
-    render: (text) => <a>{text}</a>,
-  },
-  {
-    title: 'EXPIRY DATE',
-    dataIndex: 'date',
-    key: 'date',
-  },
-  {
-    title: 'ACTIVATION',
-    dataIndex: 'date',
-    key: 'date',
-    render: (_, { tags }) => (
-      <>
-          <Switch/>
-      </>
-    ),
-  },
-
-
-
 ];
-
 
 const data = [
   {
   //   key: '1',
-    tranx_id: '#31366633',
-    type: 'Nifemi',
-    tranx_means: 'Free Plan',
-    date: '24 Jan, 2023',
-    tags: ['Enabled'],
+    seat: 'Top seat',
+    price: '100',
+    desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor aut provident libero odio magnam',
+
   },
 
 

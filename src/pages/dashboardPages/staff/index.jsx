@@ -2,15 +2,16 @@ import React, { useState } from 'react'
 import { BlackText, GrayText } from '../../../components/shared/typograph'
 import { PryButton } from '../../../components/shared/button'
 import InstanceView from './InstanceView'
-import AddElectricityProvider from '../../../components/shared/Modals/electricity/AddElectricityProvider'
+import AddGovernmentProvider from '../../../components/shared/Modals/government/AddGovernmentProvider'
+import AddStaffModal from '../../../components/shared/Modals/staff/AddStaffModal'
 
-const ElectricityPage = () => {
+const StaffPage = () => {
     const [open, setOpen] = useState(false)
     const [hasData, setHasData] = useState(true)
 
   return (
     <>
-            <AddElectricityProvider
+            <AddStaffModal
                 openModal={open}
                 handleCancel={()=>setOpen(false)}
                 handleOk={()=>setOpen(false)}
@@ -28,7 +29,7 @@ const ElectricityPage = () => {
                   <BlackText style={'font-[600]'} text='No Provider Available'/>
                   <GrayText style={'md:w-[40%] text-center text-[12px]'} text={'You haven’t added any Provider. Click the button below to add a provided!'}/>
       
-                  <PryButton handleClick={()=>setOpen(true)} text={'Add Electricity Provider'}/>
+                  <PryButton handleClick={()=>setOpen(true)} text={'Add Government Provider'}/>
       
               
       
@@ -41,4 +42,4 @@ const ElectricityPage = () => {
   )
 }
 
-export default ElectricityPage
+export default StaffPage

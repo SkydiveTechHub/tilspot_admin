@@ -20,6 +20,8 @@ import HousingPage from "./pages/dashboardPages/housing";
 import WastePage from "./pages/dashboardPages/Waste";
 import PreviewParkingLocation from "./pages/dashboardPages/parking/InstancePreview";
 import PreviewInternetProvider from "./pages/dashboardPages/internet/InstancePreview";
+import StaffPage from "./pages/dashboardPages/staff";
+import PreviewFootballMatches from "./pages/dashboardPages/football/InstancePreview";
 function App() {
 	return (
 		<>
@@ -27,6 +29,7 @@ function App() {
 			<Routes>
 				<Route element={<DashboardLayout />}>
 					<Route path="/dashboard" element={<Dashboard />} />
+					<Route path="/dashboard/staff" element={<StaffPage />} />
 					<Route path="/dashboard/airtime" element={<AirtimePage/>}/>
 					<Route path="/dashboard/internet" element={<InternetPage/>}/>
 					<Route path="/dashboard/preview-internet" element={<PreviewInternetProvider/>}/>
@@ -37,6 +40,7 @@ function App() {
 					<Route path="/dashboard/transport" element={<TransportPage/>}/>
 					<Route path="/dashboard/cable" element={<CablePage/>}/>
 					<Route path="/dashboard/football" element={<FootballPage/>}/>
+					<Route path="/dashboard/preview-football" element={<PreviewFootballMatches/>}/>
 					<Route path="/dashboard/government" element={<GovernmentPage/>}/>
 					<Route path="/dashboard/housing" element={<HousingPage/>}/>
 					<Route path="/dashboard/waste" element={<WastePage/>}/>
@@ -45,6 +49,7 @@ function App() {
 				</Route>
 
 				<Route path="/" element={<Login />} />
+				<Route path="/login" element={<Login />} />
 				<Route path="/register" element={<Register />} />
 				<Route path="/reset-password" element={<ResetPassword />} />
 				<Route path="/forgot-password" element={<ForgotPassword />} />

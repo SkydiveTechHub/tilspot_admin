@@ -51,7 +51,7 @@ const AddFootballTicketProvider = ({ title, openModal, handleOk, handleCancel })
   return (
     <>
       <SuccessModal
-        title={'Football Ticket  has been added Successfully'}
+        title={'Football Match  has been added Successfully'}
         openModal={secondModalOpen}
         handleContinue={()=>setSecondModalOpen(false)}
         handleCancel={()=>setSecondModalOpen(false)}
@@ -59,7 +59,7 @@ const AddFootballTicketProvider = ({ title, openModal, handleOk, handleCancel })
       />
       <Modal
         className="basic-modal"
-        title={'Add Football Ticket '}
+        title={'Add Football Match '}
         open={openModal}
         onOk={handleOk}
         onCancel={handleCancel}
@@ -67,7 +67,7 @@ const AddFootballTicketProvider = ({ title, openModal, handleOk, handleCancel })
         <form className='mt-6 space-y-6' onSubmit={handleSubmit}>
           <div className='grid grid-cols-2 gap-6'>
             <FormInput
-              label="League Type"
+              label="League Name"
               type="text"
               name="instance_name"
               value={values.instance_name}
@@ -92,7 +92,7 @@ const AddFootballTicketProvider = ({ title, openModal, handleOk, handleCancel })
 
           <div className='flex items-center justify-between gap-3'>
             <FormInput
-              label="Team A"
+              label="Home Team"
               type="text"
               name="instance_name"
               value={values.instance_name}
@@ -103,7 +103,7 @@ const AddFootballTicketProvider = ({ title, openModal, handleOk, handleCancel })
             />
             <span>-</span>
             <FormInput
-              label="Team B"
+              label="Away Team"
               type="text"
               name="instance_name"
               value={values.instance_name}
@@ -125,25 +125,16 @@ const AddFootballTicketProvider = ({ title, openModal, handleOk, handleCancel })
   
           />
 
-          <FormInput
-            label="Amount"
-            type="text"
-            name="instance_name"
-            value={values.instance_name}
-            onChange={handleChange}
-            placeholder="Enter provider amount"
-            error={errors?.instance_name}
-          />
-
 <div className='space-y-4'>
             {
               ticketType.map((i, id)=>{
                 return(
                   <div className='flex items-center gap-4'>
 
-                      <div className='grid gap-3 grid-cols-3'>
+                    <div>
+                      <div className='grid gap-3 grid-cols-2'>
                           <FormInput
-                            label="Ticket Name"
+                            label="Seat Area"
                             type="text"
                             name="instance_name"
                             value={values.instance_name}
@@ -151,17 +142,7 @@ const AddFootballTicketProvider = ({ title, openModal, handleOk, handleCancel })
                             placeholder="Enter plan name"
                             error={errors?.instance_name}
                   
-                          />
-                          <FormInput
-                            label="Max Seat No"
-                            type="text"
-                            name="instance_name"
-                            value={values.instance_name}
-                            onChange={handleChange}
-                            placeholder="Enter plan price"
-                            error={errors?.instance_name}
-                  
-                          />     
+                          />   
                           <FormInput
                             label="Price per Ticket"
                             type="text"
@@ -169,11 +150,21 @@ const AddFootballTicketProvider = ({ title, openModal, handleOk, handleCancel })
                             value={values.instance_name}
                             onChange={handleChange}
                             placeholder="Enter plan price"
-                            error={errors?.instance_name}
-                  
+                            error={errors?.instance_name}              
                           />     
                                         
-                        </div>                                    
+                        </div>
+                        <FormInput
+                            label="Description"
+                            type="textarea"
+                            name="instance_name"
+                            value={values.instance_name}
+                            onChange={handleChange}
+                            placeholder="Enter plan price"
+                            error={errors?.instance_name}
+                  
+                          />  
+                    </div>                                    
                         {ticketType.length > 1 && (
                                 <button
                                     type="button"
@@ -198,7 +189,7 @@ const AddFootballTicketProvider = ({ title, openModal, handleOk, handleCancel })
                                 className="font-[500] text-[green] font-Int text-[14px]"
                                 onClick={IncreasePlanCount}
                             >
-                                Add Ticket Type
+                                Add Ticket 
                             </button>
                         </div>
 
@@ -223,7 +214,7 @@ const AddFootballTicketProvider = ({ title, openModal, handleOk, handleCancel })
           <AuthButton handleClick={()=>{
             setSecondModalOpen(true)
             handleCancel()
-            }} inactive={!active} value="Add Provider" />
+            }} inactive={!active} value="Add Match" />
         </form>
       </Modal>    
     </>

@@ -6,6 +6,7 @@ import { Modal } from 'antd';
 import ConfirmModal from '../ConfirmModal';
 import { GrayText } from '../../typograph';
 import SuccessModal from '../SuccessModal';
+import UserImageUpload from '../../UserImageUpload';
 // import SelectPlanModal from '../SelectPlanModal';
 
 const initialState = {
@@ -13,12 +14,24 @@ const initialState = {
   type: '',
 };
 
-const AddGovernmentProvider = ({ title, openModal, handleOk, handleCancel }) => {
+const AddGovernmentProvider = ({ action, userData, openModal, handleOk, handleCancel }) => {
   const [active, setActive] = useState(false);
   const [more, setMore] = useState(false);
   const [secondModalOpen, setSecondModalOpen] = useState(false);
+  const [uploadedImage, setUploadedImage] = useState(null);
+  let initialState; 
 
-  const { values, handleChange, resetForm, errors } = useForm(initialState);
+  if (action === 'edit'){
+    initialState = {p_name: userData.name};
+  }  else{
+    initialState = {p_name: ''};
+  }
+const { values, handleChange, resetForm, errors } = useForm(initialState);
+  useEffect(() => {
+    resetForm(initialState);
+    setUploadedImage(userData?.icon) 
+  }, [userData]);
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -28,8 +41,15 @@ const AddGovernmentProvider = ({ title, openModal, handleOk, handleCancel }) => 
   };
 
   const validate = () => {
-    setActive(!!values.instance_name);
+    setActive(!!values.p_name);
   };
+
+
+
+  const handleImageUpload = (imageData) => {
+    setUploadedImage(imageData);
+  };
+
 
   useEffect(() => {
     validate();
@@ -38,7 +58,7 @@ const AddGovernmentProvider = ({ title, openModal, handleOk, handleCancel }) => 
   return (
     <>
       <SuccessModal
-        title={'Government Provider has been added Successfully'}
+        title={`Government Service has been ${action === 'edit'?'edited' :'added'} Successfully`}
         openModal={secondModalOpen}
         handleContinue={()=>setSecondModalOpen(false)}
         handleCancel={()=>setSecondModalOpen(false)}
@@ -46,44 +66,41 @@ const AddGovernmentProvider = ({ title, openModal, handleOk, handleCancel }) => 
       />
       <Modal
         className="basic-modal"
-        title={'Add Government Provider'}
+        title={`${action === 'edit'?'Edit' :'Add'} Government Service`}
         open={openModal}
         onOk={handleOk}
         onCancel={handleCancel}
       >
+
+        <div className="flex items-center gap-2">
+          {uploadedImage && (
+            <div className="image-preview">
+              <img src={uploadedImage} alt="Uploaded Preview" style={{ width: '60px', height: '60px', borderRadius: '50%' }} />
+            </div>
+          )}
+          <UserImageUpload onImageUpload={handleImageUpload} />
+          {
+            uploadedImage === '' || uploadedImage === null && <span className='text-[12px] italic  text-[gray]'>Optional</span>
+          }
+        </div>
+        
         <form className='mt-6 space-y-6' onSubmit={handleSubmit}>
           <FormInput
-            label="Provider Name"
+            label="Service Name"
             type="text"
-            name="instance_name"
-            value={values.instance_name}
+            name="p_name"
+            value={values.p_name}
             onChange={handleChange}
-            placeholder="Enter provider name"
-            error={errors?.instance_name}
+            placeholder="Enter Service name"
+            error={errors?.p_name}
   
           />
-          {/* <FormInput
-            label=""
-            type="select"
-            name="type"
-            value={values.type}
-            onChange={handleChange}
-            placeholder="Select Type"
-            options={[
-                {
-                  name: 'Enabled',
-                  value:'enabled'    },
-                {
-                  name: 'Disabled',
-                  value:'disabled'    },
-            ]}
-            error={errors?.type}
-          /> */}
+
 
           <AuthButton handleClick={()=>{
             setSecondModalOpen(true)
             handleCancel()
-            }} inactive={!active} value="Add Provider" />
+            }} inactive={!active} value={`${action === 'edit'?'Edit' :'Add'} Provider`} />
         </form>
       </Modal>    
     </>

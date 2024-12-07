@@ -8,14 +8,33 @@ import { Switch } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import PlnaUpgradeModal from '../../../components/shared/Modals/PlanUpgradeModal'
 import AddParkingZone from '../../../components/shared/Modals/parking/AddParkingZone'
+import AddInternetPlan from '../../../components/shared/Modals/Internet/AddInternetPlan'
 
 const PreviewInternetProvider = () => {
   const navigate = useNavigate()
   const [open, setOpen] = useState(false)
   const [upgradeModal, setUpgradeModal] = useState(false)
+
+  const usable_column = [
+    ...columns,
+    {
+      title: "ACTION",
+      key: "action",
+      render: (_, record) => {
+
+
+        return (
+          <div className='flex items-center gap-4'>
+            <button><img src="/images/edit.svg" alt="" /></button>
+            <button><img src="/images/bin.png" alt="" /></button>
+          </div>
+        );
+      },
+    },
+  ];
   return (
     <>
-      <AddParkingZone
+      <AddInternetPlan
         openModal={upgradeModal}
         handleCancel={()=>setUpgradeModal(false)}
         handleOk={()=>setUpgradeModal(false)}
@@ -23,7 +42,7 @@ const PreviewInternetProvider = () => {
       />
       <DeleteInstanceModal
         openModal={open}
-        char={'Parking Location'}
+        char={'Internet Provider'}
         handleCancel={()=>setOpen(false)}
         handleOk={()=>setOpen(false)}
 
@@ -44,7 +63,7 @@ const PreviewInternetProvider = () => {
         </div>
 
         <Section title={"Available Plans"}>
-          <TransactionsTable columns={columns} data={data} handleView={()=>navigate('/dashboard/preview-instance')}/>            
+          <TransactionsTable columns={usable_column} data={data}/>            
         </Section> 
       </div>    
     </>
@@ -58,33 +77,17 @@ export default PreviewInternetProvider
 
 const columns = [
   {
-    title: 'ID',
+    title: 'Name',
     dataIndex: 'tranx_id',
     key: 'tranx_id',
     render: (text) => <a>{text}</a>,
   },
   {
-    title: 'Plan',
+    title: 'Duration',
     dataIndex: 'type',
     key: 'type',
   },
-  {
-    title: 'STATUS',
-    key: 'status',
-    dataIndex: 'tags', // Fixing the property name
-    render: (_, { tags }) => (
-      <>
-          <StatusTag status={tags}/>
-      </>
-    ),
-  },
 
-  {
-    title: 'SUBSCRIPTION PLAN',
-    dataIndex: 'tranx_means',
-    key: 'tranx_means',
-    render: (text) => <a>{text}</a>,
-  },
   {
     title: 'Duration',
     dataIndex: 'date',

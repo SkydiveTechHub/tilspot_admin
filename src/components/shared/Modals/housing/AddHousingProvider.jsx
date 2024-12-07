@@ -14,12 +14,24 @@ const initialState = {
   type: '',
 };
 
-const AddHousingProvider = ({ title, openModal, handleOk, handleCancel }) => {
+const AddHousingProvider = ({ action, userData, openModal, handleOk, handleCancel }) => {
   const [active, setActive] = useState(false);
   const [more, setMore] = useState(false);
   const [secondModalOpen, setSecondModalOpen] = useState(false);
   const [uploadedImage, setUploadedImage] = useState(null);
-  const { values, handleChange, resetForm, errors } = useForm(initialState);
+  let initialState; 
+
+  if (action === 'edit'){
+    initialState = {p_name: userData.name};
+  }  else{
+    initialState = {p_name: ''};
+  }
+const { values, handleChange, resetForm, errors } = useForm(initialState);
+  useEffect(() => {
+    resetForm(initialState);
+    setUploadedImage(userData?.icon) 
+  }, [userData]);
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -29,13 +41,14 @@ const AddHousingProvider = ({ title, openModal, handleOk, handleCancel }) => {
   };
 
   const validate = () => {
-    setActive(!!values.instance_name);
+    setActive(!!values.p_name);
   };
+
+
 
   const handleImageUpload = (imageData) => {
     setUploadedImage(imageData);
   };
-
 
   useEffect(() => {
     validate();
@@ -44,7 +57,7 @@ const AddHousingProvider = ({ title, openModal, handleOk, handleCancel }) => {
   return (
     <>
       <SuccessModal
-        title={'Housing Provider has been added Successfully'}
+        title={`Housing Provider has been ${action === 'edit'?'edited' :'added'} Successfully`}
         openModal={secondModalOpen}
         handleContinue={()=>setSecondModalOpen(false)}
         handleCancel={()=>setSecondModalOpen(false)}
@@ -52,7 +65,7 @@ const AddHousingProvider = ({ title, openModal, handleOk, handleCancel }) => {
       />
       <Modal
         className="basic-modal"
-        title={'Add Housing Provider'}
+        title={`${action === 'edit'?'Edit' :'Add'} Housing Provider`}
         open={openModal}
         onOk={handleOk}
         onCancel={handleCancel}
@@ -69,39 +82,24 @@ const AddHousingProvider = ({ title, openModal, handleOk, handleCancel }) => {
             uploadedImage === '' || uploadedImage === null && <span className='text-[12px] italic  text-[gray]'>Optional</span>
           }
         </div>
+        
         <form className='mt-6 space-y-6' onSubmit={handleSubmit}>
           <FormInput
             label="Provider Name"
             type="text"
-            name="instance_name"
-            value={values.instance_name}
+            name="p_name"
+            value={values.p_name}
             onChange={handleChange}
             placeholder="Enter provider name"
-            error={errors?.instance_name}
+            error={errors?.p_name}
   
           />
-          {/* <FormInput
-            label=""
-            type="select"
-            name="type"
-            value={values.type}
-            onChange={handleChange}
-            placeholder="Select Type"
-            options={[
-                {
-                  name: 'Enabled',
-                  value:'enabled'    },
-                {
-                  name: 'Disabled',
-                  value:'disabled'    },
-            ]}
-            error={errors?.type}
-          /> */}
+
 
           <AuthButton handleClick={()=>{
             setSecondModalOpen(true)
             handleCancel()
-            }} inactive={!active} value="Add Provider" />
+            }} inactive={!active} value={`${action === 'edit'?'Edit' :'Add'} Provider`} />
         </form>
       </Modal>    
     </>

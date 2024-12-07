@@ -1,13 +1,19 @@
 import React, { useState } from 'react';
 import { Button, Modal } from 'antd';
+import SuccessModal from '../SuccessModal';
 
 const PreviewFootballOrderModal = ({children, title, openModal, handleOk, handleCancel, handleProceed, handleReturn, proceedText, returnText, imgUrl, provider, acctNo, amount }) => {
-
+  const [secondModalOpen, setSecondModalOpen] = useState(false)
+  const [openFailed, setOpenedFailed] = useState(false)
   return (
     <>
-      {/* <Button type="primary" onClick={showModal}>
-        Open Modal
-      </Button> */}
+      <SuccessModal
+        title={`Football Transaction performed successfully`}
+        openModal={secondModalOpen}
+        handleContinue={()=>setSecondModalOpen(false)}
+        handleCancel={()=>setSecondModalOpen(false)}
+        handleOk={()=>setSecondModalOpen(false)}
+      />
 
       <Modal className='basic-modal' title={'Football Ticket Order'} open={openModal} onOk={handleOk} onCancel={handleCancel}>
         <div  className='flex items-center justify-center gap-6 md:px-[2rem] flex-col w-full '>
@@ -24,9 +30,9 @@ const PreviewFootballOrderModal = ({children, title, openModal, handleOk, handle
 
 
           <div className='flex items-center justify-between w-full'>
-            <button onClick={handleProceed} className='bg-[#219653] rounded-[8px] text-white py-[10px] px-11 text-[14px] md:text-[16px] font-[500] leading-[24px]'>Completed</button>
-            <button onClick={handleReturn} className='bg-[red] rounded-[8px] text-white py-[10px] px-11 text-[14px] md:text-[16px] font-[500] leading-[24px]'>Failed</button>
-          </div>                
+            <button onClick={()=>setSecondModalOpen(true)} className='bg-[#219653] rounded-[8px] text-white py-[10px] px-11 text-[14px] md:text-[16px] font-[500] leading-[24px]'>Completed</button>
+            <button onClick={()=>setOpenedFailed(true)} className='bg-[red] rounded-[8px] text-white py-[10px] px-11 text-[14px] md:text-[16px] font-[500] leading-[24px]'>Failed</button>
+          </div>               
         </div>
 
       </Modal>

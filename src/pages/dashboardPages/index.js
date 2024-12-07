@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 
 import { Section } from "../../components/shared/container/container";
-import { decrypter, encrypter } from "../../utils/methods";
 import { useNavigate } from "react-router-dom";
 import { ChevronLeft } from "@mui/icons-material";
 import { FaChevronRight } from "react-icons/fa";
@@ -15,6 +14,10 @@ import PreviewInternetOrderModal from "../../components/shared/Modals/Internet/P
 import PreviewGasOrderModal from "../../components/shared/Modals/gas/PreviewGas";
 import PreviewTransportOrderModal from "../../components/shared/Modals/Transport/PreviewTransport";
 import PreviewParkingOrderModal from "../../components/shared/Modals/parking/PreviewParking";
+import PreviewHousingOrderModal from "../../components/shared/Modals/housing/PreviewHousing";
+import PreviewFootballOrderModal from "../../components/shared/Modals/football/PreviewFootball";
+import PreviewWasteOrderModal from "../../components/shared/Modals/waste/PreviewWaste";
+import PreviewGovernmentOrderModal from "../../components/shared/Modals/government/PreviewGovernment";
 
 
 const Dashboard = () => {
@@ -81,7 +84,7 @@ const Dashboard = () => {
                             phone={'09022334455'}
                             amount={'500'}
                         />,
-            football:   <PreviewParkingOrderModal
+            football:   <PreviewFootballOrderModal
                             openModal={open}
                             handleCancel={()=>setOpen(false)}
                             handleOk={()=>setOpen(false)}
@@ -90,7 +93,7 @@ const Dashboard = () => {
                             phone={'09022334455'}
                             amount={'500'}
                         />,
-            waste:   <PreviewParkingOrderModal
+            waste:   <PreviewWasteOrderModal
                             openModal={open}
                             handleCancel={()=>setOpen(false)}
                             handleOk={()=>setOpen(false)}
@@ -99,7 +102,16 @@ const Dashboard = () => {
                             phone={'09022334455'}
                             amount={'500'}
                         />,
-            government:   <PreviewParkingOrderModal
+            government:   <PreviewGovernmentOrderModal
+                            openModal={open}
+                            handleCancel={()=>setOpen(false)}
+                            handleOk={()=>setOpen(false)}
+                            provider={'MTN'}
+                            reg ={'8882288c'}
+                            phone={'09022334455'}
+                            amount={'500'}
+                        />,
+            housing:   <PreviewHousingOrderModal
                             openModal={open}
                             handleCancel={()=>setOpen(false)}
                             handleOk={()=>setOpen(false)}
@@ -111,11 +123,10 @@ const Dashboard = () => {
         }
    
         const handleFindModal = (service) => {
-            console.log(service); // Debugging to check the service type
-            const currentModalObject = service_modal[service]; // Access modal directly using service type as key
+            const currentModalObject = service_modal[service];
             if (currentModalObject) {
                 setModalToView(currentModalObject);
-                setOpen(true); // Open the modal
+                setOpen(true); 
             } else {
                 console.error(`No modal found for service: ${service}`);
             }
@@ -166,7 +177,7 @@ export const Card = ({bgColor, TColor, iconUrl, date, title,tag, handleClick }) 
                 </div>
             </div>
             <h2 style={{color:TColor}} className="font-bold font-mont text-[28px]">{title}</h2>
-            <button onClick={handleClick} className='w-full rounded-md text-white font-semibold  text-[12px] font-mont bg-[#814747] py-2'>Open Order</button>
+            <button onClick={handleClick} className='w-full rounded-md text-white font-semibold  text-[12px] font-mont bg-[#e0090a] py-2'>Open Order</button>
         </div>
     )
 }
@@ -223,15 +234,15 @@ const serviceEnum =[
     },
     {
         service_type: 'football',
-        service_name: 'football',
-        serviceBG: 'rgba(34, 34, 34, 0.2)',
+        service_name: 'Football',
+        serviceBG: 'rgba(192, 34, 201, 0.2)',
         serviceTC: '#000',
         service_icon: '/images/message.png',
     },
     {
         service_type: 'waste',
         service_name: 'Waste',
-        serviceBG: 'rgba(34, 34, 34, 0.2)',
+        serviceBG: 'rgba(211, 121, 97, 0.2)',
         serviceTC: '#000',
         service_icon: '/images/message.png',
     },
@@ -243,8 +254,8 @@ const serviceEnum =[
         service_icon: '/images/message.png',
     },
     {
-        service_type: 'airtime',
-        service_name: 'Airtime',
+        service_type: 'housing',
+        service_name: 'Housing',
         serviceBG: 'rgba(34, 34, 34, 0.2)',
         serviceTC: '#000',
         service_icon: '/images/message.png',

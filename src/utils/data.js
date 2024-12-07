@@ -18,6 +18,12 @@ export const pageEnum = [
 		]
 	},
 	{
+		title:'Staff',
+		pages:[
+			"/dashboard/staff"
+		]
+	},
+	{
 		title:'Airtime',
 		pages:[
 			"/dashboard/airtime"
@@ -30,7 +36,7 @@ export const pageEnum = [
 		]
 	},
 	{
-		title:'parking',
+		title:'Parking',
 		pages:[
 			"/dashboard/parking",
 			'/dashboard/parking-location'
@@ -63,7 +69,7 @@ export const pageEnum = [
 	{
 		title:'Football Ticket ',
 		pages:[
-			"/dashboard/football"
+			"/dashboard/football", "/dashboard/preview-football"
 		]
 	},
 	{

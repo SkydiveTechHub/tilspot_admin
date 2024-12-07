@@ -25,7 +25,7 @@ const InstanceView = () => {
               navigate("/dashboard/preview-internet");
               break;
             case "2":
-              // Handle edit action
+              setOpen(true)
               break;
             case "3":
               // Handle enable action
@@ -42,7 +42,7 @@ const InstanceView = () => {
           <Menu onClick={handleMenuClick}>
             <Menu.Item key="1">View</Menu.Item>
             <Menu.Item key="2">Edit</Menu.Item>
-            <Menu.Item key="3">Enable</Menu.Item>
+            {/* <Menu.Item key="3">Enable</Menu.Item> */}
             <Menu.Item key="4">Delete</Menu.Item>
           </Menu>
         );
@@ -99,37 +99,23 @@ export const Card = ({bgColor, TColor, iconUrl, date, title,tag }) =>{
 
 const columns = [
     {
-      title: 'Transaction ID',
+      title: 'Icon',
       dataIndex: 'tranx_id',
       key: 'tranx_id',
       render: (text) => <a>{text}</a>,
     },
     {
-      title: 'Type',
+      title: 'Provider Name',
       dataIndex: 'type',
       key: 'type',
     },
     {
-      title: 'Transaction Means',
+      title: 'Provider Plans',
       dataIndex: 'tranx_means',
       key: 'tranx_means',
       render: (text) => <a>{text}</a>,
     },
-    {
-      title: 'Date',
-      dataIndex: 'date',
-      key: 'date',
-    },
-    {
-      title: 'Status',
-      key: 'status',
-      dataIndex: 'tags', // Fixing the property name
-      render: (_, { tags }) => (
-        <>
-            <StatusTag status={tags}/>
-        </>
-      ),
-    },
+
 
 
   ];
@@ -141,32 +127,28 @@ const data = [
       tranx_id: '31366633',
       type: 'Fund Added',
       tranx_means: 'Bank Transfer',
-      date: '24 Jan, 2023',
-      tags: ['Successful'],
+     
     },
     {
     //   key: '1',
       tranx_id: '31366633',
       type: 'Fund Added',
       tranx_means: 'Bank Transfer',
-      date: '24 Jan, 2023',
-      tags: ['Failed'],
+
     },
     {
     //   key: '1',
       tranx_id: '31366633',
       type: 'Fund Added',
       tranx_means: 'Bank Transfer',
-      date: '24 Jan, 2023',
-      tags: ['Pending'],
+ 
     },
     {
     //   key: '1',
       tranx_id: '31366633',
       type: 'Fund Added',
       tranx_means: 'Bank Transfer',
-      date: '24 Jan, 2023',
-      tags: ['Successful'],
+
     },
 
   ];

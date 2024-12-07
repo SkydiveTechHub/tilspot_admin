@@ -22,7 +22,7 @@ const InstanceView = () => {
           const { key } = e;
           switch (key) {
             case "1":
-              navigate("/dashboard/parking-location");
+              navigate("/dashboard/preview-football");
               break;
             case "2":
               // Handle edit action
@@ -42,7 +42,7 @@ const InstanceView = () => {
           <Menu onClick={handleMenuClick}>
             <Menu.Item key="1">View</Menu.Item>
             <Menu.Item key="2">Edit</Menu.Item>
-            <Menu.Item key="3">Enable</Menu.Item>
+            {/* <Menu.Item key="3">Enable</Menu.Item> */}
             <Menu.Item key="4">Delete</Menu.Item>
           </Menu>
         );
@@ -68,10 +68,10 @@ return (
               handleOk={()=>setOpen(false)}
           /> 
           <div className="">
-            <PryButton handleClick={()=>setOpen(true)} text={'Add Football Provider'}/>
+            <PryButton handleClick={()=>setOpen(true)} text={'Add Football Match'}/>
           </div>
 
-            <Section title={"Available Football Providers"}>
+            <Section title={"Available Football Matches"}>
                 <TransactionsTable handleDelete={()=>{}} columns={usable_column} data={data}/>            
             </Section> 
 
@@ -99,20 +99,20 @@ export const Card = ({bgColor, TColor, iconUrl, date, title,tag }) =>{
 
 const columns = [
     {
-      title: 'Transaction ID',
-      dataIndex: 'tranx_id',
-      key: 'tranx_id',
+      title: 'League Name',
+      dataIndex: 'name',
+      key: 'name',
       render: (text) => <a>{text}</a>,
     },
     {
-      title: 'Type',
-      dataIndex: 'type',
-      key: 'type',
+      title: 'Teams',
+      dataIndex: 'teams',
+      key: 'teams',
     },
     {
-      title: 'Transaction Means',
-      dataIndex: 'tranx_means',
-      key: 'tranx_means',
+      title: 'Stadium',
+      dataIndex: 'stadium',
+      key: 'stadium',
       render: (text) => <a>{text}</a>,
     },
     {
@@ -120,53 +120,17 @@ const columns = [
       dataIndex: 'date',
       key: 'date',
     },
-    {
-      title: 'Status',
-      key: 'status',
-      dataIndex: 'tags', // Fixing the property name
-      render: (_, { tags }) => (
-        <>
-            <StatusTag status={tags}/>
-        </>
-      ),
-    },
-
 
   ];
 
 
 const data = [
     {
-    //   key: '1',
-      tranx_id: '31366633',
-      type: 'Fund Added',
-      tranx_means: 'Bank Transfer',
+      key: '1',
+      name: 'Champions League',
+      teams: 'Real Madrid - Chelsea',
+      stadium: 'Old Traford',
       date: '24 Jan, 2023',
-      tags: ['Successful'],
-    },
-    {
-    //   key: '1',
-      tranx_id: '31366633',
-      type: 'Fund Added',
-      tranx_means: 'Bank Transfer',
-      date: '24 Jan, 2023',
-      tags: ['Failed'],
-    },
-    {
-    //   key: '1',
-      tranx_id: '31366633',
-      type: 'Fund Added',
-      tranx_means: 'Bank Transfer',
-      date: '24 Jan, 2023',
-      tags: ['Pending'],
-    },
-    {
-    //   key: '1',
-      tranx_id: '31366633',
-      type: 'Fund Added',
-      tranx_means: 'Bank Transfer',
-      date: '24 Jan, 2023',
-      tags: ['Successful'],
     },
 
   ];

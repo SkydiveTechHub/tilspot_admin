@@ -16,9 +16,7 @@ const initialState = {
 
 const AddInternetProvider = ({ title, openModal, handleOk, handleCancel }) => {
   const [active, setActive] = useState(false);
-  const [more, setMore] = useState(false);
   const [secondModalOpen, setSecondModalOpen] = useState(false);
-  const [planList, setPlanList] = useState([{ name: "", price: ""}]);
   const [uploadedImage, setUploadedImage] = useState(null);
   const { values, handleChange, resetForm, errors } = useForm(initialState);
 
@@ -45,14 +43,6 @@ const AddInternetProvider = ({ title, openModal, handleOk, handleCancel }) => {
   }, [values]); // Re-run validation when `values` change
 
 
-  const IncreasePlanCount = () => {
-    setPlanList([...planList, { name: "", price: ""}]);
-};
-
-const DecreasePlanCount = (index) => {
-        setPlanList((prevItems) => prevItems.filter((_, i) => i !== index));
-
-};
 
   return (
     <>
@@ -92,81 +82,6 @@ const DecreasePlanCount = (index) => {
             error={errors?.instance_name}
   
           />
-
-          <div className='space-y-4'>
-            {
-              planList.map((i, id)=>{
-                return(
-                  <>
-
-                      <div className='grid gap-3 grid-cols-2'>
-                          <FormInput
-                            label="Plan Name"
-                            type="text"
-                            name="instance_name"
-                            value={values.instance_name}
-                            onChange={handleChange}
-                            placeholder="Enter plan name"
-                            error={errors?.instance_name}
-                  
-                          />
-                          <FormInput
-                            label="Plan Price"
-                            type="text"
-                            name="instance_name"
-                            value={values.instance_name}
-                            onChange={handleChange}
-                            placeholder="Enter plan price"
-                            error={errors?.instance_name}
-                  
-                          />     
-                                        
-                        </div>                                    
-                        {planList.length > 1 && (
-                                                <div className="flex justify-end w-full mt-[-40px] ">
-                                                    <button
-                                                        type="button"
-                                                        className="font-[400] text-[red] font-Int text-[14px]"
-                                                        onClick={()=>DecreasePlanCount(id)}
-                                                    >
-                                                        remove
-                                                    </button>
-                                                </div>
-                                            )}
-                  </>
-
-                )
-              })
-            }
-
-          </div>
-
-          <div className="flex justify-end w-full py-4">
-                            <button
-                                type="button"
-                                className="font-[500] text-[green] font-Int text-[14px]"
-                                onClick={IncreasePlanCount}
-                            >
-                                Add more plans
-                            </button>
-                        </div>
-          {/* <FormInput
-            label=""
-            type="select"
-            name="type"
-            value={values.type}
-            onChange={handleChange}
-            placeholder="Select Type"
-            options={[
-                {
-                  name: 'Enabled',
-                  value:'enabled'    },
-                {
-                  name: 'Disabled',
-                  value:'disabled'    },
-            ]}
-            error={errors?.type}
-          /> */}
 
           <AuthButton handleClick={()=>{
             setSecondModalOpen(true)

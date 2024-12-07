@@ -142,6 +142,11 @@ const navData = [
         url:'/'        
       },
       {
+        name:'Staff',
+        icons:<LuLayoutDashboard/>,
+        url:'/staff'        
+      },
+      {
         name:'Airtime',
         icons: <BiTransferAlt/>,
         url:'/airtime'        
@@ -198,6 +203,11 @@ const navData = [
         name:'Housing',
         icons:<ChartSquare size={16}/>,
         url:'/housing'        
+      },
+      {
+        name:'Fees',
+        icons:<ChartSquare size={16}/>,
+        url:'/fees'        
       },
 
     ]

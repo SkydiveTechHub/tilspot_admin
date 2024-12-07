@@ -1,6 +1,5 @@
 import { useDispatch } from "react-redux"
 import useForm from "../../../hooks/useForm"
-import { encrypter } from "../../../utils/methods"
 import { AuthButton } from "../../shared/button"
 import FormInput from "../../shared/FormInput"
 import React from 'react';
@@ -74,9 +73,7 @@ export const FundModal = ({ title, openModal, handleOk, handleCancel, btnText })
     
     const handleSubmit = (e) =>{
         e.preventDefault()
-        const ecnrypted_values = encrypter(values)
-        
-        const payload = {data: ecnrypted_values.encryptedData}
+
         // console.log(values)
         // dispatch(register(payload))
     }
