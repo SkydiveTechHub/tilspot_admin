@@ -7,14 +7,27 @@ const useForm = (initialState) => {
 
   const handleChange = (eventOrValue, fieldName) => {
     if (typeof eventOrValue === 'object' && eventOrValue.target) {
-      // Standard input change (e.g., text, email)
       const { name, value } = eventOrValue.target;
-      setValues((prevValues) => ({
-        ...prevValues,
-        [name]: value,
-      }));
+
+      // Check for nested field syntax, e.g., "Airtime-factor"
+      if (name.includes('-')) {
+        const [key, subKey] = name.split('-');
+        setValues((prevValues) => ({
+          ...prevValues,
+          [key]: {
+            ...prevValues[key],
+            [subKey]: value,
+          },
+        }));
+      } else {
+        // Standard input change
+        setValues((prevValues) => ({
+          ...prevValues,
+          [name]: value,
+        }));
+      }
     } else if (fieldName) {
-      // Special case for phone input or other components passing value directly
+      // Special case for direct value input (e.g., phone input)
       setValues((prevValues) => ({
         ...prevValues,
         [fieldName]: eventOrValue,

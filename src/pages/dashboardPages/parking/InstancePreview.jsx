@@ -6,7 +6,7 @@ import { Section } from '../../../components/shared/container/container'
 import DeleteInstanceModal from '../../../components/shared/Modals/DeleteInstanceModal'
 import { Switch } from 'antd'
 import { useNavigate } from 'react-router-dom'
-import PlnaUpgradeModal from '../../../components/shared/Modals/PlanUpgradeModal'
+ 
 import AddParkingZone from '../../../components/shared/Modals/parking/AddParkingZone'
 
 const PreviewParkingLocation = () => {

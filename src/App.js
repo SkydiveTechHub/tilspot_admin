@@ -22,6 +22,7 @@ import PreviewParkingLocation from "./pages/dashboardPages/parking/InstancePrevi
 import PreviewInternetProvider from "./pages/dashboardPages/internet/InstancePreview";
 import StaffPage from "./pages/dashboardPages/staff";
 import PreviewFootballMatches from "./pages/dashboardPages/football/InstancePreview";
+import FeesPage from "./pages/dashboardPages/fees";
 function App() {
 	return (
 		<>
@@ -44,7 +45,7 @@ function App() {
 					<Route path="/dashboard/government" element={<GovernmentPage/>}/>
 					<Route path="/dashboard/housing" element={<HousingPage/>}/>
 					<Route path="/dashboard/waste" element={<WastePage/>}/>
-					<Route path="/dashboard/article" element={<Articles/>}/>
+					<Route path="/dashboard/fees" element={<FeesPage/>}/>
 		
 				</Route>
 

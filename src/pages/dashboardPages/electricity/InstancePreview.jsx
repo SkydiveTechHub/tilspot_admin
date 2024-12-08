@@ -6,7 +6,7 @@ import { Section } from '../../../components/shared/container/container'
 import DeleteInstanceModal from '../../../components/shared/Modals/DeleteInstanceModal'
 import { Switch } from 'antd'
 import { useNavigate } from 'react-router-dom'
-import PlnaUpgradeModal from '../../../components/shared/Modals/PlanUpgradeModal'
+ 
 
 const InstancePreview = () => {
   const navigate = useNavigate()

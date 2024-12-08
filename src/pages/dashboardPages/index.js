@@ -1,13 +1,6 @@
 import React, { useEffect, useState } from "react";
-
 import { Section } from "../../components/shared/container/container";
 import { useNavigate } from "react-router-dom";
-import { ChevronLeft } from "@mui/icons-material";
-import { FaChevronRight } from "react-icons/fa";
-import { ConnectionTag, PryButton, StatusTag } from "../../components/shared/button";
-import TransactionsTable from "../../components/dashboardComponents/transactions";
-import { Switch } from "antd";
-import DeleteInstanceModal from "../../components/shared/Modals/DeleteInstanceModal";
 import PreviewAirtimeOrderModal from "../../components/shared/Modals/Airtime/PreviewAirtime";
 import PreviewCableOrderModal from "../../components/shared/Modals/cable/PreviewCable";
 import PreviewInternetOrderModal from "../../components/shared/Modals/Internet/PreviewInternet";
@@ -135,7 +128,6 @@ const Dashboard = () => {
         return (
             <>
                 {open && modalToView}
-    
 
         <div className="space-y-4">
 
@@ -151,7 +143,6 @@ const Dashboard = () => {
                             title={'Pending Order'}
                             bgColor={i.serviceBG}
                             handleClick={()=>handleFindModal(i.service_type)}
-
                         />                        
                         )
                     }
