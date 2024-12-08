@@ -30,11 +30,7 @@ const Register = () => {
     
     const handleSubmit = (e) =>{
         e.preventDefault()
-        const ecnrypted_values = encrypter(values)
-        
-        const payload = {data: ecnrypted_values.encryptedData}
-        // console.log(values)
-        dispatch(register(payload))
+
         navigate('/dashboard')
     }
 
