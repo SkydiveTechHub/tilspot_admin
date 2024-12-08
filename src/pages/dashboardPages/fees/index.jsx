@@ -27,7 +27,7 @@ const FeesPage = () => {
       <span className='font-mont font-bold'>Set Commission charged on services.</span>
       <form className='space-y-4' onSubmit={handleSubmit}>
         {feesData.map((fee, index) => (
-          <div key={index} className='grid gap-8 grid-cols-3'>
+          <div key={index} className='grid gap-4 md:gap-8 grid-cols-3'>
             <span className='font-mont'>{fee}</span>
             <FormInput
               label="Factor"
