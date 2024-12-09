@@ -27,24 +27,18 @@ const PreviewWasteOrderModal = ({
 
   const handleProceed = () => {
     setSecondModalOpen(true);
-    setTimeout(() => {
-      handleOk?.();
-    }, 200);
   };
 
   const handleReturn = () => {
-    handleCancel?.(); // Call handleCancel if it's defined
     setOpenedFailed(true);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (Object.keys(errors).length > 0) {
-      console.log('Validation failed:', errors);
-      return;
-    }
+
     console.log('Form submitted:', values);
     setOpenedFailed(false);
+    handleCancel?.(); 
     resetForm();
   };
 
@@ -53,9 +47,9 @@ const PreviewWasteOrderModal = ({
       <SuccessModal
         title="Waste Transaction performed successfully"
         openModal={secondModalOpen}
-        handleContinue={() => setSecondModalOpen(false)}
-        handleCancel={() => setSecondModalOpen(false)}
-        handleOk={() => setSecondModalOpen(false)}
+        handleContinue={() => {setSecondModalOpen(false); handleOk?.();}}
+        handleCancel={() => {setSecondModalOpen(false); handleOk?.();}}
+        handleOk={() => {setSecondModalOpen(false); handleOk?.();}}
       />
 
       <Modal

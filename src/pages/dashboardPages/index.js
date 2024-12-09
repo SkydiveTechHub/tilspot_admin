@@ -52,14 +52,7 @@ const Dashboard = () => {
                             acctNo={'09022334455'}
                             amount={'500'}
                         />,
-            gas:   <PreviewGasOrderModal
-                            openModal={open}
-                            handleCancel={()=>setOpen(false)}
-                            handleOk={()=>setOpen(false)}
-                            provider={'MTN'}
-                            acctNo={'09022334455'}
-                            amount={'500'}
-                        />,
+
             transportation:   <PreviewTransportOrderModal
                             openModal={open}
                             handleCancel={()=>setOpen(false)}
@@ -114,12 +107,13 @@ const Dashboard = () => {
                             amount={'500'}
                         />,
         }
+
    
         const handleFindModal = (service) => {
             const currentModalObject = service_modal[service];
             if (currentModalObject) {
                 setModalToView(currentModalObject);
-                setOpen(true); 
+                setOpen(true);
             } else {
                 console.error(`No modal found for service: ${service}`);
             }
