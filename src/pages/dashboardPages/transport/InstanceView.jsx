@@ -87,10 +87,10 @@ return (
               action={action}
           /> 
           <div className="">
-            <PryButton handleClick={()=>{setAction('create');setOpen(true)}} text={'Add Transport Provider'}/>
+            <PryButton handleClick={()=>{setAction('create');setOpen(true)}} text={'Add Transport Route'}/>
           </div>
 
-            <Section title={"Available Transport Providers"}>
+            <Section title={"Available Transport Routes"}>
                 <TransactionsTable  columns={usable_column} data={data}/>            
             </Section> 
 

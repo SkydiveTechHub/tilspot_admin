@@ -17,7 +17,7 @@ const AddParkingZone = ({ title, openModal, handleOk, handleCancel }) => {
   const [active, setActive] = useState(false);
   const [more, setMore] = useState(false);
   const [secondModalOpen, setSecondModalOpen] = useState(false);
-  const timePlan = ['30min', '1hr', '1hr 30m','2hr', '2hr 30m','3hr', '3hr 30m','4hr', '4hr 30m','5hr', '5hr 30m','6hr', '6hr 30m','7hr', '7hr 30m','8hr', '8hr 30m','9hr', '9hr 30m','10hr', '10hr 30m','11hr', '11hr 30m','12hr', '12hr 30m','13hr', '13hr 30m','14hr', '14hr 30m','15hr', '15hr 30m','16hr', '16hr 30m','17hr', '17hr 30m','18hr', '18hr 30m','19hr', '19hr 30m','20hr', '20hr 30m','21hr', '21hr 30m','22hr', '22hr 30m','23hr', '23hr 30m','24hr', '24hr 30m']
+  const timePlan = ['30min', '1hr', '1hr 30m','2hr', '2hr 30m','3hr', '3hr 30m','4hr', '4hr 30m','5hr', '5hr 30m','6hr', '6hr 30m','7hr', '7hr 30m','8hr', '8hr 30m','9hr', '9hr 30m','10hr', '10hr 30m','11hr', '11hr 30m','12hr', '12hr 30m','13hr', '13hr 30m','14hr', '14hr 30m','15hr', '15hr 30m','16hr', '16hr 30m','17hr', '17hr 30m','18hr', '18hr 30m','19hr', '19hr 30m','20hr', '20hr 30m','21hr', '21hr 30m','22hr', '22hr 30m','23hr', '23hr 30m','24hr',]
   const [planList, setPlanList] = useState([{ name: "", price: ""}]);
 
   const { values, handleChange, resetForm, errors } = useForm(initialState);

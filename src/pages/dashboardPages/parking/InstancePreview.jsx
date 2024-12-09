@@ -12,7 +12,26 @@ import AddParkingZone from '../../../components/shared/Modals/parking/AddParking
 const PreviewParkingLocation = () => {
   const navigate = useNavigate()
   const [open, setOpen] = useState(false)
+  const [deleteZone, setDeleteZone] = useState(false)
   const [upgradeModal, setUpgradeModal] = useState(false)
+
+  const usable_column = [
+    ...columns,
+    {
+      title: "ACTION",
+      key: "action",
+      render: (_, record) => {
+
+
+        return (
+          <div className='flex items-center gap-4'>
+            <button onClick={()=>setUpgradeModal(true)}><img src="/images/edit.svg" alt="" /></button>
+            <button onClick={()=>setDeleteZone(true)}><img src="/images/bin.png" alt="" /></button>
+          </div>
+        );
+      },
+    },
+  ];
   return (
     <>
       <AddParkingZone
@@ -26,6 +45,13 @@ const PreviewParkingLocation = () => {
         char={'Parking Location'}
         handleCancel={()=>setOpen(false)}
         handleOk={()=>setOpen(false)}
+
+    />
+      <DeleteInstanceModal
+        openModal={deleteZone}
+        char={'Parking Zone'}
+        handleCancel={()=>setDeleteZone(false)}
+        handleOk={()=>setDeleteZone(false)}
 
     />
       <div>
@@ -44,7 +70,7 @@ const PreviewParkingLocation = () => {
         </div>
 
         <Section title={"Available Zones"}>
-          <TransactionsTable columns={columns} data={data} handleView={()=>navigate('/dashboard/preview-instance')}/>            
+          <TransactionsTable columns={usable_column} data={data} />            
         </Section> 
       </div>    
     </>
@@ -58,47 +84,15 @@ export default PreviewParkingLocation
 
 const columns = [
   {
-    title: 'INSTANCE ID',
-    dataIndex: 'tranx_id',
-    key: 'tranx_id',
+    title: 'Name',
+    dataIndex: 'name',
+    key: 'name',
     render: (text) => <a>{text}</a>,
   },
   {
-    title: 'NAME',
-    dataIndex: 'type',
-    key: 'type',
-  },
-  {
-    title: 'STATUS',
-    key: 'status',
-    dataIndex: 'tags', // Fixing the property name
-    render: (_, { tags }) => (
-      <>
-          <StatusTag status={tags}/>
-      </>
-    ),
-  },
-
-  {
-    title: 'SUBSCRIPTION PLAN',
-    dataIndex: 'tranx_means',
-    key: 'tranx_means',
-    render: (text) => <a>{text}</a>,
-  },
-  {
-    title: 'EXPIRY DATE',
-    dataIndex: 'date',
-    key: 'date',
-  },
-  {
-    title: 'ACTIVATION',
-    dataIndex: 'date',
-    key: 'date',
-    render: (_, { tags }) => (
-      <>
-          <Switch/>
-      </>
-    ),
+    title: 'Pricing',
+    dataIndex: 'pricing',
+    key: 'pricing',
   },
 
 
@@ -109,11 +103,8 @@ const columns = [
 const data = [
   {
   //   key: '1',
-    tranx_id: '#31366633',
-    type: 'Nifemi',
-    tranx_means: 'Free Plan',
-    date: '24 Jan, 2023',
-    tags: ['Enabled'],
+    name: 'LA',
+    pricing: 'Pricing',
   },
 
 

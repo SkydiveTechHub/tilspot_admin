@@ -26,7 +26,7 @@ const ParkingPage = () => {
       
                   <img src="/images/layers.png" alt="" />
                   <BlackText style={'font-[600]'} text='No Location Available'/>
-                  <GrayText style={'md:w-[40%] text-center text-[12px]'} text={'You haven’t added any Provider. Click the button below to add a provided!'}/>
+                  <GrayText style={'md:w-[40%] text-center text-[12px]'} text={'You haven’t added any Location. Click the button below to add a location!'}/>
       
                   <PryButton handleClick={()=>setOpen(true)} text={'Add Parking Location'}/>
       

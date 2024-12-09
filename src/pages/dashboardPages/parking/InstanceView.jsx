@@ -7,9 +7,15 @@ import AddParkingProvider from "../../../components/shared/Modals/parking/AddPar
 import { Dropdown, Menu, Space } from "antd";
 import { CiMenuKebab } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
+import DeleteInstanceModal from "../../../components/shared/Modals/DeleteInstanceModal";
 
 const InstanceView = () => {
   const [open, setOpen] = useState(false)
+  const [openDelete, setOpenDelete] = useState(false)
+  const [openStatus, setOpenStatus] = useState(false)
+  const [status, setStatus] = useState('')
+  const [userData, setUserData] = useState([])
+  const [action, setAction] = useState('create')
   const navigate = useNavigate()
 
   const usable_column = [
@@ -24,14 +30,17 @@ const InstanceView = () => {
             case "1":
               navigate("/dashboard/parking-location");
               break;
-            case "2":
-              // Handle edit action
-              break;
-            case "3":
-              // Handle enable action
-              break;
-            case "4":
-              // Handle delete action
+              case "2":
+                setAction('edit')
+                setOpen(true)
+                setUserData(record)
+                break;
+              case "3":
+                setOpenStatus(true)
+                setStatus(record.tags[0])
+                break;
+              case "4":
+                  setOpenDelete(true)
               break;
             default:
               break;
@@ -40,7 +49,7 @@ const InstanceView = () => {
 
         const menu = (
           <Menu onClick={handleMenuClick}>
-            {/* <Menu.Item key="1">View</Menu.Item> */}
+            <Menu.Item key="1">View</Menu.Item>
             <Menu.Item key="2">Edit</Menu.Item>
             {/* <Menu.Item key="3">Enable</Menu.Item> */}
             <Menu.Item key="4">Delete</Menu.Item>
@@ -66,13 +75,22 @@ return (
               openModal={open}
               handleCancel={()=>setOpen(false)}
               handleOk={()=>setOpen(false)}
+              userData={userData}
+              action={action}
           /> 
+          <DeleteInstanceModal
+              openModal={openDelete}
+              char={'Airtime Provider'}
+              handleCancel={()=>setOpenDelete(false)}
+              handleOk={()=>setOpenDelete(false)}
+
+          />
           <div className="">
-            <PryButton handleClick={()=>setOpen(true)} text={'Add Parking Location'}/>
+            <PryButton handleClick={()=>{setAction('create');setOpen(true)}} text={'Add Parking Location'}/>
           </div>
 
-            <Section title={"Available Parking Providers"}>
-                <TransactionsTable handleDelete={()=>{}} columns={usable_column} data={data}/>            
+            <Section title={"Available Parking Locations"}>
+                <TransactionsTable columns={usable_column} data={data}/>            
             </Section> 
 
         </div>
@@ -81,92 +99,36 @@ return (
 
 export default InstanceView;
 
-export const Card = ({bgColor, TColor, iconUrl, date, title,tag }) =>{
-  return(
-      <div style={{backgroundColor:bgColor}} className="min-w-[300px] rounded-lg p-3 w-full space-y-4">
-          <div className="w-full flex justify-between items-center">
-              <div  className="flex gap-2">
-                  <img src={iconUrl} alt={title}/>
-                  <span style={{color:TColor}} className="text-[14px]  font-mont">{tag}</span>
-              </div>
-              <FaChevronRight/>
-          </div>
-          <h2 style={{color:TColor}} className="font-bold font-mont text-[28px]">{title}</h2>
-          <p style={{color:TColor}} className="text-[12px] font-mont">Last Updated:-{date}</p>
-      </div>
-  )
-}
 
 const columns = [
-    {
-      title: 'Transaction ID',
-      dataIndex: 'tranx_id',
-      key: 'tranx_id',
-      render: (text) => <a>{text}</a>,
-    },
-    {
-      title: 'Type',
-      dataIndex: 'type',
-      key: 'type',
-    },
-    {
-      title: 'Transaction Means',
-      dataIndex: 'tranx_means',
-      key: 'tranx_means',
-      render: (text) => <a>{text}</a>,
-    },
-    {
-      title: 'Date',
-      dataIndex: 'date',
-      key: 'date',
-    },
-    {
-      title: 'Status',
-      key: 'status',
-      dataIndex: 'tags', // Fixing the property name
-      render: (_, { tags }) => (
-        <>
-            <StatusTag status={tags}/>
-        </>
-      ),
-    },
+  // {
+  //   title: 'Icon',
+  //   dataIndex: 'icon',
+  //   key: 'icon',
+  //   render: (text) => <img src={text} alt="icon-img" />,
+  // },
+  {
+    title: 'Location Name',
+    dataIndex: 'name',
+    key: 'name',
+  },
 
 
-  ];
+
+];
 
 
 const data = [
-    {
-    //   key: '1',
-      tranx_id: '31366633',
-      type: 'Fund Added',
-      tranx_means: 'Bank Transfer',
-      date: '24 Jan, 2023',
-      tags: ['Successful'],
-    },
-    {
-    //   key: '1',
-      tranx_id: '31366633',
-      type: 'Fund Added',
-      tranx_means: 'Bank Transfer',
-      date: '24 Jan, 2023',
-      tags: ['Failed'],
-    },
-    {
-    //   key: '1',
-      tranx_id: '31366633',
-      type: 'Fund Added',
-      tranx_means: 'Bank Transfer',
-      date: '24 Jan, 2023',
-      tags: ['Pending'],
-    },
-    {
-    //   key: '1',
-      tranx_id: '31366633',
-      type: 'Fund Added',
-      tranx_means: 'Bank Transfer',
-      date: '24 Jan, 2023',
-      tags: ['Successful'],
-    },
+  {
+    key: '1',
+    name: 'Los Angeles',
+    icon: '/images/mtn.png',
+  },
+  {
+    key: '2',
+    name: 'Columbia',
+    icon: '/images/airtel.png',
+  },
 
-  ];
+
+];
