@@ -14,7 +14,7 @@ const PreviewInternetProvider = () => {
   const navigate = useNavigate()
   const [open, setOpen] = useState(false)
   const [upgradeModal, setUpgradeModal] = useState(false)
-
+  const [deleteZone, setDeleteZone] = useState(false)
   const usable_column = [
     ...columns,
     {
@@ -25,8 +25,8 @@ const PreviewInternetProvider = () => {
 
         return (
           <div className='flex items-center gap-4'>
-            <button><img src="/images/edit.svg" alt="" /></button>
-            <button><img src="/images/bin.png" alt="" /></button>
+            <button onClick={()=>setUpgradeModal(true)}><img src="/images/edit.svg" alt="" /></button>
+            <button onClick={()=>setDeleteZone(true)}><img src="/images/bin.png" alt="" /></button>
           </div>
         );
       },
@@ -45,6 +45,13 @@ const PreviewInternetProvider = () => {
         char={'Internet Provider'}
         handleCancel={()=>setOpen(false)}
         handleOk={()=>setOpen(false)}
+
+    />
+          <DeleteInstanceModal
+        openModal={deleteZone}
+        char={'Internet Plan'}
+        handleCancel={()=>setDeleteZone(false)}
+        handleOk={()=>setDeleteZone(false)}
 
     />
       <div>
@@ -78,26 +85,21 @@ export default PreviewInternetProvider
 const columns = [
   {
     title: 'Name',
-    dataIndex: 'tranx_id',
-    key: 'tranx_id',
+    dataIndex: 'name',
+    key: 'name',
     render: (text) => <a>{text}</a>,
   },
   {
     title: 'Duration',
-    dataIndex: 'type',
-    key: 'type',
+    dataIndex: 'duration',
+    key: 'duration',
   },
 
-  {
-    title: 'Duration',
-    dataIndex: 'date',
-    key: 'date',
-  },
 
   {
     title: 'Price',
-    dataIndex: 'type',
-    key: 'type',
+    dataIndex: 'price',
+    key: 'price',
   },
 
 
@@ -107,11 +109,9 @@ const columns = [
 const data = [
   {
   //   key: '1',
-    tranx_id: '#31366633',
-    type: 'Nifemi',
-    tranx_means: 'Free Plan',
-    date: '24 Jan, 2023',
-    tags: ['Enabled'],
+    name: 'Long Sub',
+    duration: '30days',
+    price: '1000',
   },
 
 

@@ -37,6 +37,7 @@ const useForm = (initialState) => {
 
   useEffect(() => {
     const validationErrors = validator(values);
+    console.log(validationErrors)
     setErrors(validationErrors);
   }, [values]);
 

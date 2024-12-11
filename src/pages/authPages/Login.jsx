@@ -6,6 +6,8 @@ import { AuthButton } from '../../components/shared/button'
 import { AuxAuthText, GrayText } from '../../components/shared/typograph'
 import bg from '../../assets/img/bg1.jpg'
 import { AuthLayout3 } from '../../components/authComponents/AuthLayout'
+import { useDispatch } from 'react-redux'
+import { login } from '../../store/actions'
 
 const initialState = {
     email: '',
@@ -14,11 +16,31 @@ const initialState = {
 
 const Login = () => {
     const navigate = useNavigate()
+    const dispatch = useDispatch()
 
 
     const {values, handleChange, resetForm, errors} = useForm(initialState)
-    const handleSubmit = () =>{
-        navigate('/dashboard')
+    
+    const handleSubmit = async (e) =>{
+        e.preventDefault()
+        const params = {
+            email: values.email,
+            password:values.password
+        }
+        try {
+            const res = await dispatch(login(params))
+            console.log(res)
+            if(res.payload.statusCode){
+                setTimeout(()=>{
+                    navigate('/dashboard')
+                }, 200)
+                  
+            }
+                      
+        } catch (error) {
+            
+        }
+
     }
 
 
@@ -43,12 +65,12 @@ const Login = () => {
                 value={values.password}
                 onChange={handleChange}
                 placeholder={'Enter your password'}
-                error={errors?.email}
+                error={errors?.password}
             />
 
             <Link to={'/forgot-password'}><AuxAuthText text={'Forgot Password?'}/> </Link>
 
-            <AuthButton value={'Login'}/>
+            <AuthButton inactive={Object.keys(errors).length !== 0 && true } handleClick={handleSubmit} value={'Login'}/>
 
             
 

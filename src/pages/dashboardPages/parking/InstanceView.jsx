@@ -4,11 +4,11 @@ import TransactionsTable from "../../../components/dashboardComponents/transacti
 import { PryButton, StatusTag } from "../../../components/shared/button";
 import { FaChevronRight } from "react-icons/fa";
 import AddParkingProvider from "../../../components/shared/Modals/parking/AddParkingProvider";
-import { Dropdown, Menu, Space } from "antd";
+import { Dropdown, Menu, Space, Switch } from "antd";
 import { CiMenuKebab } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
 import DeleteInstanceModal from "../../../components/shared/Modals/DeleteInstanceModal";
-
+const role = localStorage.getItem('role')
 const InstanceView = () => {
   const [open, setOpen] = useState(false)
   const [openDelete, setOpenDelete] = useState(false)
@@ -20,6 +20,8 @@ const InstanceView = () => {
 
   const usable_column = [
     ...columns,
+    ...(role === 'admin'
+      ? [
     {
       title: "ACTION",
       key: "action",
@@ -64,7 +66,7 @@ const InstanceView = () => {
           </Dropdown>
         );
       },
-    },
+    }]:[]),
   ];
 
 
@@ -85,9 +87,14 @@ return (
               handleOk={()=>setOpenDelete(false)}
 
           />
-          <div className="">
-            <PryButton handleClick={()=>{setAction('create');setOpen(true)}} text={'Add Parking Location'}/>
-          </div>
+          {
+            role === 'admin'&&
+            <div className="flex justify-between items-center">
+              <PryButton handleClick={()=>{setAction('create');setOpen(true)}} text={'Add Parking Location'}/>
+              <span className="font-mont">Enable Service: <Switch/></span>
+            </div>            
+          }
+
 
             <Section title={"Available Parking Locations"}>
                 <TransactionsTable columns={usable_column} data={data}/>            

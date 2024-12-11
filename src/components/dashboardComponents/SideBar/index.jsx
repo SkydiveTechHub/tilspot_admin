@@ -14,6 +14,8 @@ import { MdOutlineLiveHelp } from "react-icons/md";
 import { Wallet1, Briefcase, ChartSquare, Mobile, LoginCurve } from 'iconsax-react';
 import { CancelRounded } from '@mui/icons-material';
 
+const role = localStorage.getItem('role')
+
 const SideBar = ({handleClick}) => {
   const accordionStyle = {
     px: 0,
@@ -37,7 +39,7 @@ const SideBar = ({handleClick}) => {
 
       <div className='space-y-8 overflow-y-auto h-full'>
         {
-          navData?.map((i, id)=>{
+          navigation?.map((i, id)=>{
             return(
               <div key={id} className=''>
                 <p className='text-[#828282] font-[500] text-[16px] font-mont pl-4'>{i.category}</p>
@@ -132,111 +134,96 @@ const NavContainer = ({children})=>{
 }
 
 
-const navData = [
+const navData = (role) => [
   {
     category: 'Main',
     tabs: [
       {
-        name:'Dashboard',
-        icons:<LuLayoutDashboard/>,
-        url:'/'        
+        name: 'Dashboard',
+        icons: <LuLayoutDashboard />,
+        url: '/',
+      },
+      ...(role === 'admin'
+        ? [
+            {
+              name: 'Staff',
+              icons: <LuLayoutDashboard />,
+              url: '/staff',
+            },
+          ]
+        : []),
+      {
+        name: 'Airtime',
+        icons: <BiTransferAlt />,
+        url: '/airtime',
       },
       {
-        name:'Staff',
-        icons:<LuLayoutDashboard/>,
-        url:'/staff'        
+        name: 'Internet',
+        icons: <Wallet1 size={16} />,
+        url: '/internet',
       },
       {
-        name:'Airtime',
-        icons: <BiTransferAlt/>,
-        url:'/airtime'        
+        name: 'Cable Tv',
+        icons: <Mobile size={16} />,
+        url: '/cable',
       },
       {
-        name:'Internet',
-        icons:<Wallet1 size={16}/>,
-        url:'/internet'        
+        name: 'Electricity',
+        icons: <CiCloudOn />,
+        url: '/electricity',
       },
       {
-        name:'Cable Tv',
-        icons:<Mobile size={16}/>,
-        url:'/cable'        
+        name: 'Gas',
+        icons: <CiCloudOn />,
+        url: '/gas',
       },
       {
-        name:'Electricity',
-        icons:<CiCloudOn/>,
-        url:'/electricity',
-    
+        name: 'Parking',
+        icons: <ChartSquare size={16} />,
+        url: '/parking',
       },
       {
-        name:'Gas',
-        icons:<CiCloudOn/>,
-        url:'/gas',
-    
+        name: 'Transport',
+        icons: <ChartSquare size={16} />,
+        url: '/transport',
       },
       {
-        name:'Parking',
-        icons:<ChartSquare size={16}/>,
-        url:'/parking',   
-   
+        name: 'Waste',
+        icons: <ChartSquare size={16} />,
+        url: '/waste',
       },
       {
-        name:'Transport',
-        icons:<ChartSquare size={16}/>,
-        url:'/transport'        
+        name: 'Government',
+        icons: <ChartSquare size={16} />,
+        url: '/government',
       },
       {
-        name:'Waste',
-        icons:<ChartSquare size={16}/>,
-        url:'/waste'        
+        name: 'Football',
+        icons: <ChartSquare size={16} />,
+        url: '/football',
       },
       {
-        name:'Government',
-        icons:<ChartSquare size={16}/>,
-        url:'/government'        
+        name: 'Housing',
+        icons: <ChartSquare size={16} />,
+        url: '/housing',
       },
-      {
-        name:'Football',
-        icons:<ChartSquare size={16}/>,
-        url:'/football'        
-      },
-      {
-        name:'Housing',
-        icons:<ChartSquare size={16}/>,
-        url:'/housing'        
-      },
-      {
-        name:'Fees',
-        icons:<ChartSquare size={16}/>,
-        url:'/fees'        
-      },
+      ...(role === 'admin'
+        ? [
+          {
+            name: 'Fees',
+            icons: <ChartSquare size={16} />,
+            url: '/fees',
+          },
+          {
+            name: 'Statistics',
+            icons: <ChartSquare size={16} />,
+            url: '/statistics',
+          },
+          ]
+        : []),
 
-    ]
+    ],
   },
-  // {
-  //   category: 'Others',
-  //   tabs: [
-  //     {
-  //       name:'Help Center',
-  //       icons:<MdOutlineLiveHelp/>,
-  //       url:'/help'        
-  //     },
-  //     {
-  //       name:'Contact Us',
-  //       icons:<TbSettings2/>,
-  //       url:'/contact'        
-  //     },
+];
 
-  //     {
-  //       name:'Article',
-  //       icons:<MdOutlineLiveHelp/>,
-  //       url:'/article'        
-  //     },
-  //     {
-  //       name:'Our Youtube',
-  //       icons:<LoginCurve size={16}/>,
-  //       url:''        
-  //     }
-
-  //   ]
-  // }
-]
+const navigation = navData(role);

@@ -4,16 +4,19 @@ import TransactionsTable from "../../../components/dashboardComponents/transacti
 import { PryButton, StatusTag } from "../../../components/shared/button";
 import { FaChevronRight } from "react-icons/fa";
 import AddFootballTicketProvider from "../../../components/shared/Modals/football/AddFootballProvider";
-import { Dropdown, Menu, Space } from "antd";
+import { Dropdown, Menu, Space, Switch } from "antd";
 import { CiMenuKebab } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
 
+const role = localStorage.getItem('role')
 const InstanceView = () => {
   const [open, setOpen] = useState(false)
   const navigate = useNavigate()
 
   const usable_column = [
     ...columns,
+    ...(role === 'admin'
+      ? [
     {
       title: "ACTION",
       key: "action",
@@ -55,7 +58,7 @@ const InstanceView = () => {
           </Dropdown>
         );
       },
-    },
+    }]:[]),
   ];
 
 
@@ -67,9 +70,14 @@ return (
               handleCancel={()=>setOpen(false)}
               handleOk={()=>setOpen(false)}
           /> 
-          <div className="">
-            <PryButton handleClick={()=>setOpen(true)} text={'Add Football Match'}/>
-          </div>
+          {
+            role === 'admin'&&
+            <div className="flex justify-between items-center">
+              <PryButton handleClick={()=>setOpen(true)} text={'Add Football Match'}/>
+              <span className="font-mont">Enable Service: <Switch/></span>
+            </div>            
+          }
+
 
             <Section title={"Available Football Matches"}>
                 <TransactionsTable handleDelete={()=>{}} columns={usable_column} data={data}/>            

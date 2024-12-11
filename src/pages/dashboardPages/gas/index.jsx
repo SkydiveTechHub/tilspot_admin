@@ -4,6 +4,7 @@ import { PryButton } from '../../../components/shared/button'
 import InstanceView from './InstanceView'
 import AddGasProvider from '../../../components/shared/Modals/gas/AddGasProvider'
 
+const role = localStorage.getItem('role')
 const GasPage = () => {
     const [open, setOpen] = useState(false)
     const [hasData, setHasData] = useState(true)

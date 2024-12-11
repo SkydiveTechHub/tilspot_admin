@@ -4,16 +4,19 @@ import TransactionsTable from "../../../components/dashboardComponents/transacti
 import { PryButton, StatusTag } from "../../../components/shared/button";
 import { FaChevronRight } from "react-icons/fa";
 import AddInternetProvider from "../../../components/shared/Modals/Internet/AddInternetProvider";
-import { Dropdown, Menu, Space } from "antd";
+import { Dropdown, Menu, Space, Switch } from "antd";
 import { CiMenuKebab } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
 
+const role = localStorage.getItem('role')
 const InstanceView = () => {
   const [open, setOpen] = useState(false)
   const navigate = useNavigate()
 
   const usable_column = [
     ...columns,
+    ...(role === 'admin'
+      ? [
     {
       title: "ACTION",
       key: "action",
@@ -55,7 +58,7 @@ const InstanceView = () => {
           </Dropdown>
         );
       },
-    },
+    }]:[]),
   ];
 
 
@@ -67,9 +70,15 @@ return (
               handleCancel={()=>setOpen(false)}
               handleOk={()=>setOpen(false)}
           /> 
-          <div className="">
-            <PryButton handleClick={()=>setOpen(true)} text={'Add Internet Provider'}/>
-          </div>
+
+          {
+            role === 'admin'&&
+            <div className="flex justify-between items-center">
+              <PryButton handleClick={()=>setOpen(true)} text={'Add Internet Provider'}/>
+              <span className="font-mont">Enable Service: <Switch/></span>
+            </div>            
+          }
+
 
             <Section title={"Available Internet Providers"}>
                 <TransactionsTable handleDelete={()=>{}} columns={usable_column} data={data}/>            
@@ -109,12 +118,7 @@ const columns = [
       dataIndex: 'type',
       key: 'type',
     },
-    {
-      title: 'Provider Plans',
-      dataIndex: 'tranx_means',
-      key: 'tranx_means',
-      render: (text) => <a>{text}</a>,
-    },
+
 
 
 
@@ -124,31 +128,10 @@ const columns = [
 const data = [
     {
     //   key: '1',
-      tranx_id: '31366633',
-      type: 'Fund Added',
-      tranx_means: 'Bank Transfer',
+      tranx_id: '/images/mtn.png',
+      type: 'MTN',
+      // tranx_means: 'Bank Transfer',
      
-    },
-    {
-    //   key: '1',
-      tranx_id: '31366633',
-      type: 'Fund Added',
-      tranx_means: 'Bank Transfer',
-
-    },
-    {
-    //   key: '1',
-      tranx_id: '31366633',
-      type: 'Fund Added',
-      tranx_means: 'Bank Transfer',
- 
-    },
-    {
-    //   key: '1',
-      tranx_id: '31366633',
-      type: 'Fund Added',
-      tranx_means: 'Bank Transfer',
-
     },
 
   ];

@@ -4,6 +4,7 @@ import { PryButton } from '../../../components/shared/button'
 import InstanceView from './InstanceView'
 import AddCableProvider from '../../../components/shared/Modals/cable/AddCableProvider'
 
+const role = localStorage.getItem('role')
 const CablePage = () => {
     const [open, setOpen] = useState(false)
     const [hasData, setHasData] = useState(true)

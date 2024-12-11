@@ -7,7 +7,7 @@ import DeleteInstanceModal from '../../../components/shared/Modals/DeleteInstanc
 import { Switch } from 'antd'
 import { useNavigate } from 'react-router-dom'
  
-
+const role = localStorage.getItem('role')
 const InstancePreview = () => {
   const navigate = useNavigate()
   const [open, setOpen] = useState(false)

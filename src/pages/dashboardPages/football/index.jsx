@@ -4,6 +4,7 @@ import { PryButton } from '../../../components/shared/button'
 import InstanceView from './InstanceView'
 import AddFootballTicketProvider from '../../../components/shared/Modals/football/AddFootballProvider'
 
+const role = localStorage.getItem('role')
 const FootballPage = () => {
     const [open, setOpen] = useState(false)
     const [hasData, setHasData] = useState(true)

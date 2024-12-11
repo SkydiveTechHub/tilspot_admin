@@ -24,6 +24,12 @@ export const pageEnum = [
 		]
 	},
 	{
+		title:'Statistics',
+		pages:[
+			"/dashboard/statistics"
+		]
+	},
+	{
 		title:'Airtime',
 		pages:[
 			"/dashboard/airtime"

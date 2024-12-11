@@ -4,11 +4,12 @@ import TransactionsTable from "../../../components/dashboardComponents/transacti
 import { PryButton, StatusTag } from "../../../components/shared/button";
 import { FaChevronRight } from "react-icons/fa";
 import AddCableProvider from "../../../components/shared/Modals/cable/AddCableProvider";
-import { Dropdown, Menu, Space } from "antd";
+import { Dropdown, Menu, Space, Switch } from "antd";
 import { CiMenuKebab } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
 import DeleteInstanceModal from "../../../components/shared/Modals/DeleteInstanceModal";
 
+const role = localStorage.getItem('role')
 
 const InstanceView = () => {
   const [open, setOpen] = useState(false)
@@ -21,6 +22,8 @@ const InstanceView = () => {
 
   const usable_column = [
     ...columns,
+    ...(role === 'admin'
+      ? [
     {
       title: "ACTION",
       key: "action",
@@ -66,7 +69,7 @@ const InstanceView = () => {
           </Dropdown>
         );
       },
-    },
+    }]:[]),
   ];
 
 return (
@@ -86,8 +89,15 @@ return (
               handleCancel={()=>setOpen(false)}
               handleOk={()=>setOpen(false)}
           /> 
+          {
+            role === 'admin'&&
+            <div className="flex justify-between items-center">
+              <PryButton handleClick={()=>{setAction('create');setOpen(true)}} text={'Add Cable Provider'}/>
+              <span className="font-mont">Enable Service: <Switch/></span>
+            </div>            
+          }
           <div className="">
-            <PryButton handleClick={()=>{setAction('create');setOpen(true)}} text={'Add Cable Provider'}/>
+            
           </div>
 
             <Section title={"Available Cable Providers"}>

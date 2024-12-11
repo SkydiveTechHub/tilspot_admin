@@ -6,11 +6,12 @@ import { FaChevronRight } from "react-icons/fa";
 import AddAirtimeProvider from "../../../components/shared/Modals/Airtime/AddAirtimeProvider";
 import AddElectricityProvider from "../../../components/shared/Modals/electricity/AddElectricityProvider";
 
-import { Dropdown, Menu, Space } from "antd";
+import { Dropdown, Menu, Space, Switch } from "antd";
 import { CiMenuKebab } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
 import DeleteInstanceModal from "../../../components/shared/Modals/DeleteInstanceModal";
 
+const role = localStorage.getItem('role')
 const InstanceView = () => {
   const [open, setOpen] = useState(false)
   const [openDelete, setOpenDelete] = useState(false)
@@ -22,6 +23,8 @@ const InstanceView = () => {
 
   const usable_column = [
     ...columns,
+    ...(role === 'admin'
+      ? [
     {
       title: "ACTION",
       key: "action",
@@ -67,7 +70,7 @@ const InstanceView = () => {
           </Dropdown>
         );
       },
-    },
+    }]:[]),
   ];
 
 
@@ -88,8 +91,15 @@ return (
               handleCancel={()=>setOpen(false)}
               handleOk={()=>setOpen(false)}
           /> 
+          {
+            role === 'admin'&&
+            <div className="flex justify-between items-center">
+              <PryButton handleClick={()=>{setAction('create');setOpen(true)}}  text={'Add Electricity Provider'}/>
+              <span className="font-mont">Enable Service: <Switch/></span>
+            </div>            
+          }
           <div className="">
-            <PryButton handleClick={()=>{setAction('create');setOpen(true)}}  text={'Add Electricity Provider'}/>
+            
           </div>
 
             <Section title={"Available Electricity Providers"}>

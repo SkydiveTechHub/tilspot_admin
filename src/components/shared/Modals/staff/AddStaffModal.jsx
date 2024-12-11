@@ -86,23 +86,7 @@ const AddStaffModal = ({  openModal, handleOk, handleCancel }) => {
             error={errors?.email}
   
           />
-          <FormInput
-            label="Role"
-            type="select"
-            name="type"
-            value={values.role}
-            onChange={handleChange}
-            placeholder="Select Type"
-            options={[
-                {
-                  name: 'Admin',
-                  value:'admin'    },
-                {
-                  name: 'Operator',
-                  value:'operator'    },
-            ]}
-            error={errors?.type}
-          />
+
           <FormInput
             label="Password"
             type="password"

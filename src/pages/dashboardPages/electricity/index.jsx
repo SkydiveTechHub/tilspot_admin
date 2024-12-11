@@ -3,7 +3,7 @@ import { BlackText, GrayText } from '../../../components/shared/typograph'
 import { PryButton } from '../../../components/shared/button'
 import InstanceView from './InstanceView'
 import AddElectricityProvider from '../../../components/shared/Modals/electricity/AddElectricityProvider'
-
+const role = localStorage.getItem('role')
 const ElectricityPage = () => {
     const [open, setOpen] = useState(false)
     const [hasData, setHasData] = useState(true)

@@ -37,17 +37,25 @@ export const validator = (values) => {
           }        
       }
       // Password validation
-      if (!values.password) {
-        errors.password = 'Password is required';
-      } else if (values.password.length < 6) {
-        errors.password = 'Password must be at least 6 characters long';
-      }      
-      // Confirm Password validation
-      if (!values.c_password) {
-        errors.c_password = 'Password is required';
-      } else if (values.c_password !== values.password) {
-        errors.c_password = 'Password does not match';
-      }      
+      if("password" in values){
+        if (!values.password) {
+          errors.password = 'Password is required';
+        } else if (values.password.length < 6) {
+          errors.password = 'Password must be at least 6 characters long';
+        }          
+      }
+      if("c_password" in values){
+        if (!values.c_password) {
+          errors.c_password = 'Password is required';
+        } else if (values.c_password !== values.password) {
+          errors.c_password = 'Password does not match';
+        }           
+      }
+   
+      
+    
+ 
+  
     }
     // Email validation
 

@@ -5,13 +5,14 @@ import { PryButton, StatusTag } from "../../../components/shared/button";
 import { FaChevronRight } from "react-icons/fa";
 import AddAirtimeProvider from "../../../components/shared/Modals/Airtime/AddAirtimeProvider";
 
-import { Dropdown, Menu, Space } from "antd";
+import { Dropdown, Menu, Space, Switch } from "antd";
 import { CiMenuKebab } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
 import { useAccordion } from "@material-tailwind/react";
 import DeleteInstanceModal from "../../../components/shared/Modals/DeleteInstanceModal";
 import ConfirmModal from "../../../components/shared/Modals/ConfirmModal";
 
+const role = localStorage.getItem('role')
 const InstanceView = () => {
   const [open, setOpen] = useState(false)
   const [openDelete, setOpenDelete] = useState(false)
@@ -23,6 +24,8 @@ const InstanceView = () => {
 
   const usable_column = [
     ...columns,
+    ...(role === 'admin'
+      ? [
     {
       title: "ACTION",
       key: "action",
@@ -67,9 +70,8 @@ const InstanceView = () => {
           </Dropdown>
         );
       },
-    },
+    }]:[]),
   ];
-
 
 return (
 
@@ -101,9 +103,14 @@ return (
               userData={userData}
               action={action}
           /> 
-          <div className="">
-            <PryButton handleClick={()=>{setAction('create');setOpen(true)}} text={'Add Airtime Provider'}/>
-          </div>
+              {
+                    role === 'admin' && 
+                    <div className="flex justify-between items-center w-fll">
+                      <PryButton handleClick={()=>{setAction('create');setOpen(true)}} text={'Add Airtime Provider'}/>
+                      <span className="font-mont">Enable Service: <Switch /></span>
+                    </div>
+                  }
+
 
             <Section title={"Available Airtime Providers"}>
                 <TransactionsTable handleDelete={()=>{}} columns={usable_column} data={data}/>            

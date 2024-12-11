@@ -6,7 +6,6 @@ import Register from "./pages/authPages/SignUp";
 import Dashboard from "./pages/dashboardPages";
 import DashboardLayout from "./layouts/dashboardLayout";
 import OPTpage from "./pages/authPages/OTPpage";
-import Articles from "./pages/dashboardPages/articles";
 import AirtimePage from "./pages/dashboardPages/airtime";
 import InternetPage from "./pages/dashboardPages/internet";
 import GasPage from "./pages/dashboardPages/gas";
@@ -23,31 +22,69 @@ import PreviewInternetProvider from "./pages/dashboardPages/internet/InstancePre
 import StaffPage from "./pages/dashboardPages/staff";
 import PreviewFootballMatches from "./pages/dashboardPages/football/InstancePreview";
 import FeesPage from "./pages/dashboardPages/fees";
+import ProtectedRoute from "./routes";
+import Loader from "./components/loader/Loader";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { checkAuth } from "./store/reducers/authSlice";
+import StatisticPage from "./pages/dashboardPages/statistics";
+
+
 function App() {
-	return (
+	const dispatch =  useDispatch()
+	const [hasRole, setHasRole] = useState(false)
+	const {
+		app: { loading },
+	  } = useSelector((state) => state);
+	
+	
+	  useEffect(()=>{
+		dispatch(checkAuth())
+		if(localStorage.getItem('role')){
+			setHasRole(true)
+		}
+	  },[])
+	
+	
+	  return (
 		<>
-			{/* <Routes/> */}
+		  {loading &&  <Loader />}
+		  {
+			hasRole&&
+		  
 			<Routes>
-				<Route element={<DashboardLayout />}>
-					<Route path="/dashboard" element={<Dashboard />} />
-					<Route path="/dashboard/staff" element={<StaffPage />} />
-					<Route path="/dashboard/airtime" element={<AirtimePage/>}/>
-					<Route path="/dashboard/internet" element={<InternetPage/>}/>
-					<Route path="/dashboard/preview-internet" element={<PreviewInternetProvider/>}/>
-					<Route path="/dashboard/gas" element={<GasPage/>}/>
-					<Route path="/dashboard/electricity" element={<ElectricityPage/>}/>
-					<Route path="/dashboard/parking" element={<ParkingPage/>}/>
-					<Route path="/dashboard/parking-location" element={<PreviewParkingLocation/>}/>
-					<Route path="/dashboard/transport" element={<TransportPage/>}/>
-					<Route path="/dashboard/cable" element={<CablePage/>}/>
-					<Route path="/dashboard/football" element={<FootballPage/>}/>
-					<Route path="/dashboard/preview-football" element={<PreviewFootballMatches/>}/>
-					<Route path="/dashboard/government" element={<GovernmentPage/>}/>
-					<Route path="/dashboard/housing" element={<HousingPage/>}/>
-					<Route path="/dashboard/waste" element={<WastePage/>}/>
-					<Route path="/dashboard/fees" element={<FeesPage/>}/>
-		
+				<Route element={<ProtectedRoute roles={['admin']} />}>
+					<Route element={<DashboardLayout />}>
+						<Route path="/dashboard/staff" element={<StaffPage />} />
+						<Route path="/dashboard/fees" element={<FeesPage/>}/>
+						<Route path="/dashboard/statistics" element={<StatisticPage/>}/>
+						<Route path="/dashboard/preview-internet" element={<PreviewInternetProvider/>}/>
+						<Route path="/dashboard/parking-location" element={<PreviewParkingLocation/>}/>
+						<Route path="/dashboard/preview-football" element={<PreviewFootballMatches/>}/>
+					</Route>
 				</Route>
+
+				<Route element={<ProtectedRoute roles={['operator', 'admin']} />}>
+					<Route element={<DashboardLayout />}>
+						<Route path="/dashboard" element={<Dashboard />} />
+						<Route path="/dashboard/airtime" element={<AirtimePage/>}/>
+						<Route path="/dashboard/internet" element={<InternetPage/>}/>
+						
+						<Route path="/dashboard/gas" element={<GasPage/>}/>
+						<Route path="/dashboard/electricity" element={<ElectricityPage/>}/>
+						<Route path="/dashboard/parking" element={<ParkingPage/>}/>
+						
+						<Route path="/dashboard/transport" element={<TransportPage/>}/>
+						<Route path="/dashboard/cable" element={<CablePage/>}/>
+						<Route path="/dashboard/football" element={<FootballPage/>}/>
+						
+						<Route path="/dashboard/government" element={<GovernmentPage/>}/>
+						<Route path="/dashboard/housing" element={<HousingPage/>}/>
+						<Route path="/dashboard/waste" element={<WastePage/>}/>
+			
+					</Route>
+				</Route>
+
 
 				<Route path="/" element={<Login />} />
 				<Route path="/login" element={<Login />} />
@@ -56,6 +93,7 @@ function App() {
 				<Route path="/forgot-password" element={<ForgotPassword />} />
 				<Route path="/otp" element={<OPTpage />} />
 			</Routes>
+		}
 		</>
 	);
 }

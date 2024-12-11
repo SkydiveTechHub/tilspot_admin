@@ -67,7 +67,7 @@ const FormInput = ({ disabled, type, name, value, onChange, placeholder, error, 
       inputElement = (
         <div className='w-full '>
           <Label text={label}/>
-          <div className='px-[12px] border bg-white border-[#CBD5E1] rounded-lg outline-none font-mont placeholder:font-mont w-full relative flex items-center'>
+          <div className={`px-[12px] border bg-white ${error && showError ? 'border-[red]' : 'border-[#CBD5E1]'} rounded-lg outline-none font-mont placeholder:font-mont w-full relative flex items-center`}>
             <input
               type={show ? "text" : "password"}
               name={name}

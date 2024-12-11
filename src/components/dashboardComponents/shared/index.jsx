@@ -4,8 +4,9 @@ import { AuthButton } from "../../shared/button"
 import FormInput from "../../shared/FormInput"
 import React from 'react';
 import { Modal } from 'antd';
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { GrayText } from "../../shared/typograph"
+import { logout } from "../../../store/reducers/authSlice";
 
 
 
@@ -34,6 +35,12 @@ export const DeactivateModal = ({children, title, openModal, handleOk, handleCan
   );
 };
 export const LogoutModal = ({children, title, openModal, handleOk, handleCancel }) => {
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const handleLogout= ()=>{
+    dispatch(logout())
+    navigate('/')
+  }
 
   return (
     <>
@@ -48,7 +55,7 @@ export const LogoutModal = ({children, title, openModal, handleOk, handleCancel 
             <p className="font-mont text-[14px] font-[400] text-[gray]">Are you sure you want to logout?</p>
             <div className="space-x-6">
                 <button className="font-mont text-[16px] w-[150px] font-[400] bg-[#F9F9F9] rounded-lg p-[10px]">Cancel</button>
-                <Link to={'/'} className="font-mont text-[16px] w-[150px] font-[400] text-[white] bg-primary rounded-lg p-[10px]">Log Out</Link>
+                <button onClick={handleLogout} className="font-mont text-[16px] w-[150px] font-[400] text-[white] bg-primary rounded-lg p-[10px]">Log Out</button>
             </div>            
         </div>
 

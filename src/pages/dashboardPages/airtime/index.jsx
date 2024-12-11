@@ -4,6 +4,7 @@ import { PryButton } from '../../../components/shared/button'
 import InstanceView from './InstanceView'
 import AddAirtimeProvider from '../../../components/shared/Modals/Airtime/AddAirtimeProvider'
 
+const role = localStorage.getItem('role')
 const AirtimePage = () => {
     const [open, setOpen] = useState(false)
     const [hasData, setHasData] = useState(true)
@@ -28,7 +29,10 @@ const AirtimePage = () => {
                   <BlackText style={'font-[600]'} text='No Provider Available'/>
                   <GrayText style={'md:w-[40%] text-center text-[12px]'} text={'You haven’t added any Provider. Click the button below to add a provided!'}/>
       
-                  <PryButton handleClick={()=>setOpen(true)} text={'Add Airtime Provider'}/>
+                  {
+                    role === 'admin' && <PryButton handleClick={()=>setOpen(true)} text={'Add Airtime Provider'}/>
+                  }
+                  
       
               
       

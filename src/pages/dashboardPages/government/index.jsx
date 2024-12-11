@@ -4,6 +4,7 @@ import { PryButton } from '../../../components/shared/button'
 import InstanceView from './InstanceView'
 import AddGovernmentProvider from '../../../components/shared/Modals/government/AddGovernmentProvider'
 
+const role = localStorage.getItem('role')
 const GovernmentPage = () => {
     const [open, setOpen] = useState(false)
     const [hasData, setHasData] = useState(true)

@@ -18,7 +18,6 @@ const EditStaffModal = ({ userData, type, openModal, handleOk, handleCancel }) =
   const initialState = {
     lname: userData?.lname || "",
     fname: userData?.fname || "",
-    role: userData?.role || "",
     email: userData?.email || "",
     password: "",
     c_password: "",
@@ -98,23 +97,7 @@ const EditStaffModal = ({ userData, type, openModal, handleOk, handleCancel }) =
             error={errors?.email}
   
           />
-          <FormInput
-            label="Role"
-            type="select"
-            name="type"
-            value={values.role}
-            onChange={handleChange}
-            placeholder="Select Type"
-            options={[
-                {
-                  name: 'Admin',
-                  value:'admin'    },
-                {
-                  name: 'Operator',
-                  value:'operator'    },
-            ]}
-            error={errors?.type}
-          />
+
           <FormInput
             label="Password"
             type="password"

@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import AddStaffModal from "../../../components/shared/Modals/staff/AddStaffModal";
 import DeleteInstanceModal from "../../../components/shared/Modals/DeleteInstanceModal";
 import EditStaffModal from "../../../components/shared/Modals/staff/EditStaffModal";
+import StatisticsModal from "../../../components/shared/Modals/StatisticModal";
 
 const InstanceView = () => {
   const [open, setOpen] = useState(false)
@@ -17,6 +18,7 @@ const InstanceView = () => {
   const [userData, setUserData] = useState([])
   const [openEdit, setOpenEdit] = useState(false)
   const navigate = useNavigate()
+  const [openStat, setOpenStat] = useState(false)
 
   const usable_column = [
     ...columns,
@@ -28,7 +30,8 @@ const InstanceView = () => {
           const { key } = e;
           switch (key) {
             case "1":
-              // 
+              setUserData(record)
+              setOpenStat(true)
               break;
             case "2":
               setUserData(record)
@@ -47,7 +50,7 @@ const InstanceView = () => {
 
         const menu = (
           <Menu onClick={handleMenuClick}>
-            {/* <Menu.Item key="1">View</Menu.Item> */}
+            <Menu.Item key="1">View</Menu.Item>
             <Menu.Item key="2">Edit</Menu.Item>
             {/* <Menu.Item key="3">Enable</Menu.Item> */}
             <Menu.Item key="4">Delete</Menu.Item>
@@ -68,6 +71,16 @@ const InstanceView = () => {
 
 return (
         <div className="space-y-6">
+            <StatisticsModal
+              openModal={openStat}
+              handleCancel={()=>setOpenStat(false)}
+              handleOk={()=>setOpenStat(false)}
+              totalOrder={'10'}
+              totalCompleted ={'400'}
+              totalRevenue={'40000'}
+              totalFailed={'500'}
+              title={userData.fname}
+          />
           <DeleteInstanceModal
               openModal={openDelete}
               char={'Staff'}

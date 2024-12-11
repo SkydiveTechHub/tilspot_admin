@@ -4,6 +4,7 @@ import { PryButton } from '../../../components/shared/button'
 import InstanceView from './InstanceView'
 import AddHousingProvider from '../../../components/shared/Modals/housing/AddHousingProvider'
 
+const role = localStorage.getItem('role')
 const HousingPage = () => {
     const [open, setOpen] = useState(false)
     const [hasData, setHasData] = useState(true)
