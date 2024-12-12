@@ -33,13 +33,10 @@ import StatisticPage from "./pages/dashboardPages/statistics";
 function App() {
 	const dispatch =  useDispatch()
 	const [hasRole, setHasRole] = useState(false)
-	const {
-		app: { loading },
-	  } = useSelector((state) => state);
-	
+	const loading = useSelector((state) => state.app.loading);
 	
 	  useEffect(()=>{
-		dispatch(checkAuth())
+		// dispatch(checkAuth())
 		if(localStorage.getItem('role')){
 			setHasRole(true)
 		}
@@ -49,43 +46,49 @@ function App() {
 	  return (
 		<>
 		  {loading &&  <Loader />}
-		  {
-			hasRole&&
+
 		  
 			<Routes>
-				<Route element={<ProtectedRoute roles={['admin']} />}>
-					<Route element={<DashboardLayout />}>
-						<Route path="/dashboard/staff" element={<StaffPage />} />
-						<Route path="/dashboard/fees" element={<FeesPage/>}/>
-						<Route path="/dashboard/statistics" element={<StatisticPage/>}/>
-						<Route path="/dashboard/preview-internet" element={<PreviewInternetProvider/>}/>
-						<Route path="/dashboard/parking-location" element={<PreviewParkingLocation/>}/>
-						<Route path="/dashboard/preview-football" element={<PreviewFootballMatches/>}/>
-					</Route>
-				</Route>
+				{
+					hasRole&&
 
-				<Route element={<ProtectedRoute roles={['operator', 'admin']} />}>
-					<Route element={<DashboardLayout />}>
-						<Route path="/dashboard" element={<Dashboard />} />
-						<Route path="/dashboard/airtime" element={<AirtimePage/>}/>
-						<Route path="/dashboard/internet" element={<InternetPage/>}/>
-						
-						<Route path="/dashboard/gas" element={<GasPage/>}/>
-						<Route path="/dashboard/electricity" element={<ElectricityPage/>}/>
-						<Route path="/dashboard/parking" element={<ParkingPage/>}/>
-						
-						<Route path="/dashboard/transport" element={<TransportPage/>}/>
-						<Route path="/dashboard/cable" element={<CablePage/>}/>
-						<Route path="/dashboard/football" element={<FootballPage/>}/>
-						
-						<Route path="/dashboard/government" element={<GovernmentPage/>}/>
-						<Route path="/dashboard/housing" element={<HousingPage/>}/>
-						<Route path="/dashboard/waste" element={<WastePage/>}/>
-			
-					</Route>
-				</Route>
+					<>
+							<Route element={<ProtectedRoute roles={['admin']} />}>
+								<Route element={<DashboardLayout />}>
+									<Route path="/dashboard/staff" element={<StaffPage />} />
+									<Route path="/dashboard/fees" element={<FeesPage/>}/>
+									<Route path="/dashboard/statistics" element={<StatisticPage/>}/>
+									<Route path="/dashboard/preview-internet" element={<PreviewInternetProvider/>}/>
+									<Route path="/dashboard/parking-location" element={<PreviewParkingLocation/>}/>
+									<Route path="/dashboard/preview-football" element={<PreviewFootballMatches/>}/>
+								</Route>
+							</Route>
 
+							<Route element={<ProtectedRoute roles={['operator', 'admin']} />}>
+								<Route element={<DashboardLayout />}>
+									<Route path="/dashboard" element={<Dashboard />} />
+									<Route path="/dashboard/airtime" element={<AirtimePage/>}/>
+									<Route path="/dashboard/internet" element={<InternetPage/>}/>
+									
+									<Route path="/dashboard/gas" element={<GasPage/>}/>
+									<Route path="/dashboard/electricity" element={<ElectricityPage/>}/>
+									<Route path="/dashboard/parking" element={<ParkingPage/>}/>
+									
+									<Route path="/dashboard/transport" element={<TransportPage/>}/>
+									<Route path="/dashboard/cable" element={<CablePage/>}/>
+									<Route path="/dashboard/football" element={<FootballPage/>}/>
+									
+									<Route path="/dashboard/government" element={<GovernmentPage/>}/>
+									<Route path="/dashboard/housing" element={<HousingPage/>}/>
+									<Route path="/dashboard/waste" element={<WastePage/>}/>
+						
+								</Route>
 
+								
+							</Route>			
+					</>
+
+				}
 				<Route path="/" element={<Login />} />
 				<Route path="/login" element={<Login />} />
 				<Route path="/register" element={<Register />} />
@@ -93,7 +96,7 @@ function App() {
 				<Route path="/forgot-password" element={<ForgotPassword />} />
 				<Route path="/otp" element={<OPTpage />} />
 			</Routes>
-		}
+
 		</>
 	);
 }
