@@ -36,7 +36,7 @@ function App() {
 	const loading = useSelector((state) => state.app.loading);
 	
 	  useEffect(()=>{
-		// dispatch(checkAuth())
+		dispatch(checkAuth())
 		if(localStorage.getItem('role')){
 			setHasRole(true)
 		}

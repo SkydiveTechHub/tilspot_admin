@@ -14,7 +14,10 @@ const authSlice = createSlice({
         checkAuth(state) {
             const userInfo = JSON.parse(localStorage.getItem("userData"));
             const userToken = (localStorage.getItem("token"));
-            state.user = userInfo;
+            if(userInfo){
+            state.user = userInfo;                
+        }
+
 
             if(userToken){
                state.token = userInfo.token; 
