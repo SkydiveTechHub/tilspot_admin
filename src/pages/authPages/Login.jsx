@@ -33,7 +33,7 @@ const Login = () => {
             if(res.payload.statusCode){
                 setTimeout(()=>{
                     navigate('/dashboard')
-                }, 200)
+                }, 400)
                   
             }
                       
