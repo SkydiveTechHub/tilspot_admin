@@ -31,9 +31,16 @@ const Login = () => {
             const res = await dispatch(login(params))
             console.log(res)
             if(res.payload.statusCode){
-                setTimeout(()=>{
-                    navigate('/dashboard')
-                }, 400)
+                if(res.payload.data.user.role === 'admin'){
+                    setTimeout(()=>{
+                        navigate('/dashboard/staff')
+                    }, 400)                    
+                }else{
+                    setTimeout(()=>{
+                        navigate('/dashboard')
+                    }, 400) 
+                }
+
                   
             }
                       

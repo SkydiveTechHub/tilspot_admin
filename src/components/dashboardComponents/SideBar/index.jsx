@@ -138,11 +138,16 @@ const navData = (role) => [
   {
     category: 'Main',
     tabs: [
-      {
-        name: 'Dashboard',
-        icons: <LuLayoutDashboard />,
-        url: '/',
-      },
+
+      ...(role === 'operator'
+        ? [
+          {
+            name: 'Dashboard',
+            icons: <LuLayoutDashboard />,
+            url: '/',
+          },
+          ]
+        : []),
       ...(role === 'admin'
         ? [
             {
