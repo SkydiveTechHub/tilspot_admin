@@ -8,8 +8,11 @@ import { BlackText } from '../../shared/typograph'
 import { FiChevronDown } from 'react-icons/fi'
 import { HambergerMenu } from 'iconsax-react'
 import { pageEnum } from '../../../utils/data'
+import { useSelector } from 'react-redux'
 
 const TopNav = ({handleClick}) => {
+	const user = useSelector((state) => state.auth.user);
+	console.log(user)
 	const [pageTitle, setPageTitle] =  useState()
 	const location = useLocation()
 	const currentPage = location.pathname
@@ -36,7 +39,7 @@ const TopNav = ({handleClick}) => {
 
       <div className='flex lg:mr-[18%] gap-4'>
 		{/* <div className="hidden lg:inline"><NotifMenu/></div> */}
-		<UserMenu/>
+		<UserMenu user={user}/>
       </div>
 
 
@@ -82,7 +85,7 @@ const Content = () =>{
 		<div className='flex flex-col items-start gap-3'>
 			{/* <Link className='font-[500] font-mont text-[14px]' to={'/'}>Edit Profile</Link>
 			<Link className='font-[500] font-mont text-[14px]' to={'/'}>Subscription</Link> */}
-			<Link className='font-[500] font-mont text-[14px]' to={'/dashboard/account'}><img src='/images/account.png' className='inline-flex pr-2' alt='account'/>Account</Link>
+			<Link className='font-[500] font-mont text-[14px]' to={'/forgot-password'}><img src='/images/account.png' className='inline-flex pr-2' alt='account'/>Reset Password</Link>
 			<button onClick={()=>setOpen(true)} className='font-[500] font-mont text-[14px]'><img src='/images/Exit.png' className='inline-flex pr-2' alt='account'/>Log Out</button>
 	
 			<LogoutModal openModal={isOpen} handleOk={()=>setOpen(false)} handleCancel={()=>setOpen(false)}/>
@@ -96,14 +99,14 @@ const Content = () =>{
 
 
 
-const UserMenu = () => (
+const UserMenu = ({user}) => (
   <Popover content={Content} title="">
     <button>
 
 	<img className='w-[40px] rounded-full inline-flex  pr-1' src="/images/user.png" alt="user" />
 
 	<Space>
-		<span className='hidden lg:inline font-mont font-[500] text-[14px]'>User 1</span>
+		<span className='hidden lg:inline font-mont font-[500] text-[14px]'>{user?.first_name}</span>
 		<FiChevronDown/>
 	</Space>
 	</button>

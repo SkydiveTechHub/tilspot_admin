@@ -35,6 +35,7 @@ function App() {
 	const role = localStorage.getItem('role')
 	const [hasRole, setHasRole] = useState(false)
 	const loading = useSelector((state) => state.app.loading);
+	const user = useSelector((state) => state.auth.user);
 	
 	  useEffect(()=>{
 		dispatch(checkAuth())

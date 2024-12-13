@@ -8,6 +8,7 @@ import { Dropdown, Menu, Space, Switch } from "antd";
 import { CiMenuKebab } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
 import DeleteInstanceModal from "../../../components/shared/Modals/DeleteInstanceModal";
+
 const role = localStorage.getItem('role')
 const InstanceView = () => {
   const [open, setOpen] = useState(false)

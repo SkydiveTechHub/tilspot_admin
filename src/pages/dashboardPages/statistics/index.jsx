@@ -8,6 +8,25 @@ const StatisticPage = () => {
     const [activeTab, setActiveTab] = useState('Airtime')
     const [summaryData, setSummaryData] = useState()
     const [filterDuration, setFilterDuration] = useState('week')
+    const userCardData = [
+        {
+          title:'Total Number of Users',
+          amount: summaryData?.totalWaste || 0,
+          icon:'/images/f3.svg'
+        },	
+        {
+          title:'Total Number of verified Users',
+          amount:summaryData?.organizationIncome || 0,
+          icon:'/images/f3.svg'
+        },	
+        {
+          title:'Total Number of Unverified Users',
+          amount:summaryData?.transactionPoint || 0,
+          icon:'/images/f3.svg'
+        },	
+
+      
+      ]
     const cardData = [
         {
           title:'Total Revenue Generated',
@@ -32,15 +51,16 @@ const StatisticPage = () => {
         },	
       
       ]
-    const items = [
-        // {
-        //   key: '1',
-        //   label: (
-        //     <a target="_blank" rel="noopener noreferrer" href="https://www.antgroup.com">
-        //       All
-        //     </a>
-        //   ),
-        // },
+      const items = [
+
+        {
+          key: '1',
+          label: (
+            <button onClick={()=>(setFilterDuration('today'))} >
+              Today
+            </button>
+          ),
+        },
         {
           key: '2',
           label: (
@@ -57,29 +77,22 @@ const StatisticPage = () => {
             </button>
           ),
         },
-        {
-          key: '4',
-          label: (
-            <button onClick={()=>(setFilterDuration('year'))} >
-              This Year
-            </button>
-          ),
-        },
+
       ];
   return (
     <div className='space-y-12'>
-        <div className='flex flex-wrap gap-3 items-center'>
+        {/* <div className='flex flex-wrap gap-3 items-center'>
             {
                 serviceData.map((i, id)=><button onClick={()=>setActiveTab(i)} className={`${activeTab === i? 'bg-[#e0090a] text-white': 'bg-transparent text-black'} py-1 w-[150px] font-mont font-semibold border rounded-lg shadow-md`}>{i}</button>)
             }            
-        </div>
+        </div> */}
 
 
 
         {/* <p className='font-bold font-mont'>{activeTab} Statistics</p> */}
-        <div className="grid lg:grid-cols-4 grid-cols-2 gap-4 container -order-1">
+        <div className="grid lg:grid-cols-3 grid-cols-2 gap-8 container -order-1 p-4 rounded-lg bg-[#f2f2f2]">
             {
-            cardData.map((i, id)=>{
+            userCardData.map((i, id)=>{
                 return(
                 <PointCard key={id} title={i.title} amount={i.amount} icon={i.icon} />
                 )
@@ -97,6 +110,16 @@ const StatisticPage = () => {
                 >
                     <Button><span className="font-mont font-semibold">Filter</span></Button>
             </Dropdown>              
+        </div>
+
+        <div className="grid lg:grid-cols-4 grid-cols-2 gap-4 container -order-1">
+            {
+            cardData.map((i, id)=>{
+                return(
+                <PointCard key={id} title={i.title} amount={i.amount} icon={i.icon} />
+                )
+            })
+             }
         </div>
    
           <BarCharts duration={filterDuration}/>               

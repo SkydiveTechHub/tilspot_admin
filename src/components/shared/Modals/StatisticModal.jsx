@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Button, Modal } from 'antd';
+import { Button, Dropdown, Modal } from 'antd';
 
 const StatisticsModal = ({totalRevenue, totalOrder, totalCompleted, totalFailed, title, openModal, handleOk, handleCancel, handleContinue }) => {
+      const [filterDuration, setFilterDuration] = useState('week')
   const cardData = [
     {
       title:'Total Revenue Generated',
@@ -26,6 +27,35 @@ const StatisticsModal = ({totalRevenue, totalOrder, totalCompleted, totalFailed,
     },	
   
   ]
+
+  const items = [
+
+    {
+      key: '1',
+      label: (
+        <button onClick={()=>(setFilterDuration('today'))} >
+          Today
+        </button>
+      ),
+    },
+    {
+      key: '2',
+      label: (
+        <button onClick={()=>(setFilterDuration('week'))} >
+          This Week
+        </button>
+      ),
+    },
+    {
+      key: '3',
+      label: (
+        <button onClick={()=>(setFilterDuration('month'))} >
+          This Month
+        </button>
+      ),
+    },
+
+  ];
   return (
     <>
       {/* <Button type="primary" onClick={showModal}>
@@ -34,7 +64,18 @@ const StatisticsModal = ({totalRevenue, totalOrder, totalCompleted, totalFailed,
 
       <Modal className='basic-modal' title={`${title}'s Performance Overview`} open={openModal} onOk={handleOk} onCancel={handleCancel}>
         <div  className='flex justify-center items-center flex-col gap-6 px-[2rem]'>
-        <div className="grid grid-cols-2 gap-4 container -order-1">
+          <div className='flex justify-end'>
+              <Dropdown
+                  menu={{
+                      items,
+                      }}
+                      placement="bottomRight"
+                  >
+                      <Button><span className="font-mont font-semibold">Filter</span></Button>
+              </Dropdown>              
+          </div>
+
+          <div className="grid grid-cols-2 gap-4 container ">
                             {
                             cardData.map((i, id)=>{
                                 return(
