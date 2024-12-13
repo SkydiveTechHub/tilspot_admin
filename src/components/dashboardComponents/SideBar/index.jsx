@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { DashboardLogo } from '../../../utils/data'
 import { Link, useLocation } from 'react-router-dom'
 import Accordion from "@mui/material/Accordion";
@@ -14,7 +14,7 @@ import { MdOutlineLiveHelp } from "react-icons/md";
 import { Wallet1, Briefcase, ChartSquare, Mobile, LoginCurve } from 'iconsax-react';
 import { CancelRounded } from '@mui/icons-material';
 
-const role = localStorage.getItem('role')
+
 
 const SideBar = ({handleClick}) => {
   const accordionStyle = {
@@ -26,8 +26,112 @@ const SideBar = ({handleClick}) => {
   };
 
   const location = useLocation();
+  
+  const [role, setRole] = useState('')
 
+  useEffect(()=>{
+    const role = localStorage.getItem('role')
+    setRole(role)
+  }, [])
 
+  const navData = (role) => [
+    {
+      category: 'Main',
+      tabs: [
+  
+        ...(role === 'operator'
+          ? [
+            {
+              name: 'Dashboard',
+              icons: <LuLayoutDashboard />,
+              url: '/',
+            },
+            ]
+          : []),
+        ...(role === 'admin'
+          ? [
+              {
+                name: 'Staff',
+                icons: <LuLayoutDashboard />,
+                url: '/staff',
+              },
+            ]
+          : []),
+        {
+          name: 'Airtime',
+          icons: <BiTransferAlt />,
+          url: '/airtime',
+        },
+        {
+          name: 'Internet',
+          icons: <Wallet1 size={16} />,
+          url: '/internet',
+        },
+        {
+          name: 'Cable Tv',
+          icons: <Mobile size={16} />,
+          url: '/cable',
+        },
+        {
+          name: 'Electricity',
+          icons: <CiCloudOn />,
+          url: '/electricity',
+        },
+        {
+          name: 'Gas',
+          icons: <CiCloudOn />,
+          url: '/gas',
+        },
+        {
+          name: 'Parking',
+          icons: <ChartSquare size={16} />,
+          url: '/parking',
+        },
+        {
+          name: 'Transport',
+          icons: <ChartSquare size={16} />,
+          url: '/transport',
+        },
+        {
+          name: 'Waste',
+          icons: <ChartSquare size={16} />,
+          url: '/waste',
+        },
+        {
+          name: 'Government',
+          icons: <ChartSquare size={16} />,
+          url: '/government',
+        },
+        {
+          name: 'Football',
+          icons: <ChartSquare size={16} />,
+          url: '/football',
+        },
+        {
+          name: 'Housing',
+          icons: <ChartSquare size={16} />,
+          url: '/housing',
+        },
+        ...(role === 'admin'
+          ? [
+            {
+              name: 'Fees',
+              icons: <ChartSquare size={16} />,
+              url: '/fees',
+            },
+            {
+              name: 'Statistics',
+              icons: <ChartSquare size={16} />,
+              url: '/statistics',
+            },
+            ]
+          : []),
+  
+      ],
+    },
+  ];
+
+  const navigation = navData(role);
 
   return (
     <NavContainer>
@@ -134,101 +238,6 @@ const NavContainer = ({children})=>{
 }
 
 
-const navData = (role) => [
-  {
-    category: 'Main',
-    tabs: [
 
-      ...(role === 'operator'
-        ? [
-          {
-            name: 'Dashboard',
-            icons: <LuLayoutDashboard />,
-            url: '/',
-          },
-          ]
-        : []),
-      ...(role === 'admin'
-        ? [
-            {
-              name: 'Staff',
-              icons: <LuLayoutDashboard />,
-              url: '/staff',
-            },
-          ]
-        : []),
-      {
-        name: 'Airtime',
-        icons: <BiTransferAlt />,
-        url: '/airtime',
-      },
-      {
-        name: 'Internet',
-        icons: <Wallet1 size={16} />,
-        url: '/internet',
-      },
-      {
-        name: 'Cable Tv',
-        icons: <Mobile size={16} />,
-        url: '/cable',
-      },
-      {
-        name: 'Electricity',
-        icons: <CiCloudOn />,
-        url: '/electricity',
-      },
-      {
-        name: 'Gas',
-        icons: <CiCloudOn />,
-        url: '/gas',
-      },
-      {
-        name: 'Parking',
-        icons: <ChartSquare size={16} />,
-        url: '/parking',
-      },
-      {
-        name: 'Transport',
-        icons: <ChartSquare size={16} />,
-        url: '/transport',
-      },
-      {
-        name: 'Waste',
-        icons: <ChartSquare size={16} />,
-        url: '/waste',
-      },
-      {
-        name: 'Government',
-        icons: <ChartSquare size={16} />,
-        url: '/government',
-      },
-      {
-        name: 'Football',
-        icons: <ChartSquare size={16} />,
-        url: '/football',
-      },
-      {
-        name: 'Housing',
-        icons: <ChartSquare size={16} />,
-        url: '/housing',
-      },
-      ...(role === 'admin'
-        ? [
-          {
-            name: 'Fees',
-            icons: <ChartSquare size={16} />,
-            url: '/fees',
-          },
-          {
-            name: 'Statistics',
-            icons: <ChartSquare size={16} />,
-            url: '/statistics',
-          },
-          ]
-        : []),
 
-    ],
-  },
-];
 
-const navigation = navData(role);

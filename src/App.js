@@ -32,12 +32,15 @@ import StatisticPage from "./pages/dashboardPages/statistics";
 
 function App() {
 	const dispatch =  useDispatch()
+	const role = localStorage.getItem('role')
 	const [hasRole, setHasRole] = useState(false)
 	const loading = useSelector((state) => state.app.loading);
 	
 	  useEffect(()=>{
 		dispatch(checkAuth())
-		if(localStorage.getItem('role')){
+		if(!role){
+			dispatch(checkAuth())
+		}else{
 			setHasRole(true)
 		}
 	  },[])
