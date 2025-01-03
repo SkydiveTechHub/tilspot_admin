@@ -7,11 +7,45 @@ import AddFootballTicketProvider from "../../../components/shared/Modals/footbal
 import { Dropdown, Menu, Space, Switch } from "antd";
 import { CiMenuKebab } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { enableOrDisableCategory, getAllCategories } from "../../../store/actions";
 
 const role = localStorage.getItem('role')
-const InstanceView = () => {
-  const [open, setOpen] = useState(false)
+const InstanceView = ({data, catStatus, id}) => {
   const navigate = useNavigate()
+  const [open, setOpen] = useState(false)
+    const [provId, setProvId] = useState(false)
+  const [openDelete, setOpenDelete] = useState(false)
+  const [openStatus, setOpenStatus] = useState(false)
+  const [status, setStatus] = useState('')
+  const [userData, setUserData] = useState([])
+  const [action, setAction] = useState('create')
+  const dispatch =  useDispatch()
+
+  console.log(data)
+
+  // const handleDelete = async () =>{
+  //   try {
+  //     const res = await dispatch(deleteProvider({
+  //       catId :id,
+  //       providerId:provId
+  //     }))
+      
+
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
+  const onChange = async (checked) => {
+    try {
+      await dispatch(enableOrDisableCategory(id)).then(
+        dispatch(getAllCategories())
+      )
+
+    } catch (error) {
+      console.log(error)
+    }
+  };
 
   const usable_column = [
     ...columns,
@@ -27,15 +61,19 @@ const InstanceView = () => {
             case "1":
               navigate("/dashboard/preview-football");
               break;
-            case "2":
-              // Handle edit action
-              break;
-            case "3":
-              // Handle enable action
-              break;
-            case "4":
-              // Handle delete action
-              break;
+              case "2":
+                setAction('edit')
+                setOpen(true)
+                setUserData(record)
+                break;
+              case "3":
+                setOpenStatus(true)
+                setStatus(record.tags[0])
+                break;
+              case "4":
+                  setOpenDelete(true)
+                  setProvId(record._id)
+                break;
             default:
               break;
           }
@@ -74,7 +112,7 @@ return (
             role === 'admin'&&
             <div className="flex justify-between items-center">
               <PryButton handleClick={()=>setOpen(true)} text={'Add Football Match'}/>
-              <span className="font-mont">Enable Service: <Switch/></span>
+               <span className="font-mont">Enable Service: <Switch checked={catStatus} onChange={onChange} /></span>
             </div>            
           }
 

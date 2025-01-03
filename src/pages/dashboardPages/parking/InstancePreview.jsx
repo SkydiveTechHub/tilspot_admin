@@ -1,19 +1,26 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { BlackText, GrayText } from '../../../components/shared/typograph'
 import { StatusTag } from '../../../components/shared/button'
 import TransactionsTable from '../../../components/dashboardComponents/transactions'
 import { Section } from '../../../components/shared/container/container'
 import DeleteInstanceModal from '../../../components/shared/Modals/DeleteInstanceModal'
-import { Switch } from 'antd'
-import { useNavigate } from 'react-router-dom'
+import { Switch, Tag } from 'antd'
+import { useNavigate, useParams } from 'react-router-dom'
  
 import AddParkingZone from '../../../components/shared/Modals/parking/AddParkingZone'
+import { useDispatch, useSelector } from 'react-redux'
+import { deleteZone, getZonesByLocation } from '../../../store/actions'
 
 const PreviewParkingLocation = () => {
-  const navigate = useNavigate()
+  const params = useParams()
+  const {id} = params
+  const dispatch = useDispatch()
   const [open, setOpen] = useState(false)
-  const [deleteZone, setDeleteZone] = useState(false)
+  const [zoneId, setZoneId] = useState('')
+  const [deleteZoneModal, setDeleteZoneModal] = useState(false)
   const [upgradeModal, setUpgradeModal] = useState(false)
+  const {location, zoneInfo} = useSelector((state)=>state.providers.locationDetals)
+  // let location
 
   const usable_column = [
     ...columns,
@@ -26,15 +33,41 @@ const PreviewParkingLocation = () => {
         return (
           <div className='flex items-center gap-4'>
             <button onClick={()=>setUpgradeModal(true)}><img src="/images/edit.svg" alt="" /></button>
-            <button onClick={()=>setDeleteZone(true)}><img src="/images/bin.png" alt="" /></button>
+            <button onClick={()=>{setDeleteZoneModal(true); setZoneId(record._id)}}><img src="/images/bin.png" alt="" /></button>
           </div>
         );
       },
     },
   ];
+
+
+    const fetchLocationZones = async ()=>{
+      try {
+        const res = dispatch(getZonesByLocation(id))
+        console.log(res)
+      } catch (error) {
+        
+      }
+    }
+
+  const handleDeleteZone = async () =>{
+    try {
+      const res = await dispatch(deleteZone(zoneId))
+      
+      setDeleteZoneModal(false)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  
+    useEffect(()=>{
+      fetchLocationZones()
+    },[])
   return (
     <>
       <AddParkingZone
+        id={id}
         openModal={upgradeModal}
         handleCancel={()=>setUpgradeModal(false)}
         handleOk={()=>setUpgradeModal(false)}
@@ -48,21 +81,21 @@ const PreviewParkingLocation = () => {
 
     />
       <DeleteInstanceModal
-        openModal={deleteZone}
+        openModal={deleteZoneModal}
         char={'Parking Zone'}
-        handleCancel={()=>setDeleteZone(false)}
-        handleOk={()=>setDeleteZone(false)}
+        handleCancel={()=>setDeleteZoneModal(false)}
+        handleOk={handleDeleteZone}
 
     />
       <div>
         <div >
-          <div className='flex justify-between w-full'>
+          <div className='flex flex-col md:flex-row justify-between w-full'>
               <ul className='space-y-3'>
-                  <li><BlackText style={'font-bold text-[14px] capitalize'} text={'Location Name:'}/><GrayText style={'text-[16px]'} text={'New York'}/></li>
+                  <li><BlackText style={'font-bold text-[14px] capitalize'} text={'Location Name: '}/><GrayText style={'text-[16px]'} text={location || 'New York'}/></li>
               </ul>
               <div className='flex items-center  gap-4'>
-                <button onClick={()=>{setUpgradeModal(true)}} className='bg-[#219653] rounded-[8px] font-mont text-white py-[6px] px-11 text-[16px] font-[500] leading-[24px]'><img src='/images/add-icon.png' className='inline-flex pr-2' alt='account'/>Add Zone</button>
-                <button onClick={()=>{setOpen(true)}} className='bg-[#FF0000] rounded-[8px] font-mont text-white py-[6px] px-11 text-[16px] font-[500] leading-[24px]'><img src='/images/bin-icon.png' className='inline-flex pr-2' alt='account'/>Delete Location</button>
+                <button onClick={()=>{setUpgradeModal(true)}} className='bg-[#219653] rounded-[8px] font-mont text-white py-[6px] text-[10px] md:text-[16px] font-[500] leading-[24px]'><img src='/images/add-icon.png' className='inline-flex pr-2' alt='account'/>Add Zone</button>
+                <button onClick={()=>{setOpen(true)}} className='bg-[#FF0000] rounded-[8px] font-mont text-white py-[6px] text-[10px] md:text-[16px] font-[500] leading-[24px]'><img src='/images/bin-icon.png' className='inline-flex pr-2' alt='account'/>Delete Location</button>
               </div>   
           </div>
 
@@ -70,7 +103,8 @@ const PreviewParkingLocation = () => {
         </div>
 
         <Section title={"Available Zones"}>
-          <TransactionsTable columns={usable_column} data={data} />            
+        <TransactionsTable columns={usable_column} data={zoneInfo || []} />
+     
         </Section> 
       </div>    
     </>
@@ -91,13 +125,22 @@ const columns = [
   },
   {
     title: 'Pricing',
-    dataIndex: 'pricing',
-    key: 'pricing',
+    dataIndex: 'timeOptions',
+    key: 'timeOptions',
+    render: (priceList) => {
+      return (
+        <>
+          {priceList.slice(0, 7)?.map((item, index) => (
+            <Tag color='volcano' key={index}>
+              {item.duration} - {item.price}
+            </Tag>
+          ))}
+        </>
+      );
+    },
   },
-
-
-
 ];
+
 
 
 const data = [

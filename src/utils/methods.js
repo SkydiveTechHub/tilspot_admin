@@ -59,8 +59,6 @@ export const validator = (values) => {
     }
     // Email validation
 
-
-  console.log(errors)
     return errors;
   };
 

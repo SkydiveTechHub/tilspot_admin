@@ -5,6 +5,13 @@ const useForm = (initialState) => {
   const [values, setValues] = useState(initialState);
   const [errors, setErrors] = useState({});
 
+  // useEffect(() => {
+  //   setTimeout(()=>{
+  //     setValues(initialState);
+  //   }, 300)
+    
+  // }, [initialState]);
+
   const handleChange = (eventOrValue, fieldName) => {
     if (typeof eventOrValue === 'object' && eventOrValue.target) {
       const { name, value } = eventOrValue.target;
@@ -35,9 +42,9 @@ const useForm = (initialState) => {
     }
   };
 
+  // Run validation whenever values change
   useEffect(() => {
     const validationErrors = validator(values);
-    console.log(validationErrors)
     setErrors(validationErrors);
   }, [values]);
 

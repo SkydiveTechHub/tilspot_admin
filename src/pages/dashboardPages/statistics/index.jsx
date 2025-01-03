@@ -1,27 +1,60 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Piecharts from '../../../components/statistics/Piecharts'
 import BarCharts from '../../../components/statistics/BarCharts'
 import { Button, Dropdown } from 'antd';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAdminGlobalRecord, getUserStat } from '../../../store/actions/staffAction';
 
 const StatisticPage = () => {
+  const dispatch = useDispatch()
+    const {users, bills} = useSelector((state)=>state.staff.usersStat)
+
     const serviceData = ['Airtime', 'Internet', 'Government', 'Gas', 'Waste', 'Transport', 'Football', 'Cable', 'Parking', 'Housing', 'Electricity'];
     const [activeTab, setActiveTab] = useState('Airtime')
     const [summaryData, setSummaryData] = useState()
-    const [filterDuration, setFilterDuration] = useState('week')
+    const [filterDuration, setFilterDuration] = useState('daily')
+
+    const fetchUserStat = async() =>{
+      try {
+        const res = await dispatch(getUserStat())
+      } catch (error) {
+        
+      }
+      
+    }
+    const fetchGlobalRecord = async() =>{
+      try {
+        const res = await dispatch(getAdminGlobalRecord(filterDuration))
+        console.log(res)
+      } catch (error) {
+        
+      }
+      
+    }
+
+    useEffect(()=>{
+      fetchGlobalRecord()
+    },[filterDuration])
+
+    useEffect(()=>{
+      fetchGlobalRecord()
+      fetchUserStat()
+    },[])
+
     const userCardData = [
         {
           title:'Total Number of Users',
-          amount: summaryData?.totalWaste || 0,
+          amount: users?.total || 0,
           icon:'/images/f3.svg'
         },	
         {
           title:'Total Number of verified Users',
-          amount:summaryData?.organizationIncome || 0,
+          amount:users?.verified || 0,
           icon:'/images/f3.svg'
         },	
         {
           title:'Total Number of Unverified Users',
-          amount:summaryData?.transactionPoint || 0,
+          amount:users?.unverified || 0,
           icon:'/images/f3.svg'
         },	
 

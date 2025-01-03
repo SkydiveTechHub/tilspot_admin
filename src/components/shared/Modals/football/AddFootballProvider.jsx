@@ -7,6 +7,7 @@ import ConfirmModal from '../ConfirmModal';
 import { GrayText, Label } from '../../typograph';
 import SuccessModal from '../SuccessModal';
 import { DatePicker, Space } from 'antd';
+import { createMatch } from '../../../../store/actions';
 
 
 
@@ -15,18 +16,45 @@ const initialState = {
   type: '',
 };
 
-const AddFootballTicketProvider = ({ title, openModal, handleOk, handleCancel }) => {
+const AddFootballTicketProvider = ({ catId, provId, action, userData, openModal, handleOk, handleCancel }) => {
   const [active, setActive] = useState(false);
   const [more, setMore] = useState(false);
   const [secondModalOpen, setSecondModalOpen] = useState(false);
   const [ticketType, setTicketType] = useState([{ name: "", price: ""}]);
   const { values, handleChange, resetForm, errors } = useForm(initialState);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log('Form submitted:', values);
-    handleOk(); // Optional: close modal on submit
-    resetForm();
+    const params = {
+        name:values.p_name,
+        providerLogo: uploadedImage
+      }
+    try {
+      let res 
+      if(action ==='edit'){
+        res =  await dispatch(editProvider({
+        catId:catId,
+        provId:provId,
+        payload:params
+      })) 
+      }else{
+        res =  await dispatch(createMatch({
+          catId:catId,
+          payload:params
+        })) 
+      }
+
+
+      console.log(res)
+      if (res.payload.statusCode){
+        setIsSuccessModalOpen(true); 
+        handleOk(); 
+      }
+    } catch (error) {
+      
+    }
+    resetForm()
   };
 
   const validate = () => {

@@ -1,26 +1,43 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import useForm from '../../../hooks/useForm';
 import FormInput from '../../../components/shared/FormInput';
 import { PryButton } from '../../../components/shared/button';
+import { useDispatch, useSelector } from 'react-redux';
+import { checkCategory } from '../../../store/reducers/providerSlice';
 
 const FeesPage = () => {
+  const dispatch = useDispatch();
   const feesData = ['Airtime', 'Internet', 'Government', 'Gas', 'Waste', 'Transport', 'Football', 'Cable', 'Parking', 'Housing', 'Electricity'];
+  const { categories } = useSelector((state) => state.providers);
 
-  // Create initial state for each fee
-  const initialState = feesData.reduce((acc, fee) => {
-    acc[fee] = { factor: '', amount: '' };
-    return acc;
-  }, {});
+  // State to store the initial values
+  const [initialState, setInitialState] = useState({});
 
+  useEffect(() => {
+    if (categories) {
+      const state = feesData.reduce((acc, fee) => {
+        const cat = categories.find((i) => i.name === fee);
+        acc[fee] = { factor: cat?.processing_fee_type || '', amount: cat?.processing_fee || '' };
+        return acc;
+      }, {});
+      setInitialState(state);
+    } else {
+      dispatch(checkCategory())
+      const state = feesData.reduce((acc, fee) => {
+        acc[fee] = { factor: '', amount: '' };
+        return acc;
+      }, {});
+      setInitialState(state);
+    }
+  }, [categories]);
+
+  // Use the form hook with the dynamically initialized state
   const { values, handleChange, resetForm, errors } = useForm(initialState);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(values); // Submit the collected data
   };
-
-  console.log(initialState)
-  console.log(values)
 
   return (
     <div>
@@ -37,8 +54,8 @@ const FeesPage = () => {
               onChange={handleChange}
               placeholder="Select Type"
               options={[
-                { name: 'Figure', value: 'figure' },
-                { name: 'Percent', value: 'percent' },
+                { name: 'Fixed Amount', value: 'fixedAmount' },
+                { name: 'Percent', value: 'percentage' },
               ]}
               error={errors?.[`${fee}-factor`]}
             />
@@ -53,7 +70,6 @@ const FeesPage = () => {
             />
           </div>
         ))}
-
         <PryButton text="Submit" />
       </form>
     </div>

@@ -7,10 +7,13 @@ import ConfirmModal from '../ConfirmModal';
 import { GrayText } from '../../typograph';
 import SuccessModal from '../SuccessModal';
 import UserImageUpload from '../../UserImageUpload';
+import { createProvider, editProvider } from '../../../../store/actions';
+import { useDispatch } from 'react-redux';
 // import SelectPlanModal from '../SelectPlanModal';
 
 
-const AddCableProvider = ({ action, userData, openModal, handleOk, handleCancel }) => {
+const AddCableProvider = ({ catId, provId, action, userData, openModal, handleOk, handleCancel }) => {
+  const dispatch = useDispatch()
   const [active, setActive] = useState(false);
   const [more, setMore] = useState(false);
   const [secondModalOpen, setSecondModalOpen] = useState(false);
@@ -29,11 +32,35 @@ const { values, handleChange, resetForm, errors } = useForm(initialState);
   }, [userData]);
 
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form submitted:', values);
-    handleOk(); // Optional: close modal on submit
-    resetForm();
+    const params = {
+        name:values.p_name,
+        providerLogo: uploadedImage
+      }
+    try {
+      let res 
+      if(action ==='edit'){
+        res =  await dispatch(editProvider({
+        catId:catId,
+        provId:provId,
+        payload:params
+      })) 
+      }else{
+        res =  await dispatch(createProvider({
+          catId:catId,
+          payload:params
+        })) 
+      }
+
+      if (res.payload.statusCode){
+        setSecondModalOpen(true); 
+        handleOk(); 
+      }
+    } catch (error) {
+      
+    }
+    resetForm()
   };
 
   const validate = () => {
@@ -91,10 +118,7 @@ const { values, handleChange, resetForm, errors } = useForm(initialState);
           />
 
 
-          <AuthButton handleClick={()=>{
-            setSecondModalOpen(true)
-            handleCancel()
-            }} inactive={!active} value={`${action === 'edit'?'Edit' :'Add'} Provider`} />
+          <AuthButton inactive={!active} value={`${action === 'edit'?'Edit' :'Add'} Provider`} />
         </form>
       </Modal>    
     </>

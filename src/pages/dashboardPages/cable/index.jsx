@@ -1,24 +1,62 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { BlackText, GrayText } from '../../../components/shared/typograph'
 import { PryButton } from '../../../components/shared/button'
 import InstanceView from './InstanceView'
 import AddCableProvider from '../../../components/shared/Modals/cable/AddCableProvider'
+import { getProviderByCategory } from '../../../store/actions'
+import { useDispatch, useSelector } from 'react-redux'
+import { checkCategory } from '../../../store/reducers/providerSlice'
 
 const role = localStorage.getItem('role')
 const CablePage = () => {
-    const [open, setOpen] = useState(false)
-    const [hasData, setHasData] = useState(true)
+  const [open, setOpen] = useState(false)
+  const [hasData, setHasData] = useState(false)
+  const [data, setData] = useState([])
+  const [catId, setCatId] = useState('');
+      const [catStatus, setCatStatus] = useState(false);
+  const dispatch = useDispatch();
+  const { categories } = useSelector((state) => state.providers);
 
+  
+    useEffect(() => {
+      if (categories) {
+        const cat = categories.find((i) => i.name === 'Cable TV');
+          setCatStatus(cat.isEnabled)
+          setCatId(cat._id);
+        } else {
+          dispatch(checkCategory())
+        }
+      }, [categories]);
+
+        useEffect(()=>{
+          const fetchProvider = async() =>{
+            if (catId){
+              try {
+              const res = await dispatch(getProviderByCategory(catId))
+              console.log(res)
+              if(res.payload.statusCode){
+                setData(res.payload.providers)
+                setHasData(true)
+              }                
+              } catch (error) {
+                
+              }
+
+            }              
+          };
+          fetchProvider()
+        },[catId])
   return (
     <>
             <AddCableProvider
+             catId={catId}
                 openModal={open}
                 handleCancel={()=>setOpen(false)}
                 handleOk={()=>setOpen(false)}
             />   
         {
           hasData?
-          <InstanceView/>
+          <InstanceView id={catId} catStatus={catStatus} data={data}/>
           :
           <div className='h-screen'>
 

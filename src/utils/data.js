@@ -38,7 +38,7 @@ export const pageEnum = [
 	{
 		title:'Internet',
 		pages:[
-			"/dashboard/internet", "/dashboard/preview-internet"
+			"/dashboard/internet", "/dashboard/preview-internet/:id"
 		]
 	},
 	{

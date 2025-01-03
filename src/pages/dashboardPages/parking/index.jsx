@@ -1,23 +1,63 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { BlackText, GrayText } from '../../../components/shared/typograph'
 import { PryButton } from '../../../components/shared/button'
 import InstanceView from './InstanceView'
 import AddInternetProvider from '../../../components/shared/Modals/Internet/AddInternetProvider'
+import { useDispatch, useSelector } from 'react-redux'
+import { checkCategory } from '../../../store/reducers/providerSlice'
+import { getLocations, getProviderByCategory } from '../../../store/actions'
 
+
+const role = localStorage.getItem('role')
 const ParkingPage = () => {
-    const [open, setOpen] = useState(false)
-    const [hasData, setHasData] = useState(true)
+  const [open, setOpen] = useState(false)
+  const [hasData, setHasData] = useState(false)
+  const [data, setData] = useState([])
+  const [catId, setCatId] = useState('');
+  const [catStatus, setCatStatus] = useState(false);
+  const dispatch = useDispatch();
+  const { categories } = useSelector((state) => state.providers);
+  
+    useEffect(() => {
+      if (categories) {
+        const cat = categories.find((i) => i.name === 'Parking');
+        setCatStatus(cat.isEnabled)
+        setCatId(cat._id);
+      } else {
+        dispatch(checkCategory())
+      }
+    }, [categories]);
 
+  
+        useEffect(()=>{
+          const fetchProvider = async() =>{
+            if (catId){
+              try {
+              const res = await dispatch(getLocations())
+              
+              if(res.payload.statusCode){
+                setData(res.payload.locations)
+                setHasData(true)
+              }                
+              } catch (error) {
+                
+              }
+
+            }              
+          };
+          fetchProvider()
+        },[catId])
   return (
     <>
             <AddInternetProvider
+                catId={catId}
                 openModal={open}
                 handleCancel={()=>setOpen(false)}
                 handleOk={()=>setOpen(false)}
             />   
         {
           hasData?
-          <InstanceView/>
+          <InstanceView id={catId} catStatus={catStatus} data={data}/>
           :
           <div className='h-screen'>
 
@@ -28,8 +68,10 @@ const ParkingPage = () => {
                   <BlackText style={'font-[600]'} text='No Location Available'/>
                   <GrayText style={'md:w-[40%] text-center text-[12px]'} text={'You haven’t added any Location. Click the button below to add a location!'}/>
       
-                  <PryButton handleClick={()=>setOpen(true)} text={'Add Parking Location'}/>
-      
+                  
+                        {
+                          role === 'admin' && <PryButton handleClick={()=>setOpen(true)} text={'Add Parking Location'}/>
+                        }
               
       
               </div>        

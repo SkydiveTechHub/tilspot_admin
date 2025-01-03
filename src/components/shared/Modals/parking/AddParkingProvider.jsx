@@ -3,53 +3,62 @@ import FormInput from '../../FormInput';
 import { AuthButton } from '../../button';
 import useForm from '../../../../hooks/useForm';
 import { Modal } from 'antd';
-import ConfirmModal from '../ConfirmModal';
-import { GrayText } from '../../typograph';
 import SuccessModal from '../SuccessModal';
+import { createLocation, editLocation } from '../../../../store/actions';
+import { useDispatch } from 'react-redux';
 // import SelectPlanModal from '../SelectPlanModal';
 
-const initialState = {
-  instance_name: '',
-  type: '',
-};
 
-const AddParkingLocation = ({ title, openModal, handleOk, handleCancel }) => {
+const AddParkingLocation = ({ locId, userData, action, openModal, handleOk, handleCancel }) => {
+  const dispatch = useDispatch()
   const [active, setActive] = useState(false);
   const [more, setMore] = useState(false);
   const [secondModalOpen, setSecondModalOpen] = useState(false);
-  const [planList, setPlanList] = useState([{ name: "", price: ""}]);
-
+  const initialState = action === 'edit' ? { name: userData?.name || '' } : { name: '' };
   const { values, handleChange, resetForm, errors } = useForm(initialState);
 
-  const handleSubmit = (e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form submitted:', values);
-    handleOk(); // Optional: close modal on submit
-    resetForm();
+    const params = {
+        locationName:values.name
+      }
+    try {
+      let res 
+      if(action ==='edit'){
+        res =  await dispatch(editLocation({
+        locId: userData._id,
+        payload:params
+      })) 
+      }else{
+        res =  await dispatch(createLocation({
+          payload:params
+        })) 
+      }
+
+      if (res.payload.statusCode){
+        setSecondModalOpen(true); 
+        handleOk(); 
+      }
+    } catch (error) {
+      
+    }
+    resetForm()
   };
 
   const validate = () => {
-    setActive(!!values.instance_name);
+    setActive(!!values.name);
   };
 
   useEffect(() => {
     validate();
-  }, [values]); // Re-run validation when `values` change
+  }, [values]); 
 
-
-  const IncreasePlanCount = () => {
-    setPlanList([...planList, { name: "", price: ""}]);
-};
-
-const DecreasePlanCount = (index) => {
-        setPlanList((prevItems) => prevItems.filter((_, i) => i !== index));
-
-};
 
   return (
     <>
       <SuccessModal
-        title={'Parking Location has been added Successfully'}
+        title={`${action === 'edit' ? 'Parking Location has been Edit Successfully' : 'Parking Location has been Add Successfully'} `}
         openModal={secondModalOpen}
         handleContinue={()=>setSecondModalOpen(false)}
         handleCancel={()=>setSecondModalOpen(false)}
@@ -57,7 +66,7 @@ const DecreasePlanCount = (index) => {
       />
       <Modal
         className="basic-modal"
-        title={'Add Parking Location'}
+        title={`${action === 'edit' ? 'Edit' : 'Add'} Parking Location`}
         open={openModal}
         onOk={handleOk}
         onCancel={handleCancel}
@@ -66,19 +75,16 @@ const DecreasePlanCount = (index) => {
           <FormInput
             label="Location Name"
             type="text"
-            name="instance_name"
-            value={values.instance_name}
+            name="name"
+            value={values.name}
             onChange={handleChange}
             placeholder="Enter Location name"
-            error={errors?.instance_name}
+            error={errors?.name}
   
           />
 
 
-          <AuthButton handleClick={()=>{
-            setSecondModalOpen(true)
-            handleCancel()
-            }} inactive={!active} value="Add Location" />
+          <AuthButton  inactive={!active}  value={`${action === 'edit' ? 'Edit' : 'Add'} Location`} />
         </form>
       </Modal>    
     </>

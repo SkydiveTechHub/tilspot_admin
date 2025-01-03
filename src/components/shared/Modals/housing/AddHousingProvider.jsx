@@ -3,47 +3,67 @@ import FormInput from '../../FormInput';
 import { AuthButton } from '../../button';
 import useForm from '../../../../hooks/useForm';
 import { Modal } from 'antd';
-import ConfirmModal from '../ConfirmModal';
-import { GrayText } from '../../typograph';
 import SuccessModal from '../SuccessModal';
 import UserImageUpload from '../../UserImageUpload';
-// import SelectPlanModal from '../SelectPlanModal';
+import { useDispatch } from 'react-redux';
+import { createProvider, editProvider } from '../../../../store/actions';
 
 const initialState = {
   instance_name: '',
   type: '',
 };
 
-const AddHousingProvider = ({ action, userData, openModal, handleOk, handleCancel }) => {
-  const [active, setActive] = useState(false);
+const AddHousingProvider = ({catId, provId, action, userData, openModal, handleOk, handleCancel }) => {
+  
+    const dispatch = useDispatch()
+    const [active, setActive] = useState(false);
   const [more, setMore] = useState(false);
   const [secondModalOpen, setSecondModalOpen] = useState(false);
   const [uploadedImage, setUploadedImage] = useState(null);
-  let initialState; 
-
-  if (action === 'edit'){
-    initialState = {p_name: userData.name};
-  }  else{
-    initialState = {p_name: ''};
-  }
+  const initialState = action === 'edit' ? { p_name: userData?.name || '' } : { p_name: '' };
+  
 const { values, handleChange, resetForm, errors } = useForm(initialState);
   useEffect(() => {
     resetForm(initialState);
     setUploadedImage(userData?.icon) 
   }, [userData]);
 
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form submitted:', values);
-    handleOk(); // Optional: close modal on submit
-    resetForm();
+    const params = {
+        name:values.p_name,
+        providerLogo: uploadedImage
+      }
+    try {
+      let res 
+      if(action ==='edit'){
+        res =  await dispatch(editProvider({
+        catId:catId,
+        provId:provId,
+        payload:params
+      })) 
+      }else{
+        res =  await dispatch(createProvider({
+          catId:catId,
+          payload:params
+        })) 
+      }
+
+
+      console.log(res)
+      if (res.payload.statusCode){
+        setSecondModalOpen(true); 
+        handleOk(); 
+      }
+    } catch (error) {
+      
+    }
+    resetForm()
   };
 
   const validate = () => {
     setActive(!!values.p_name);
   };
-
 
 
   const handleImageUpload = (imageData) => {

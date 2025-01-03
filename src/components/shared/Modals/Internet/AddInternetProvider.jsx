@@ -7,29 +7,66 @@ import ConfirmModal from '../ConfirmModal';
 import { GrayText } from '../../typograph';
 import SuccessModal from '../SuccessModal';
 import UserImageUpload from '../../UserImageUpload';
+import { useDispatch } from 'react-redux';
+import { createProvider, editProvider } from '../../../../store/actions';
 // import SelectPlanModal from '../SelectPlanModal';
 
-const initialState = {
-  instance_name: '',
-  type: '',
-};
 
-const AddInternetProvider = ({ title, openModal, handleOk, handleCancel }) => {
-  const [active, setActive] = useState(false);
-  const [secondModalOpen, setSecondModalOpen] = useState(false);
-  const [uploadedImage, setUploadedImage] = useState(null);
+const AddInternetProvider = ({catId, provId, action, userData, openModal, handleOk, handleCancel }) => {
+  const dispatch = useDispatch()
+  const [isActive, setIsActive] = useState(false); // Controls button activation
+  const [secondModalOpen, setSecondModalOpen] = useState(false); // Success modal state
+  const [uploadedImage, setUploadedImage] = useState(null); // Uploaded image state
+  const initialState = action === 'edit' ? { p_name: userData?.name || '' } : { p_name: '' };
   const { values, handleChange, resetForm, errors } = useForm(initialState);
 
- 
-  const handleSubmit = (e) => {
+  useEffect(() => {
+    resetForm(initialState);
+    setUploadedImage(userData?.icon || null);
+  }, [userData]);
+
+
+  useEffect(() => {
+    setIsActive(!!values.p_name);
+  }, [values]);
+
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form submitted:', values);
-    handleOk(); // Optional: close modal on submit
-    resetForm();
+    const params = {
+        name:values.p_name,
+        providerLogo: uploadedImage
+      }
+    try {
+      let res 
+      if(action ==='edit'){
+        res =  await dispatch(editProvider({
+        catId:catId,
+        provId:provId,
+        payload:params
+      })) 
+      }else{
+        res =  await dispatch(createProvider({
+          catId:catId,
+          payload:params
+        })) 
+      }
+
+
+      console.log(res)
+      if (res.payload.statusCode){
+        setSecondModalOpen(true); 
+        handleOk(); 
+      }
+    } catch (error) {
+      
+    }
+    resetForm()
   };
 
+
   const validate = () => {
-    setActive(!!values.instance_name);
+    setIsActive(!!values.instance_name);
   };
 
   const handleImageUpload = (imageData) => {
@@ -47,7 +84,7 @@ const AddInternetProvider = ({ title, openModal, handleOk, handleCancel }) => {
   return (
     <>
       <SuccessModal
-        title={'Internet Provider has been added Successfully'}
+        title={`Internet Provider has been ${action === 'edit' ? 'edited' : 'added'} Successfully`}
         openModal={secondModalOpen}
         handleContinue={()=>setSecondModalOpen(false)}
         handleCancel={()=>setSecondModalOpen(false)}
@@ -55,7 +92,7 @@ const AddInternetProvider = ({ title, openModal, handleOk, handleCancel }) => {
       />
       <Modal
         className="basic-modal"
-        title={'Add Internet Provider'}
+        title={`${action === 'edit' ? 'Edit' : 'Add'} Internet Provider`}
         open={openModal}
         onOk={handleOk}
         onCancel={handleCancel}
@@ -83,10 +120,11 @@ const AddInternetProvider = ({ title, openModal, handleOk, handleCancel }) => {
   
           />
 
-          <AuthButton handleClick={()=>{
-            setSecondModalOpen(true)
-            handleCancel()
-            }} inactive={!active} value="Add Provider" />
+          <AuthButton
+            handleClick={handleSubmit}
+            inactive={!isActive}
+            value={`${action === 'edit' ? 'Edit' : 'Add'} Provider`}
+          />
         </form>
       </Modal>    
     </>

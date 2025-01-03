@@ -12,16 +12,17 @@ import { useSelector } from 'react-redux'
 
 const TopNav = ({handleClick}) => {
 	const user = useSelector((state) => state.auth.user);
-	console.log(user)
 	const [pageTitle, setPageTitle] =  useState()
 	const location = useLocation()
 	const currentPage = location.pathname
 
-	console.log(currentPage)
 	useEffect(()=>{
 		const Page = pageEnum.find((i)=> i.pages.includes(currentPage) )
-		console.log(Page)
-		setPageTitle(Page.title)
+		if(Page){
+			setPageTitle(Page.title)
+		}else{
+			setPageTitle('')
+		}
 	}, [location])
 
   return (
@@ -103,7 +104,7 @@ const UserMenu = ({user}) => (
   <Popover content={Content} title="">
     <button>
 
-	<img className='w-[40px] rounded-full inline-flex  pr-1' src="/images/user.png" alt="user" />
+	<img className='w-[40px] rounded-full inline-flex  pr-1' src="" alt="user" />
 
 	<Space>
 		<span className='hidden lg:inline font-mont font-[500] text-[14px]'>{user?.first_name}</span>

@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import { Button, Dropdown, Modal } from 'antd';
 
 const StatisticsModal = ({totalRevenue, totalOrder, totalCompleted, totalFailed, title, openModal, handleOk, handleCancel, handleContinue }) => {
-      const [filterDuration, setFilterDuration] = useState('week')
+
+
+  const [filterDuration, setFilterDuration] = useState('week')
   const cardData = [
     {
       title:'Total Revenue Generated',

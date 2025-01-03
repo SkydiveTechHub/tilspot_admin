@@ -13,48 +13,79 @@ import PreviewWasteOrderModal from "../../components/shared/Modals/waste/Preview
 import PreviewGovernmentOrderModal from "../../components/shared/Modals/government/PreviewGovernment";
 import { Button, Dropdown, Space } from 'antd';
 import StatisticsModal from "../../components/shared/Modals/StatisticModal";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllBills, getMyRecord, getOperatorRecord } from "../../store/actions";
 
 const Dashboard = () => {
+    const dispatch = useDispatch()
     const navigate = useNavigate();
     const [open, setOpen] = useState(false)
     const [summaryData, setSummaryData] = useState()
+        const [filterDuration, setFilterDuration] = useState('daily')
+        const {operatorStat} = useSelector((state)=>state.staff)
 
     const [modalToView, setModalToView] = useState()
 
-const items = [
-  {
-    key: '1',
-    label: (
-      <a target="_blank" rel="noopener noreferrer" href="https://www.antgroup.com">
-        All
-      </a>
-    ),
-  },
-  {
-    key: '2',
-    label: (
-      <a target="_blank" rel="noopener noreferrer" href="https://www.aliyun.com">
-        Today
-      </a>
-    ),
-  },
-  {
-    key: '3',
-    label: (
-      <a target="_blank" rel="noopener noreferrer" href="https://www.luohanacademy.com">
-        This Week
-      </a>
-    ),
-  },
-  {
-    key: '4',
-    label: (
-      <a target="_blank" rel="noopener noreferrer" href="https://www.luohanacademy.com">
-        This Month
-      </a>
-    ),
-  },
-];
+        const fetchOperatorRecord = async() =>{
+          try {
+            const res = await dispatch(getOperatorRecord(filterDuration))
+            console.log(res)
+          } catch (error) {
+            
+          }
+          
+        }
+        const fetchMyRecord = async() =>{
+          try {
+            const res = await dispatch(getMyRecord(filterDuration))
+            console.log(res)
+          } catch (error) {
+            
+          }
+          
+        }
+        const fetchBills = async() =>{
+          try {
+            const res = await dispatch(getAllBills())
+            console.log(res)
+          } catch (error) {
+            
+          }
+          
+        }
+        useEffect(()=>{
+            fetchBills()
+            fetchOperatorRecord()
+        },[])
+
+        const items = [
+
+            {
+              key: '1',
+              label: (
+                <button onClick={()=>(setFilterDuration('daily'))} >
+                  Today
+                </button>
+              ),
+            },
+            {
+              key: '2',
+              label: (
+                <button onClick={()=>(setFilterDuration('weekly'))} >
+                  This Week
+                </button>
+              ),
+            },
+            {
+              key: '3',
+              label: (
+                <button onClick={()=>(setFilterDuration('monthly'))} >
+                  This Month
+                </button>
+              ),
+            },
+    
+          ];
     const cardData = [
         {
           title:'Total Revenue Generated',

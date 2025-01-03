@@ -6,6 +6,8 @@ import { Modal } from 'antd';
 import ConfirmModal from '../ConfirmModal';
 import { GrayText } from '../../typograph';
 import SuccessModal from '../SuccessModal';
+import { useDispatch } from 'react-redux';
+import { createStaff } from '../../../../store/actions';
 // import SelectPlanModal from '../SelectPlanModal';
 
 const initialState = {
@@ -18,17 +20,31 @@ const initialState = {
 };
 
 const AddStaffModal = ({  openModal, handleOk, handleCancel }) => {
+  const dispatch = useDispatch()
   const [active, setActive] = useState(false);
   const [more, setMore] = useState(false);
   const [secondModalOpen, setSecondModalOpen] = useState(false);
 
   const { values, handleChange, resetForm, errors } = useForm(initialState);
 
-  const handleSubmit = (e) => {
+  const handleSubmit =async (e) => {
     e.preventDefault();
-    console.log('Form submitted:', values);
-    handleOk(); // Optional: close modal on submit
-    resetForm();
+    const params={
+      first_name: values.fname,
+      last_name: values.lname,
+      email: values.email,
+      password: values.password,
+    }
+    try {
+      const res = await dispatch(createStaff(params))
+      if(res.payload.statusCode){
+        handleOk();
+        resetForm();
+      }
+    } catch (error) {
+      resetForm();
+    }
+    
   };
 
   const validate = () => {
@@ -100,18 +116,18 @@ const AddStaffModal = ({  openModal, handleOk, handleCancel }) => {
           <FormInput
             label="Confirm Password"
             type="password"
-            name="c_pasword"
-            value={values.c_pasword}
+            name="c_password"
+            value={values.c_password}
             onChange={handleChange}
             placeholder="Enter email"
-            error={errors?.c_pasword}
+            error={errors?.c_password}
   
           />
 
-          <AuthButton handleClick={()=>{
+          <AuthButton inactive={Object.keys(errors).length !== 0 && true } handleClick={()=>{
             setSecondModalOpen(true)
             handleCancel()
-            }} inactive={!active} value="Add Staff" />
+            }} value="Add Staff" />
         </form>
       </Modal>    
     </>

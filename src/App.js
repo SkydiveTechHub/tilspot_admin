@@ -62,8 +62,8 @@ function App() {
 									<Route path="/dashboard/staff" element={<StaffPage />} />
 									<Route path="/dashboard/fees" element={<FeesPage/>}/>
 									<Route path="/dashboard/statistics" element={<StatisticPage/>}/>
-									<Route path="/dashboard/preview-internet" element={<PreviewInternetProvider/>}/>
-									<Route path="/dashboard/parking-location" element={<PreviewParkingLocation/>}/>
+									<Route path="/dashboard/preview-internet/:id" element={<PreviewInternetProvider/>}/>
+									<Route path="/dashboard/parking-location/:id" element={<PreviewParkingLocation/>}/>
 									<Route path="/dashboard/preview-football" element={<PreviewFootballMatches/>}/>
 								</Route>
 							</Route>

@@ -7,7 +7,7 @@ import { AuxAuthText, GrayText } from '../../components/shared/typograph'
 import bg from '../../assets/img/bg1.jpg'
 import { AuthLayout3 } from '../../components/authComponents/AuthLayout'
 import { useDispatch } from 'react-redux'
-import { login } from '../../store/actions'
+import { getAllCategories, login } from '../../store/actions'
 
 const initialState = {
     email: '',
@@ -33,6 +33,7 @@ const Login = () => {
             if(res.payload.statusCode){
                 if(res.payload.data.user.role === 'admin'){
                     setTimeout(()=>{
+                        dispatch(getAllCategories())
                         navigate('/dashboard/staff')
                     }, 400)                    
                 }else{

@@ -12,7 +12,7 @@ import DeleteInstanceModal from "../../../components/shared/Modals/DeleteInstanc
 import EditStaffModal from "../../../components/shared/Modals/staff/EditStaffModal";
 import StatisticsModal from "../../../components/shared/Modals/StatisticModal";
 
-const InstanceView = () => {
+const InstanceView = ({data}) => {
   const [open, setOpen] = useState(false)
   const [openDelete, setOpenDelete] = useState(false)
   const [userData, setUserData] = useState([])
@@ -79,7 +79,8 @@ return (
               totalCompleted ={'400'}
               totalRevenue={'40000'}
               totalFailed={'500'}
-              title={userData.fname}
+              title={userData.first_name}
+              staffId={userData._id}
           />
           <DeleteInstanceModal
               openModal={openDelete}
@@ -132,13 +133,13 @@ export const Card = ({bgColor, TColor, iconUrl, date, title,tag }) =>{
 const columns = [
     {
       title: 'First Name',
-      dataIndex: 'fname',
-      key: 'fname',
+      dataIndex: 'first_name',
+      key: 'first_name',
     },
     {
       title: 'Last Name',
-      dataIndex: 'lname',
-      key: 'lname',
+      dataIndex: 'last_name',
+      key: 'last_name',
     },
     {
       title: 'Email',
@@ -152,33 +153,6 @@ const columns = [
       key: 'role',
     },
 
-
-
-  ];
-
-
-const data = [
-    {
-      key: '1',
-      fname: 'Michael',
-      lname: 'Shalom',
-      email: 'awesome@gmail.com',
-      role:'Admin'
-    },
-    {
-      key: '2',
-      fname: 'Till',
-      lname: 'Shalom',
-      email: 'awesome@gmail.com',
-      role:'Operator'
-    },
-    {
-      key: '3',
-      fname: 'Awesome',
-      lname: 'Shalom',
-      email: 'awesome@gmail.com',
-      role:'Operator'
-    },
 
 
   ];
