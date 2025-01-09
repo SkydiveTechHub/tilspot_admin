@@ -63,22 +63,22 @@ const StatisticPage = () => {
     const cardData = [
         {
           title:'Total Revenue Generated',
-          amount: summaryData?.totalWaste || 0,
+          amount: bills?.total || 0,
           icon:'/images/f1.svg'
         },	
         {
           title:'Total Order Processed',
-          amount:summaryData?.organizationIncome || 0,
+          amount:bills?.total || 0,
           icon:'/images/f2.svg'
         },	
         {
           title:'Total Completed Orders',
-          amount:summaryData?.transactionPoint || 0,
+          amount:bills?.completed || 0,
           icon:'/images/f3.svg'
         },	
         {
           title:'Total Failed Orders',
-          amount:summaryData?.commission || 0, 
+          amount:bills?.rejected || 0, 
           icon:'/images/f4.svg'
           
         },	
@@ -97,7 +97,7 @@ const StatisticPage = () => {
         {
           key: '2',
           label: (
-            <button onClick={()=>(setFilterDuration('week'))} >
+            <button onClick={()=>(setFilterDuration('weekly'))} >
               This Week
             </button>
           ),
@@ -105,7 +105,7 @@ const StatisticPage = () => {
         {
           key: '3',
           label: (
-            <button onClick={()=>(setFilterDuration('month'))} >
+            <button onClick={()=>(setFilterDuration('monthly'))} >
               This Month
             </button>
           ),
@@ -154,8 +154,8 @@ const StatisticPage = () => {
             })
              }
         </div>
-   
-          <BarCharts duration={filterDuration}/>               
+             {filterDuration !== 'daily' && <BarCharts duration={filterDuration}/>}
+                         
       </div>
 
     </div>

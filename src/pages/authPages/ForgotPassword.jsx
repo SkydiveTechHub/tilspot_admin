@@ -8,22 +8,32 @@ import { AuxAuthText } from '../../components/shared/typograph'
 import bg from '../../assets/img/bg1.jpg'
 import { CountdownTimer } from '../../utils/tools'
 import { AuthLayout2 } from '../../components/authComponents/AuthLayout'
+import { useDispatch } from 'react-redux'
+import { forgotPassword } from '../../store/actions'
 
 const initialState = {
     email: ''
 }
 
 const ForgotPassword = () => {
-
+    const dispatch = useDispatch()
     const navigate = useNavigate()
     const {values, handleChange, resetForm, errors} = useForm(initialState)
 
     const [disable, setDisable] = useState(false);
 
-    const handleSubmit = (e) =>{
+    const handleSubmit = async (e) =>{
         e.preventDefault()
-        setDisable(true)
-        navigate('/otp')
+        try {
+            const res = await dispatch(forgotPassword({email:values.email}))
+            if (res.statusCode){
+                setDisable(true)
+                navigate('/otp')
+            }
+        } catch (error) {
+            
+        }
+
     }
 
 

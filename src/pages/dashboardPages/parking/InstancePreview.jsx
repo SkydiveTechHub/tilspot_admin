@@ -20,7 +20,8 @@ const PreviewParkingLocation = () => {
   const [deleteZoneModal, setDeleteZoneModal] = useState(false)
   const [upgradeModal, setUpgradeModal] = useState(false)
   const {location, zoneInfo} = useSelector((state)=>state.providers.locationDetals)
-  // let location
+  const [zoneData, setZoneData] = useState([])
+  const [action, setAction] = useState('create')
 
   const usable_column = [
     ...columns,
@@ -32,7 +33,7 @@ const PreviewParkingLocation = () => {
 
         return (
           <div className='flex items-center gap-4'>
-            <button onClick={()=>setUpgradeModal(true)}><img src="/images/edit.svg" alt="" /></button>
+            <button onClick={()=>{setAction('edit'); setUpgradeModal(true); setZoneData(record)}}><img src="/images/edit.svg" alt="" /></button>
             <button onClick={()=>{setDeleteZoneModal(true); setZoneId(record._id)}}><img src="/images/bin.png" alt="" /></button>
           </div>
         );
@@ -69,9 +70,10 @@ const PreviewParkingLocation = () => {
       <AddParkingZone
         id={id}
         openModal={upgradeModal}
-        handleCancel={()=>setUpgradeModal(false)}
-        handleOk={()=>setUpgradeModal(false)}
-
+        handleCancel={()=>{setUpgradeModal(false); setAction('create')}}
+        handleOk={()=>{setUpgradeModal(false); setAction('create')}}
+        data={zoneData}
+        action={action}
       />
       <DeleteInstanceModal
         openModal={open}

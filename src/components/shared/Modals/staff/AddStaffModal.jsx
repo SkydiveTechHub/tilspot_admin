@@ -3,12 +3,9 @@ import FormInput from '../../FormInput';
 import { AuthButton } from '../../button';
 import useForm from '../../../../hooks/useForm';
 import { Modal } from 'antd';
-import ConfirmModal from '../ConfirmModal';
-import { GrayText } from '../../typograph';
 import SuccessModal from '../SuccessModal';
 import { useDispatch } from 'react-redux';
 import { createStaff } from '../../../../store/actions';
-// import SelectPlanModal from '../SelectPlanModal';
 
 const initialState = {
   lname: '',
@@ -53,7 +50,7 @@ const AddStaffModal = ({  openModal, handleOk, handleCancel }) => {
 
   useEffect(() => {
     validate();
-  }, [values]); // Re-run validation when `values` change
+  }, [values]); 
 
   return (
     <>

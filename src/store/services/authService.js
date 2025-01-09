@@ -14,15 +14,11 @@ class AuthService {
     const res = await baseAxios.post(`/basicLogin`, data);
     return res?.data || res;
   }
+  static async ForgotPassword(data) {
+    const res = await baseAxios.post(`/requestPasswordReset`, data);
+    return res?.data || res;
+  }
   
-  static async GetFaqsbyType(data) {
-    const res = await baseAxios.post(``);
-    return res?.data || res;
-  }
-  static async GetFaqsbyCategory(data) {
-    const res = await baseAxios.post(``);
-    return res?.data || res;
-  }
 
 
 }

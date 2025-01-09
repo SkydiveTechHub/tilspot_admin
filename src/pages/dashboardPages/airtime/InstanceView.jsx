@@ -17,7 +17,7 @@ import { deleteProvider, enableOrDisableCategory, getAllCategories } from "../..
 const role = localStorage.getItem('role')
 const InstanceView = ({data, catStatus, id}) => {
   const [open, setOpen] = useState(false)
-  const [provId, setProvId] = useState(false)
+  const [provId, setProvId] = useState('')
   const [openDelete, setOpenDelete] = useState(false)
   const [openStatus, setOpenStatus] = useState(false)
   const [status, setStatus] = useState('')
@@ -126,8 +126,8 @@ return (
           />
           <AddAirtimeProvider
               openModal={open}
-              handleCancel={()=>setOpen(false)}
-              handleOk={()=>setOpen(false)}
+              handleCancel={()=>{setOpen(false); setAction('create')}}
+              handleOk={()=>{setOpen(false); setAction('create')}}
               userData={userData}
               action={action}
               catId={id}

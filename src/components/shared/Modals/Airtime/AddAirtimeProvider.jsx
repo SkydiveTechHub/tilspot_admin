@@ -6,19 +6,22 @@ import { Modal } from 'antd';
 import SuccessModal from '../SuccessModal';
 import UserImageUpload from '../../UserImageUpload';
 import { useDispatch } from 'react-redux';
-import { createProvider, editProvider } from '../../../../store/actions';
+import { createProvider, editProvider, getProviderByCategory } from '../../../../store/actions';
+import { useRefresh } from '../../../../hooks/useRefresh';
 
-const AddAirtimeProvider = ({catId, provId, action, userData, openModal, handleOk, handleCancel }) => {
+const AddAirtimeProvider = ({catId, action, userData, openModal, handleOk, handleCancel }) => {
   const dispatch = useDispatch()
+  const refresh = useRefresh()
   const [isActive, setIsActive] = useState(false); // Controls button activation
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false); // Success modal state
   const [uploadedImage, setUploadedImage] = useState(null); // Uploaded image state
   const initialState = action === 'edit' ? { p_name: userData?.name || '' } : { p_name: '' };
   const { values, handleChange, resetForm, errors } = useForm(initialState);
 
+
   useEffect(() => {
     resetForm(initialState);
-    setUploadedImage(userData?.icon || null);
+    setUploadedImage(userData?.providerLogo || null);
   }, [userData]);
 
 
@@ -38,7 +41,7 @@ const AddAirtimeProvider = ({catId, provId, action, userData, openModal, handleO
       if(action ==='edit'){
         res =  await dispatch(editProvider({
         catId:catId,
-        provId:provId,
+        provId:userData._id,
         payload:params
       })) 
       }else{
@@ -51,8 +54,10 @@ const AddAirtimeProvider = ({catId, provId, action, userData, openModal, handleO
 
       console.log(res)
       if (res.payload.statusCode){
+        dispatch(getProviderByCategory(catId));
         setIsSuccessModalOpen(true); 
         handleOk(); 
+        refresh()
       }
     } catch (error) {
       

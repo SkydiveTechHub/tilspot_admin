@@ -31,3 +31,17 @@ export const login = createAsyncThunk(
         }
     }
 )
+export const forgotPassword = createAsyncThunk(
+    'auth/forgot_password',
+    async (data, {dispatch, rejectWithValue })=>{
+        dispatch(startLoad())
+        try {
+            const res = await AuthService.ForgotPassword(data)
+            return res
+        } catch (error) {
+            return rejectWithValue(error.response.data)
+        }finally{
+            dispatch(stopLoad())
+        }
+    }
+)

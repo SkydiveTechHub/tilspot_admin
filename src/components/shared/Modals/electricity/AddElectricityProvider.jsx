@@ -12,7 +12,7 @@ import { useDispatch } from 'react-redux';
 // import SelectPlanModal from '../SelectPlanModal';
 
 
-const AddElectricityProvider = ({catId, provId, action, userData, openModal, handleOk, handleCancel }) => {
+const AddElectricityProvider = ({catId, action, userData, openModal, handleOk, handleCancel }) => {
   const [active, setActive] = useState(false);
   const [more, setMore] = useState(false);
   const [secondModalOpen, setSecondModalOpen] = useState(false);
@@ -43,7 +43,7 @@ const { values, handleChange, resetForm, errors } = useForm(initialState);
       if(action ==='edit'){
         res =  await dispatch(editProvider({
         catId:catId,
-        provId:provId,
+        provId:userData._id,
         payload:params
       })) 
       }else{

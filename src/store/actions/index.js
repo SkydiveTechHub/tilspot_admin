@@ -2,6 +2,7 @@
 export {
   login,
   register,
+  forgotPassword,
 //   verifyWithOTP,
 //   resendOTP
 } from "./authAction";
@@ -13,10 +14,12 @@ export {
   getAdminGlobalRecord,
   getOperatorRecord,
   getAllBills,
-  getMyRecord
+  getMyRecord,
+  getOperatorPeriodicRecord
 } from "./staffAction";
 export {
   getAllCategories,
+  getServiceByCategory,
   getProviderByCategory,
   createProvider,
   createLocation,
@@ -25,6 +28,7 @@ export {
   editLocation,
   editZone,
   deleteProvider,
+  deleteService,
   deleteZone,
   deleteLocation,
   enableOrDisableCategory,

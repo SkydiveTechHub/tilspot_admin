@@ -59,12 +59,26 @@ export const getOperatorRecord = createAsyncThunk(
         }
     }
 )
-export const getMyRecord = createAsyncThunk(
-    'staff/get_my_Record',
-    async (_, {dispatch, rejectWithValue })=>{
+export const getOperatorPeriodicRecord = createAsyncThunk(
+    'staff/get_operator_periodic_record',
+    async (data, {dispatch, rejectWithValue })=>{
         dispatch(startLoad())
         try {
-            const res = await staffService.GetMyRecord()
+            const res = await staffService.GetOperatorPeriodicRecord(data)
+            return res.data
+        } catch (error) {
+            return rejectWithValue(error.response.data)
+        } finally{
+            dispatch(stopLoad())
+        }
+    }
+)
+export const getMyRecord = createAsyncThunk(
+    'staff/get_my_Record',
+    async (data, {dispatch, rejectWithValue })=>{
+        dispatch(startLoad())
+        try {
+            const res = await staffService.GetMyRecord(data)
             return res.data
         } catch (error) {
             return rejectWithValue(error.response.data)

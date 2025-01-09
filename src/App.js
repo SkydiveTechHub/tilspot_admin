@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import ForgotPassword from "./pages/authPages/ForgotPassword";
 import Login from "./pages/authPages/Login";
 import ResetPassword from "./pages/authPages/Reset";
@@ -36,16 +36,17 @@ function App() {
 	const [hasRole, setHasRole] = useState(false)
 	const loading = useSelector((state) => state.app.loading);
 	const user = useSelector((state) => state.auth.user);
-	
+
 	  useEffect(()=>{
-		dispatch(checkAuth())
+		// dispatch(checkAuth())
 		if(!role){
 			dispatch(checkAuth())
 		}else{
 			setHasRole(true)
 		}
 	  },[])
-	
+
+	  
 	
 	  return (
 		<>
@@ -68,9 +69,16 @@ function App() {
 								</Route>
 							</Route>
 
-							<Route element={<ProtectedRoute roles={['operator', 'admin']} />}>
+							<Route element={<ProtectedRoute roles={['operator']} />}>
 								<Route element={<DashboardLayout />}>
 									<Route path="/dashboard" element={<Dashboard />} />
+						
+								</Route>
+
+								
+							</Route>			
+							<Route element={<ProtectedRoute roles={['operator', 'admin']} />}>
+								<Route element={<DashboardLayout />}>
 									<Route path="/dashboard/airtime" element={<AirtimePage/>}/>
 									<Route path="/dashboard/internet" element={<InternetPage/>}/>
 									

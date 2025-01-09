@@ -12,7 +12,7 @@ import { createProvider, editProvider } from '../../../../store/actions';
 // import SelectPlanModal from '../SelectPlanModal';
 
 
-const AddInternetProvider = ({catId, provId, action, userData, openModal, handleOk, handleCancel }) => {
+const AddInternetProvider = ({catId, action, userData, openModal, handleOk, handleCancel }) => {
   const dispatch = useDispatch()
   const [isActive, setIsActive] = useState(false); // Controls button activation
   const [secondModalOpen, setSecondModalOpen] = useState(false); // Success modal state
@@ -42,7 +42,7 @@ const AddInternetProvider = ({catId, provId, action, userData, openModal, handle
       if(action ==='edit'){
         res =  await dispatch(editProvider({
         catId:catId,
-        provId:provId,
+        provId:userData._id,
         payload:params
       })) 
       }else{
@@ -66,18 +66,17 @@ const AddInternetProvider = ({catId, provId, action, userData, openModal, handle
 
 
   const validate = () => {
-    setIsActive(!!values.instance_name);
+    setIsActive(!!values.p_name);
   };
 
   const handleImageUpload = (imageData) => {
-    // Save the image data or process it as needed
     setUploadedImage(imageData);
   };
 
 
   useEffect(() => {
     validate();
-  }, [values]); // Re-run validation when `values` change
+  }, [values]); 
 
 
 
@@ -112,11 +111,11 @@ const AddInternetProvider = ({catId, provId, action, userData, openModal, handle
           <FormInput
             label="Provider Name"
             type="text"
-            name="instance_name"
-            value={values.instance_name}
+            name="p_name"
+            value={values.p_name}
             onChange={handleChange}
             placeholder="Enter provider name"
-            error={errors?.instance_name}
+            error={errors?.p_name}
   
           />
 

@@ -12,7 +12,7 @@ import { useDispatch } from 'react-redux';
 // import SelectPlanModal from '../SelectPlanModal';
 
 
-const AddCableProvider = ({ catId, provId, action, userData, openModal, handleOk, handleCancel }) => {
+const AddCableProvider = ({ catId, action, userData, openModal, handleOk, handleCancel }) => {
   const dispatch = useDispatch()
   const [active, setActive] = useState(false);
   const [more, setMore] = useState(false);
@@ -43,7 +43,7 @@ const { values, handleChange, resetForm, errors } = useForm(initialState);
       if(action ==='edit'){
         res =  await dispatch(editProvider({
         catId:catId,
-        provId:provId,
+        provId:userData._id,
         payload:params
       })) 
       }else{

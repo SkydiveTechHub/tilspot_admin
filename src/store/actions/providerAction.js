@@ -30,6 +30,20 @@ export const getProviderByCategory = createAsyncThunk(
         }
     }
 )
+export const getServiceByCategory = createAsyncThunk(
+    'provider/get_service_by_categories',
+    async (data, {dispatch, rejectWithValue })=>{
+        dispatch(startLoad())
+        try {
+            const res = await providerService.GetServicebyCategory(data)
+            return res
+        } catch (error) {
+            return rejectWithValue(error.response.data)
+        } finally{
+            dispatch(stopLoad())
+        }
+    }
+)
 export const getPlansByProvider = createAsyncThunk(
     'provider/get_plans_by_provider',
     async (data, {dispatch, rejectWithValue })=>{
@@ -232,6 +246,20 @@ export const deleteProvider = createAsyncThunk(
         dispatch(startLoad())
         try {
             const res = await providerService.DeleteProvider(data)
+            return res
+        } catch (error) {
+            return rejectWithValue(error.response.data)
+        }finally{
+            dispatch(stopLoad())
+        }
+    }
+)
+export const deleteService = createAsyncThunk(
+    'provider/delete_service',
+    async (data, {dispatch, rejectWithValue })=>{
+        dispatch(startLoad())
+        try {
+            const res = await providerService.DeleteService(data)
             return res
         } catch (error) {
             return rejectWithValue(error.response.data)

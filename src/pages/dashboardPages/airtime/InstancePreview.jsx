@@ -14,12 +14,12 @@ const InstancePreview = () => {
   const [upgradeModal, setUpgradeModal] = useState(false)
   return (
     <>
-      <PlnaUpgradeModal
+      {/* <PlnaUpgradeModal
         openModal={upgradeModal}
         handleCancel={()=>setUpgradeModal(false)}
         handleOk={()=>setUpgradeModal(false)}
 
-      />
+      /> */}
       <DeleteInstanceModal
         openModal={open}
         handleCancel={()=>setOpen(false)}

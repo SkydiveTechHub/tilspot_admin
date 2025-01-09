@@ -117,7 +117,7 @@ return (
           /> 
 
 {
-            role === 'admin'&&
+            role === 'admin' &&
             <div className="flex justify-between items-center">
               <PryButton handleClick={()=>setOpen(true)} text={'Add Housing Provider'}/>
             <span className="font-mont">Enable Service: <Switch checked={catStatus} onChange={onChange} /></span>

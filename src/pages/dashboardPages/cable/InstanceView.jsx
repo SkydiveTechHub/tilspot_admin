@@ -113,8 +113,8 @@ return (
               openModal={open}
               userData={userData}
               action={action}
-              handleCancel={()=>setOpen(false)}
-              handleOk={()=>setOpen(false)}
+              handleCancel={()=>{setOpen(false); setAction('create')}}
+              handleOk={()=>{setOpen(false); setAction('create')}}
               catId={id}
               provId={provId}
           /> 

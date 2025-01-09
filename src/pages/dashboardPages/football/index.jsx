@@ -10,7 +10,7 @@ import { checkCategory } from '../../../store/reducers/providerSlice'
 const role = localStorage.getItem('role')
 const FootballPage = () => {
   const [open, setOpen] = useState(false)
-  const [hasData, setHasData] = useState(true)
+  const [hasData, setHasData] = useState(false)
   const [data, setData] = useState([])
   const [catId, setCatId] = useState('');
       const [catStatus, setCatStatus] = useState(false);
@@ -20,7 +20,8 @@ const FootballPage = () => {
   
     useEffect(() => {
       if (categories) {
-        const cat = categories.find((i) => i.name === 'Electricity');
+        console.log(categories)
+        const cat = categories.find((i) => i.name === 'Football');
         setCatStatus(cat.isEnabled)
         setCatId(cat?._id);
       } else {

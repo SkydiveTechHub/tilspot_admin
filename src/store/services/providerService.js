@@ -7,6 +7,14 @@ class providerService {
     const res = await baseAxios.get(`/getAllCategories`);
     return res?.data || res;
   }
+  static async GetProviderbyCategory(data) {
+    const res = await baseAxios.get(`/getProvidersByCategory/${data}`);
+    return res?.data || res;
+  }
+  static async GetServicebyCategory(data) {
+    const res = await baseAxios.get(`/getServices/${data}`);
+    return res?.data || res;
+  }
   static async GetAllLocations() {
     const res = await baseAxios.get(`/getAllLocations?page=1&limit=10`);
     return res?.data || res;
@@ -89,6 +97,10 @@ class providerService {
     const res = await baseAxios.post(`/deleteProvider/${data.catId}/${data.providerId}`);
     return res?.data || res;
   }
+  static async DeleteService(data) {
+    const res = await baseAxios.post(`/deleteAService/${data.providerId}`);
+    return res?.data || res;
+  }
   static async DeleteLocation(data) {
     const res = await baseAxios.post(`/deleteLocationWithZones/${data}`);
     return res?.data || res;
@@ -98,10 +110,7 @@ class providerService {
     return res?.data || res;
   }
   
-  static async GetProviderbyCategory(data) {
-    const res = await baseAxios.get(`/getProvidersByCategory/${data}`);
-    return res?.data || res;
-  }
+
   static async EnableOrDisableCategory(data) {
     const res = await baseAxios.post(`/enableOrDisableCategory/${data}`);
     return res?.data || res;

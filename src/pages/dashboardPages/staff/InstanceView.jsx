@@ -11,12 +11,14 @@ import AddStaffModal from "../../../components/shared/Modals/staff/AddStaffModal
 import DeleteInstanceModal from "../../../components/shared/Modals/DeleteInstanceModal";
 import EditStaffModal from "../../../components/shared/Modals/staff/EditStaffModal";
 import StatisticsModal from "../../../components/shared/Modals/StatisticModal";
+import { CleaningServices } from "@mui/icons-material";
 
 const InstanceView = ({data}) => {
   const [open, setOpen] = useState(false)
   const [openDelete, setOpenDelete] = useState(false)
   const [userData, setUserData] = useState([])
   const [openEdit, setOpenEdit] = useState(false)
+  const [action, setAction] = useState('create')
   const navigate = useNavigate()
   const [openStat, setOpenStat] = useState(false)
 
@@ -68,13 +70,14 @@ const InstanceView = ({data}) => {
     },
   ];
 
-
+  console.log(userData)
 return (
         <div className="space-y-6">
             <StatisticsModal
               openModal={openStat}
               handleCancel={()=>setOpenStat(false)}
               handleOk={()=>setOpenStat(false)}
+              handleContinue={()=>setOpenStat(false)}
               totalOrder={'10'}
               totalCompleted ={'400'}
               totalRevenue={'40000'}
@@ -96,7 +99,7 @@ return (
           /> 
           <EditStaffModal
               openModal={openEdit}
-              handleCancel={()=>setOpenEdit(false)}
+              handleCancel={()=>{setOpenEdit(false); setAction('create')}}
               handleOk={()=>setOpenEdit(false)}
               userData={userData}
           /> 

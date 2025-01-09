@@ -1,16 +1,14 @@
 import { useEffect, useState } from 'react';
 import { validator } from '../utils/methods';
 
-const useForm = (initialState) => {
+const useForm = (initialState, action) => {
   const [values, setValues] = useState(initialState);
   const [errors, setErrors] = useState({});
 
-  // useEffect(() => {
-  //   setTimeout(()=>{
-  //     setValues(initialState);
-  //   }, 300)
-    
-  // }, [initialState]);
+  useEffect(() => {
+      setValues(initialState);
+
+  }, [action]);
 
   const handleChange = (eventOrValue, fieldName) => {
     if (typeof eventOrValue === 'object' && eventOrValue.target) {

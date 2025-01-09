@@ -8,14 +8,12 @@ import SuccessModal from '../SuccessModal';
 import { useDispatch } from 'react-redux';
 import { createZone } from '../../../../store/actions';
 
-const initialState = {
-  name: '',
-};
 
-const AddParkingZone = ({ id, openModal, handleOk, handleCancel }) => {
+const AddParkingZone = ({ id, data, action,  openModal, handleOk, handleCancel }) => {
   const dispatch = useDispatch();
   const [active, setActive] = useState(false);
   const [secondModalOpen, setSecondModalOpen] = useState(false);
+  const initialState = action==='edit' ? {name:data.name || ""} : {name:''}
 
   // Define timePlan and initialize planList with durations
   const timePlan = [
@@ -26,8 +24,10 @@ const AddParkingZone = ({ id, openModal, handleOk, handleCancel }) => {
   const [planList, setPlanList] = useState(
     timePlan.map((duration) => ({ duration, price: '' }))
   );
+  
+  console.log(initialState)
 
-  const { values, handleChange, resetForm, errors } = useForm(initialState);
+  const { values, handleChange, resetForm, errors } = useForm(initialState, action);
 
   // Handle changes to the planList
   const handlePlanChange = (index, field, value) => {
@@ -69,6 +69,8 @@ const AddParkingZone = ({ id, openModal, handleOk, handleCancel }) => {
   useEffect(() => {
     validate();
   }, [values, planList]);
+
+  console.log(values)
 
   return (
     <>

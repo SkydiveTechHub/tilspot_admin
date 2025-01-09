@@ -24,13 +24,13 @@ class staffService {
     const res = await baseAxios.get(`/getMyPeriodRecord/${data}`);
     return res?.data || res;
   }
+ 
   static async GetOperatorRecord(data) {
-    const res = await baseAxios.get(`/getOperatorPaymentRecord/${data}`);
+    const res = await baseAxios.get(`/getOperatorPaymentRecord/${data.id}/${data.period}`);
     return res?.data || res;
   }
-  static async GetMyRecord(data) {
-    const res = await baseAxios.get(`/getMyPaymentRecord}`);
-    console.log(res)
+  static async GetOperatorPeriodicRecord(data) {
+    const res = await baseAxios.get(`/getOperatorPeriodRecord/${data.adminId}/${data.period}`);
     return res?.data || res;
   }
 

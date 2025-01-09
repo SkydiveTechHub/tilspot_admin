@@ -8,6 +8,7 @@ import { GrayText, Label } from '../../typograph';
 import SuccessModal from '../SuccessModal';
 import { DatePicker, Space } from 'antd';
 import { createMatch } from '../../../../store/actions';
+import { useDispatch } from 'react-redux';
 
 
 
@@ -17,6 +18,7 @@ const initialState = {
 };
 
 const AddFootballTicketProvider = ({ catId, provId, action, userData, openModal, handleOk, handleCancel }) => {
+  const dispatch = useDispatch()
   const [active, setActive] = useState(false);
   const [more, setMore] = useState(false);
   const [secondModalOpen, setSecondModalOpen] = useState(false);
@@ -28,32 +30,32 @@ const AddFootballTicketProvider = ({ catId, provId, action, userData, openModal,
     console.log('Form submitted:', values);
     const params = {
         name:values.p_name,
-        providerLogo: uploadedImage
+        providerLogo: ''
       }
-    try {
-      let res 
-      if(action ==='edit'){
-        res =  await dispatch(editProvider({
-        catId:catId,
-        provId:provId,
-        payload:params
-      })) 
-      }else{
-        res =  await dispatch(createMatch({
-          catId:catId,
-          payload:params
-        })) 
-      }
+    // try {
+    //   let res 
+    //   if(action ==='edit'){
+    //     res =  await dispatch(editProvider({
+    //     catId:catId,
+    //     provId:provId,
+    //     payload:params
+    //   })) 
+    //   }else{
+    //     res =  await dispatch(createMatch({
+    //       catId:catId,
+    //       payload:params
+    //     })) 
+    //   }
 
 
-      console.log(res)
-      if (res.payload.statusCode){
-        setIsSuccessModalOpen(true); 
-        handleOk(); 
-      }
-    } catch (error) {
+    //   console.log(res)
+    //   if (res.payload.statusCode){
+    //     setIsSuccessModalOpen(true); 
+    //     handleOk(); 
+    //   }
+    // } catch (error) {
       
-    }
+    // }
     resetForm()
   };
 
@@ -153,7 +155,7 @@ const AddFootballTicketProvider = ({ catId, provId, action, userData, openModal,
   
           />
 
-<div className='space-y-4'>
+          <div className='space-y-4'>
             {
               ticketType.map((i, id)=>{
                 return(

@@ -1,10 +1,41 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Dropdown, Modal } from 'antd';
+import { getOperatorPeriodicRecord } from '../../../store/actions';
+import { useDispatch } from 'react-redux';
 
-const StatisticsModal = ({totalRevenue, totalOrder, totalCompleted, totalFailed, title, openModal, handleOk, handleCancel, handleContinue }) => {
+const StatisticsModal = ({totalRevenue, totalOrder, totalCompleted, totalFailed, title, staffId, openModal, handleOk, handleCancel, handleContinue }) => {
+  const dispatch = useDispatch()
+
+  const [filterDuration, setFilterDuration] = useState('weekly')
+  const [hasRecord, setHasRecord] = useState(false)
+
+  const fetchRecord = async () => {
+    const params = {
+        adminId:staffId,
+        period: filterDuration
+      }
+    try {
+      if(staffId){
+        let res =  await dispatch(getOperatorPeriodicRecord(params)) 
+        if (res.statusCode){
+          setHasRecord(true)
+        }else{
+          setHasRecord(false)
+        }
+        console.log(res)        
+      }
 
 
-  const [filterDuration, setFilterDuration] = useState('week')
+    } catch (error) {
+      
+    }
+  };
+
+  useEffect(()=>{
+    fetchRecord()
+  }, [filterDuration, staffId])
+
+
   const cardData = [
     {
       title:'Total Revenue Generated',
@@ -35,7 +66,7 @@ const StatisticsModal = ({totalRevenue, totalOrder, totalCompleted, totalFailed,
     {
       key: '1',
       label: (
-        <button onClick={()=>(setFilterDuration('today'))} >
+        <button onClick={()=>(setFilterDuration('daily'))} >
           Today
         </button>
       ),
@@ -43,7 +74,7 @@ const StatisticsModal = ({totalRevenue, totalOrder, totalCompleted, totalFailed,
     {
       key: '2',
       label: (
-        <button onClick={()=>(setFilterDuration('week'))} >
+        <button onClick={()=>(setFilterDuration('weekly'))} >
           This Week
         </button>
       ),
@@ -51,7 +82,7 @@ const StatisticsModal = ({totalRevenue, totalOrder, totalCompleted, totalFailed,
     {
       key: '3',
       label: (
-        <button onClick={()=>(setFilterDuration('month'))} >
+        <button onClick={()=>(setFilterDuration('monthly'))} >
           This Month
         </button>
       ),
@@ -77,7 +108,9 @@ const StatisticsModal = ({totalRevenue, totalOrder, totalCompleted, totalFailed,
               </Dropdown>              
           </div>
 
-          <div className="grid grid-cols-2 gap-4 container ">
+          {
+            hasRecord?
+              <div className="grid grid-cols-2 gap-4 container ">
                             {
                             cardData.map((i, id)=>{
                                 return(
@@ -85,7 +118,12 @@ const StatisticsModal = ({totalRevenue, totalOrder, totalCompleted, totalFailed,
                                 )
                             })
                             }
-                        </div>
+                </div>:
+
+                <h2 className='text-center'>No Record Found</h2>
+
+
+          }
 
           <button onClick={() => {
             handleContinue()

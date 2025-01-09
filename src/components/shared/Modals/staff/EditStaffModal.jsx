@@ -16,11 +16,11 @@ const EditStaffModal = ({ userData, type, openModal, handleOk, handleCancel }) =
   const [secondModalOpen, setSecondModalOpen] = useState(false);
   
   const initialState = {
-    lname: userData?.lname || "",
-    fname: userData?.fname || "",
+    lname: userData?.last_name || "",
+    fname: userData?.first_name || "",
     email: userData?.email || "",
-    password: "",
-    c_password: "",
+    // password: "",
+    // c_password: "",
   };
 
   const { values, handleChange, resetForm, errors } = useForm(initialState);
@@ -43,7 +43,7 @@ const EditStaffModal = ({ userData, type, openModal, handleOk, handleCancel }) =
   };
 
   const validate = () => {
-    setActive(errors.fname === '');
+    setActive(errors.first_name !== '');
   };
 
   useEffect(() => {
@@ -98,7 +98,7 @@ const EditStaffModal = ({ userData, type, openModal, handleOk, handleCancel }) =
   
           />
 
-          <FormInput
+          {/* <FormInput
             label="Password"
             type="password"
             name="password"
@@ -117,7 +117,7 @@ const EditStaffModal = ({ userData, type, openModal, handleOk, handleCancel }) =
             placeholder="Enter email"
             error={errors?.c_pasword}
   
-          />
+          /> */}
 
           <AuthButton handleClick={()=>{
             setSecondModalOpen(true)

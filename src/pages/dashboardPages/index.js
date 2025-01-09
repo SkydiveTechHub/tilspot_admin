@@ -15,6 +15,7 @@ import { Button, Dropdown, Space } from 'antd';
 import StatisticsModal from "../../components/shared/Modals/StatisticModal";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllBills, getMyRecord, getOperatorRecord } from "../../store/actions";
+const userData = JSON.parse(localStorage.getItem('userData'))
 
 const Dashboard = () => {
     const dispatch = useDispatch()
@@ -27,8 +28,12 @@ const Dashboard = () => {
     const [modalToView, setModalToView] = useState()
 
         const fetchOperatorRecord = async() =>{
+            const params = {
+                period:filterDuration,
+                id: userData.id
+            }
           try {
-            const res = await dispatch(getOperatorRecord(filterDuration))
+            const res = await dispatch(getOperatorRecord(params))
             console.log(res)
           } catch (error) {
             
@@ -54,9 +59,16 @@ const Dashboard = () => {
           
         }
         useEffect(()=>{
+            userData.role === 'operator'?fetchMyRecord():fetchOperatorRecord();
+            
+            
+        },[filterDuration])
+
+        useEffect(()=>{
             fetchBills()
-            fetchOperatorRecord()
         },[])
+
+
 
         const items = [
 
