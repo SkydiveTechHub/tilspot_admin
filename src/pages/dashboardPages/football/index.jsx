@@ -21,7 +21,7 @@ const FootballPage = () => {
     useEffect(() => {
       if (categories) {
         console.log(categories)
-        const cat = categories.find((i) => i.name === 'Football');
+        const cat = categories.find((i) => i.name === 'Football Tickets');
         setCatStatus(cat.isEnabled)
         setCatId(cat?._id);
       } else {

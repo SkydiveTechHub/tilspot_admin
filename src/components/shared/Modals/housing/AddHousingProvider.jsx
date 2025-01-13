@@ -8,10 +8,7 @@ import UserImageUpload from '../../UserImageUpload';
 import { useDispatch } from 'react-redux';
 import { createProvider, editProvider } from '../../../../store/actions';
 
-const initialState = {
-  instance_name: '',
-  type: '',
-};
+
 
 const AddHousingProvider = ({catId, provId, action, userData, openModal, handleOk, handleCancel }) => {
   
@@ -21,12 +18,13 @@ const AddHousingProvider = ({catId, provId, action, userData, openModal, handleO
   const [secondModalOpen, setSecondModalOpen] = useState(false);
   const [uploadedImage, setUploadedImage] = useState(null);
   const initialState = action === 'edit' ? { p_name: userData?.name || '' } : { p_name: '' };
-  
-const { values, handleChange, resetForm, errors } = useForm(initialState);
+  const { values, handleChange, resetForm, errors } = useForm(initialState);
+
   useEffect(() => {
     resetForm(initialState);
-    setUploadedImage(userData?.icon) 
+    setUploadedImage(userData?.providerLogo || null);
   }, [userData]);
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -39,7 +37,7 @@ const { values, handleChange, resetForm, errors } = useForm(initialState);
       if(action ==='edit'){
         res =  await dispatch(editProvider({
         catId:catId,
-        provId:provId,
+        provId:userData._id,
         payload:params
       })) 
       }else{

@@ -9,25 +9,37 @@ import bg from '../../assets/img/bg1.jpg'
 import { CountdownTimer } from '../../utils/tools'
 import { AuthLayout2 } from '../../components/authComponents/AuthLayout'
 import OTPInput from '../../components/shared/Modals/OTPinput'
-
-const initialState = {
-    password: '',
-    c_password:''
-}
+import { useDispatch } from 'react-redux'
+import { sendOTP } from '../../store/actions'
 
 const OPTpage = () => {
     const navigate = useNavigate()
+    const dispatch = useDispatch()
+
 
     const [otp, setOtp] = useState("");
 
     const handleOtpChange = (value) => {
       setOtp(value);
-      console.log("Current OTP:", value);
     };
 
-    const handleSubmit = (e) =>{
-        e.preventDefault()
-        navigate('/reset-password')
+    const handleSubmit = async (e) =>{
+
+            e.preventDefault();
+            const params = {
+              id: "",
+              payload: {otp:otp},
+            };
+            try {
+              const res = await dispatch(sendOTP(params));
+              console.log(res);
+        
+              if (res.payload.statusCode) {
+                navigate('/reset-password')
+              }
+            } catch (error) {
+              console.error("Login error:", error);
+            }
     }
 
   

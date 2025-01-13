@@ -22,7 +22,7 @@ const AddInternetProvider = ({catId, action, userData, openModal, handleOk, hand
 
   useEffect(() => {
     resetForm(initialState);
-    setUploadedImage(userData?.icon || null);
+    setUploadedImage(userData?.providerLogo || null);
   }, [userData]);
 
 

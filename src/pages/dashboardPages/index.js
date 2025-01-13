@@ -15,9 +15,30 @@ import { Button, Dropdown, Space } from 'antd';
 import StatisticsModal from "../../components/shared/Modals/StatisticModal";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllBills, getMyRecord, getOperatorRecord } from "../../store/actions";
+import { io } from "socket.io-client";
+
 const userData = JSON.parse(localStorage.getItem('userData'))
+const url = process.env.REACT_APP_SOCKET_URL;
+const socket = io(url, {
+    // reconnection:false,
+    reconnectionAttempts: 5, 
+    reconnectionDelay: 2000, 
+      // transports: ['websocket'], 
+      withCredentials: true,
+  });
 
 const Dashboard = () => {
+
+      useEffect(() => {
+        socket.on("completedBills", (bills, date, time) => console.log(bills, date,time));
+    
+        return () => {
+          socket.off("completedBills");
+        };
+      }, []);
+
+
+
     const dispatch = useDispatch()
     const navigate = useNavigate();
     const [open, setOpen] = useState(false)

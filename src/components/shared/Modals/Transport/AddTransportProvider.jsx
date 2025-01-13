@@ -1,29 +1,38 @@
 import React, { useEffect, useState } from 'react';
+import { Modal, TimePicker } from 'antd';
+import { useDispatch } from 'react-redux';
+import moment from 'moment';
+
 import FormInput from '../../FormInput';
 import { AuthButton } from '../../button';
 import useForm from '../../../../hooks/useForm';
-import { Modal } from 'antd';
 import ConfirmModal from '../ConfirmModal';
-import { GrayText } from '../../typograph';
 import SuccessModal from '../SuccessModal';
-import { TimePicker } from 'antd';
 import { createJorney, editJourney } from '../../../../store/actions';
-import { useDispatch } from 'react-redux';
+
 const { RangePicker } = TimePicker;
 
-const AddTransportProvider = ({ catId, provId, action, userData, openModal, handleOk, handleCancel }) => {
+const AddTransportProvider = ({
+  catId,
+  provId,
+  action,
+  userData,
+  openModal,
+  handleOk,
+  handleCancel,
+}) => {
   const dispatch = useDispatch();
   const [range, setRange] = useState(null); // For time range
   const [active, setActive] = useState(false); // For button activation
-  const [secondModalOpen, setSecondModalOpen] = useState(false); // Success modal state
-  const format = 'HH:mm';
+  const [successModalOpen, setSuccessModalOpen] = useState(false); // Success modal state
+  const format = 'HH:mm'; // Time format
 
-  // Initial state setup based on action
-  let initialState = action === 'edit'
+  // Initial form state based on action
+  const initialState = action === 'edit'
     ? {
-        departure: userData.departure || '',
-        destination: userData.destination || '',
-        amount: userData.price || '',
+        departure: userData?.start || '',
+        destination: userData?.destination || '',
+        amount: userData?.price || '',
       }
     : {
         departure: '',
@@ -31,52 +40,57 @@ const AddTransportProvider = ({ catId, provId, action, userData, openModal, hand
         amount: '',
       };
 
-  // Form handling hook
+  // Custom hook for form handling
   const { values, handleChange, resetForm, errors } = useForm(initialState);
 
-  // Reset form when userData changes
+  // Prepopulate form and time range when editing
   useEffect(() => {
     resetForm(initialState);
-    if (action === 'edit' && userData.departureTime && userData.arrivalTime) {
-      setRange([userData.departureTime, userData.arrivalTime]); // Preload range for edit
+    if (action === 'edit' && userData?.departureTime && userData?.arrivalTime) {
+      setRange([moment(userData.departureTime, format), moment(userData.arrivalTime, format)]);
+    } else {
+      setRange(null);
     }
   }, [userData]);
 
-  // Handle time range change
+  // Handle time range selection
   const handleRangeChange = (dates, dateStrings) => {
-    setRange(dateStrings);
-    console.log('Selected Range:', dateStrings);
+    setRange(dates);
   };
 
-  // Handle form submission
+  // Validate form fields to enable/disable the button
+  useEffect(() => {
+    setActive(
+      !!values.departure &&
+      !!values.destination &&
+      !!values.amount &&
+      range && range.length === 2
+    );
+  }, [values, range]);
+
+  // Form submission handler
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const params = {
       startingLocation: values.departure,
       destination: values.destination,
-      departureTime: range ? range[0] : '', // Include departure time
-      arrivalTime: range ? range[1] : '',   // Include arrival time
+      departureTime: range ? range[0].format(format) : '',
+      arrivalTime: range ? range[1].format(format) : '',
       price: values.amount,
     };
 
     try {
       let res;
       if (action === 'edit') {
-        res = await dispatch(editJourney({
-          journeyId: catId,
-          provId: provId,
-          payload: params,
-        }));
+        res = await dispatch(editJourney({ journeyId:userData._id, provId:userData._providerId, payload: params }));
       } else {
-        res = await dispatch(createJorney({
-          catId: catId,
-          payload: params,
-        }));
+        res = await dispatch(createJorney({ catId, payload: params }));
       }
 
       if (res.payload.statusCode) {
-        handleOk(); // Close modal on success
+        handleOk(); // Close modal
+        setSuccessModalOpen(true); // Open success modal
       }
     } catch (error) {
       console.error(error);
@@ -86,28 +100,14 @@ const AddTransportProvider = ({ catId, provId, action, userData, openModal, hand
     resetForm();
   };
 
-  // Validate form to activate the button
-  const validate = () => {
-    setActive(
-      !!values.departure &&
-      !!values.destination &&
-      !!values.amount &&
-      range && range.length === 2 // Ensure time range is valid
-    );
-  };
-
-  useEffect(() => {
-    validate();
-  }, [values, range]);
-
   return (
     <>
       <SuccessModal
         title={'Transport Provider has been added successfully'}
-        openModal={secondModalOpen}
-        handleContinue={() => setSecondModalOpen(false)}
-        handleCancel={() => setSecondModalOpen(false)}
-        handleOk={() => setSecondModalOpen(false)}
+        openModal={successModalOpen}
+        handleContinue={() => setSuccessModalOpen(false)}
+        handleCancel={() => setSuccessModalOpen(false)}
+        handleOk={() => setSuccessModalOpen(false)}
       />
       <Modal
         className="basic-modal"
@@ -115,6 +115,7 @@ const AddTransportProvider = ({ catId, provId, action, userData, openModal, hand
         open={openModal}
         onOk={handleOk}
         onCancel={handleCancel}
+        footer={null}
       >
         <form className="mt-6 space-y-6" onSubmit={handleSubmit}>
           <FormInput
@@ -138,13 +139,12 @@ const AddTransportProvider = ({ catId, provId, action, userData, openModal, hand
           />
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-            <div style={{ display: 'flex', gap: '8px' }}>
-              <RangePicker
-                format={format}
-                placeholder={['Departure Time', 'Arrival Time']}
-                onChange={handleRangeChange}
-              />
-            </div>
+            <RangePicker
+              format={format}
+              placeholder={['Departure Time', 'Arrival Time']}
+              onChange={handleRangeChange}
+              value={range}
+            />
           </div>
 
           <FormInput
@@ -158,10 +158,7 @@ const AddTransportProvider = ({ catId, provId, action, userData, openModal, hand
           />
 
           <AuthButton
-            handleClick={() => {
-              setSecondModalOpen(true);
-              handleCancel();
-            }}
+            handleClick={handleSubmit}
             inactive={!active}
             value={action === 'edit' ? 'Update Provider' : 'Add Provider'}
           />

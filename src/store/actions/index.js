@@ -3,6 +3,8 @@ export {
   login,
   register,
   forgotPassword,
+  sendOTP,
+  resetPassword
 //   verifyWithOTP,
 //   resendOTP
 } from "./authAction";
@@ -39,5 +41,7 @@ export {
   getMatch,
   createMatch,
   createJorney,
-  editJourney
+  editJourney,
+  getAllJourney,
+  getJourneyDetails
 } from "./providerAction";

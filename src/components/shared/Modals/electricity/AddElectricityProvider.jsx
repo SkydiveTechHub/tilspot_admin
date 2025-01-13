@@ -26,11 +26,11 @@ const AddElectricityProvider = ({catId, action, userData, openModal, handleOk, h
     initialState = {p_name: ''};
   }
 const { values, handleChange, resetForm, errors } = useForm(initialState);
-  useEffect(() => {
+  
+useEffect(() => {
     resetForm(initialState);
-    setUploadedImage(userData?.icon) 
+    setUploadedImage(userData?.providerLogo || null);
   }, [userData]);
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();

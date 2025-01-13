@@ -139,12 +139,12 @@ export default InstanceView;
 
 
 const columns = [
-  {
-    title: 'Icon',
-    dataIndex: 'providerLogo',
-    key: 'providerLogo',
-    render: (text) => <img className="w-[30px]" src={text} alt="icon-img" />,
-  },
+  // {
+  //   title: 'Icon',
+  //   dataIndex: 'providerLogo',
+  //   key: 'providerLogo',
+  //   render: (text) => <img className="w-[30px]" src={text} alt="icon-img" />,
+  // },
   {
     title: 'Provider Name',
     dataIndex: 'name',

@@ -1,11 +1,28 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import TopNav from '../../components/dashboardComponents/TopNav.jsx';
 import { Outlet } from 'react-router-dom';
 import SideBar from '../../components/dashboardComponents/SideBar';
+import { io } from "socket.io-client";
+
+const url = process.env.REACT_APP_SOCKET_URL;
+const socket = io('https://55c9-102-89-22-32.ngrok-free.app', {
+  transports: ['websocket'], 
+      reconnectionAttempts: 5, 
+    reconnectionDelay: 2000, 
+  withCredentials: true,    
+});
 
 const DashboardLayout = () => {
-  const [open, setOpen] = useState(false);
 
+  useEffect(() => {
+    socket.on("identify", (userId, userType) => console.log(userId, userType));
+
+    return () => {
+      socket.off("identify");
+    };
+  }, []);
+
+  const [open, setOpen] = useState(false);
   const handleToggleSidebar = () => {
     console.log('Sidebar toggle clicked');
     console.log('Sidebar open:', open);

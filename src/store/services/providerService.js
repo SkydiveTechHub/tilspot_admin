@@ -27,8 +27,18 @@ class providerService {
     const res = await baseAxios.get(`/getInternetPlans/${data}`);
     return res?.data || res;
   }
-  static async GetMatch(data) {
+  static async GetMatch() {
     const res = await baseAxios.get(`/getMatchAndTickets`);
+    return res?.data || res;
+  }
+  static async GetAllJourney(data) {
+    console.log(data)
+    const res = await baseAxios.get(`/getAllJourneys`);
+    return res?.data || res;
+  }
+  static async GetJourneyDetials(data) {
+    console.log(data)
+    const res = await baseAxios.get(`/getJourneyDetails/${data.provId}`);
     return res?.data || res;
   }
 
@@ -44,10 +54,10 @@ class providerService {
     const res = await baseAxios.post(`/createAndUpdateMatchAndTickets`, data.payload);
     return res?.data || res;
   }
-  static async CreateInternetPlan(data) {
-    const res = await baseAxios.post(`/createAndUpdateInternetPlans/${data.provId}`, data.payload);
-    return res?.data || res;
-  }
+  // static async CreateInternetPlan(data) {
+  //   const res = await baseAxios.post(`/createAndUpdateInternetPlans/${data.provId}`, data.payload);
+  //   return res?.data || res;
+  // }
   static async CreateLocation(data) {
     const res = await baseAxios.post(`/createAndUpdateLocationAndZoneDetails`, data.payload);
     return res?.data || res;
@@ -61,7 +71,7 @@ class providerService {
     return res?.data || res;
   }
   static async CreateInternetPlans(data) {
-    const res = await baseAxios.post(`/createAndUpdateProviderOptions/${data.provId}`, data.payload);
+    const res = await baseAxios.post(`/createAndUpdateInternetPlans/${data.provId}`, data.payload);
     return res?.data || res;
   }
 
@@ -106,6 +116,14 @@ class providerService {
     return res?.data || res;
   }
   static async DeleteZone(data) {
+    const res = await baseAxios.post(`/deleteAZone/${data}`);
+    return res?.data || res;
+  }
+  static async DeleteTicket(data) {
+    const res = await baseAxios.post(`/deleteATicket/${data}`);
+    return res?.data || res;
+  }
+  static async DeleteMatch(data) {
     const res = await baseAxios.post(`/deleteAZone/${data}`);
     return res?.data || res;
   }
