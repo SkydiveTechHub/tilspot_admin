@@ -38,7 +38,13 @@ class staffService {
     const res = await baseAxios.post(`/signup`, data);
     return res?.data || res;
   }
+  static async DeleteStaff(data) {
+    const res = await baseAxios.post(`/deleteOperator/:adminId`, data);
+    return res?.data || res;
+  }
   
+
+
 
 
 }
