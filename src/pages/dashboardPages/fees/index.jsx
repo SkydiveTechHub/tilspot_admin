@@ -9,8 +9,6 @@ const FeesPage = () => {
   const dispatch = useDispatch();
   const feesData = ['Airtime', 'Internet', 'Government', 'Gas', 'Waste', 'Transport', 'Football', 'Cable', 'Parking', 'Housing', 'Electricity'];
   const { categories } = useSelector((state) => state.providers);
-
-  // State to store the initial values
   const [initialState, setInitialState] = useState({});
 
   useEffect(() => {
@@ -31,12 +29,12 @@ const FeesPage = () => {
     }
   }, [categories]);
 
-  // Use the form hook with the dynamically initialized state
-  const { values, handleChange, resetForm, errors } = useForm(initialState);
+
+  const { values, handleChange, resetForm, errors } = useForm(initialState, initialState);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(values); // Submit the collected data
+    console.log(values); 
   };
 
   return (

@@ -2,12 +2,12 @@ import { useDispatch } from "react-redux"
 import useForm from "../../../hooks/useForm"
 import { AuthButton } from "../../shared/button"
 import FormInput from "../../shared/FormInput"
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Modal } from 'antd';
 import { Link, useNavigate } from "react-router-dom"
 import { GrayText } from "../../shared/typograph"
 import { logout } from "../../../store/reducers/authSlice";
-
+import { io } from "socket.io-client";
 
 
 export const DeactivateModal = ({children, title, openModal, handleOk, handleCancel }) => {
@@ -35,6 +35,19 @@ export const DeactivateModal = ({children, title, openModal, handleOk, handleCan
   );
 };
 export const LogoutModal = ({children, title, openModal, handleOk, handleCancel }) => {
+  const url = process.env.REACT_APP_TEST_URL;
+  const socket = io('https://55c9-102-89-22-32.ngrok-free.app',{
+    reconnectionAttempts:5
+  });
+
+    useEffect(() => {
+      socket.on("disconnection", () => console.log("Socket is disconnected"));
+  
+      return () => {
+        socket.off("disconnection");
+      };
+    }, []);
+
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const handleLogout= ()=>{

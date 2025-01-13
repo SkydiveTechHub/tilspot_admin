@@ -18,6 +18,14 @@ class AuthService {
     const res = await baseAxios.post(`/requestPasswordReset`, data);
     return res?.data || res;
   }
+  static async SendOTP(data) {
+    const res = await baseAxios.post(`/verifyPasswordResetOTP/${data.id}`, data.payload);
+    return res?.data || res;
+  }
+  static async ResetPassword(data) {
+    const res = await baseAxios.post(`/resetPassword/${data.id}`, data.payload);
+    return res?.data || res;
+  }
   
 
 

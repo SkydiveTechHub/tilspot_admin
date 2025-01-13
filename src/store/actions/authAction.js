@@ -45,3 +45,31 @@ export const forgotPassword = createAsyncThunk(
         }
     }
 )
+export const sendOTP = createAsyncThunk(
+    'auth/send_otp',
+    async (data, {dispatch, rejectWithValue })=>{
+        dispatch(startLoad())
+        try {
+            const res = await AuthService.SendOTP(data)
+            return res
+        } catch (error) {
+            return rejectWithValue(error.response.data)
+        }finally{
+            dispatch(stopLoad())
+        }
+    }
+)
+export const resetPassword = createAsyncThunk(
+    'auth/reset_password',
+    async (data, {dispatch, rejectWithValue })=>{
+        dispatch(startLoad())
+        try {
+            const res = await AuthService.ResetPassword(data)
+            return res
+        } catch (error) {
+            return rejectWithValue(error.response.data)
+        }finally{
+            dispatch(stopLoad())
+        }
+    }
+)

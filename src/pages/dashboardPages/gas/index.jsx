@@ -57,7 +57,7 @@ const GasPage = () => {
             />   
         {
           hasData?
-          <InstanceView/>
+          <InstanceView id={catId} catStatus={catStatus} data={data}/>
           :
           <div className='h-screen'>
 

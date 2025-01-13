@@ -9,7 +9,7 @@ import { useNavigate, useParams } from 'react-router-dom'
  
 import AddParkingZone from '../../../components/shared/Modals/parking/AddParkingZone'
 import { useDispatch, useSelector } from 'react-redux'
-import { deleteZone, getZonesByLocation } from '../../../store/actions'
+import { deleteLocation, deleteZone, getZonesByLocation } from '../../../store/actions'
 
 const PreviewParkingLocation = () => {
   const params = useParams()
@@ -51,6 +51,16 @@ const PreviewParkingLocation = () => {
       }
     }
 
+    const handleDelete = async () =>{
+      try {
+        const res = await dispatch(deleteLocation(id))
+        
+  
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
   const handleDeleteZone = async () =>{
     try {
       const res = await dispatch(deleteZone(zoneId))
@@ -79,7 +89,7 @@ const PreviewParkingLocation = () => {
         openModal={open}
         char={'Parking Location'}
         handleCancel={()=>setOpen(false)}
-        handleOk={()=>setOpen(false)}
+        handleOk={handleDelete}
 
     />
       <DeleteInstanceModal

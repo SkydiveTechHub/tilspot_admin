@@ -2,12 +2,14 @@ import React from 'react'
 import useForm from '../../hooks/useForm'
 import FormInput from '../../components/shared/FormInput'
 import { validator } from '../../utils/methods'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { AuthButton } from '../../components/shared/button'
 import { AuxAuthText } from '../../components/shared/typograph'
 import bg from '../../assets/img/bg1.jpg'
 import { CountdownTimer } from '../../utils/tools'
 import { AuthLayout2 } from '../../components/authComponents/AuthLayout'
+import { useDispatch } from 'react-redux'
+import { resetPassword } from '../../store/actions'
 
 const initialState = {
     password: '',
@@ -15,12 +17,30 @@ const initialState = {
 }
 
 const ResetPassword = () => {
-
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const {values, handleChange, resetForm, errors} = useForm(initialState)
-    const handleSubmit = () =>{
-        console.log('submit')
+
+    const handleSubmit = async (e) =>{
+
+            e.preventDefault();
+            const params = {
+              id: "",
+              payload: {newPassword:values.password},
+            };
+            try {
+              const res = await dispatch(resetPassword(params));
+              console.log(res);
+        
+              if (res.payload.statusCode) {
+                navigate('/login')
+              }
+            } catch (error) {
+              console.error("Login error:", error);
+            }
     }
+
 
   return (
     <AuthLayout2 backgroundImg={bg} headDesc={'Create a new password to secure your account'} headText={'Reset Password'} >

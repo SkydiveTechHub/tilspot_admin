@@ -74,10 +74,38 @@ export const getLocations = createAsyncThunk(
 )
 export const getMatch = createAsyncThunk(
     'provider/get_match',
+    async (_, {dispatch, rejectWithValue })=>{
+        dispatch(startLoad())
+        try {
+            const res = await providerService.GetMatch()
+            return res
+        } catch (error) {
+            return rejectWithValue(error.response.data)
+        } finally{
+            dispatch(stopLoad())
+        }
+    }
+)
+export const getAllJourney = createAsyncThunk(
+    'provider/get_all_journey',
     async (data, {dispatch, rejectWithValue })=>{
         dispatch(startLoad())
         try {
-            const res = await providerService.GetMatch(data)
+            const res = await providerService.GetAllJourney(data)
+            return res
+        } catch (error) {
+            return rejectWithValue(error.response.data)
+        } finally{
+            dispatch(stopLoad())
+        }
+    }
+)
+export const getJourneyDetails = createAsyncThunk(
+    'provider/get_journey_details',
+    async (data, {dispatch, rejectWithValue })=>{
+        dispatch(startLoad())
+        try {
+            const res = await providerService.GetJourneyDetials(data)
             return res
         } catch (error) {
             return rejectWithValue(error.response.data)

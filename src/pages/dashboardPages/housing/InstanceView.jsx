@@ -110,9 +110,11 @@ return (
           />
           <AddHousingProvider
               openModal={open}
-              handleCancel={()=>setOpen(false)}
-              handleOk={()=>setOpen(false)}
+              handleCancel={()=>{setOpen(false); setAction('create')}}
+              handleOk={()=>{setOpen(false); setAction('create')}}
               catId={id}
+              action={action}
+              userData={userData}
               provId={provId}
           /> 
 

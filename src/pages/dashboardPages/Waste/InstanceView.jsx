@@ -113,8 +113,8 @@ return (
           />
           <AddWasteProvider
               openModal={open}
-              handleCancel={()=>setOpen(false)}
-              handleOk={()=>setOpen(false)}
+              handleCancel={()=>{setOpen(false); setAction('create')}}
+              handleOk={()=>{setOpen(false); setAction('create')}}
               userData={userData}
               action={action}
               catId={id}

@@ -29,9 +29,8 @@ const AddGovernmentProvider = ({ action, userData, openModal, handleOk, handleCa
 const { values, handleChange, resetForm, errors } = useForm(initialState);
   useEffect(() => {
     resetForm(initialState);
-    setUploadedImage(userData?.icon) 
+    setUploadedImage(userData?.providerLogo || null);
   }, [userData]);
-
 
   const handleSubmit = (e) => {
     e.preventDefault();

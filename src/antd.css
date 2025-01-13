@@ -63,3 +63,7 @@
 .ant-switch.ant-switch-checked{
     background-color: #1677ff !important;
 }
+
+.ant-picker-ok button {
+   background-color: #11263C !important;
+}

@@ -26,9 +26,10 @@ const AddCableProvider = ({ catId, action, userData, openModal, handleOk, handle
     initialState = {p_name: ''};
   }
 const { values, handleChange, resetForm, errors } = useForm(initialState);
+
   useEffect(() => {
     resetForm(initialState);
-    setUploadedImage(userData?.icon) 
+    setUploadedImage(userData?.providerLogo || null);
   }, [userData]);
 
 

@@ -17,18 +17,11 @@ const AddGasProvider = ({catId, action, userData, openModal, handleOk, handleCan
   const [secondModalOpen, setSecondModalOpen] = useState(false);
   const [uploadedImage, setUploadedImage] = useState(null);
   const dispatch = useDispatch()
-  let initialState; 
-
-  if (action === 'edit'){
-    setUploadedImage(userData.providerLogo)
-    initialState = {p_name: userData.name};
-  }  else{
-    initialState = {p_name: ''};
-  }
+  const initialState = action === 'edit' ? { p_name: userData?.name || '' } : { p_name: '' };
 const { values, handleChange, resetForm, errors } = useForm(initialState);
   useEffect(() => {
     resetForm(initialState);
-    setUploadedImage(userData?.icon) 
+    setUploadedImage(userData?.providerLogo || null);
   }, [userData]);
 
 

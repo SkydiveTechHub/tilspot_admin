@@ -9,15 +9,44 @@ import { Dropdown, Menu, Space, Switch } from "antd";
 import { CiMenuKebab } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
 import DeleteInstanceModal from "../../../components/shared/Modals/DeleteInstanceModal";
+import { useDispatch } from "react-redux";
+import { enableOrDisableCategory, getAllCategories } from "../../../store/actions";
+
+
 const role = localStorage.getItem('role')
-const InstanceView = () => {
+const InstanceView = ({data, catStatus, id, ppId}) => {
   const [open, setOpen] = useState(false)
+  const [provId, setProvId] = useState('ppId')
   const [openDelete, setOpenDelete] = useState(false)
   const [openStatus, setOpenStatus] = useState(false)
   const [status, setStatus] = useState('')
   const [userData, setUserData] = useState([])
   const [action, setAction] = useState('create')
   const navigate = useNavigate()
+  const dispatch =  useDispatch()
+
+    const handleDelete = async () =>{
+      try {
+        // const res = await dispatch(deleteProvider({
+        //   catId :id,
+        //   providerId:provId
+        // }))
+        
+  
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    const onChange = async (checked) => {
+      try {
+        await dispatch(enableOrDisableCategory(id)).then(
+          dispatch(getAllCategories())
+        )
+  
+      } catch (error) {
+        console.log(error)
+      }
+    };
 
   const usable_column = [
     ...columns,
@@ -81,21 +110,23 @@ return (
               openModal={openDelete}
               char={'Transport Provider'}
               handleCancel={()=>setOpenDelete(false)}
-              handleOk={()=>setOpenDelete(false)}
+              handleOk={handleDelete}
 
           />
           <AddTransportProvider
               openModal={open}
-              handleCancel={()=>setOpen(false)}
-              handleOk={()=>setOpen(false)}
+              handleCancel={()=>{setOpen(false); setAction('create')}}
+              handleOk={()=>{setOpen(false); setAction('create')}}
               userData={userData}
               action={action}
+              catId={id}
+              provId={provId}
           /> 
           {
             role === 'admin'&&
             <div className="flex justify-between items-center">
               <PryButton handleClick={()=>{setAction('create');setOpen(true)}} text={'Add Transport Route'}/>
-              <span className="font-mont">Enable Service: <Switch/></span>
+              <span className="font-mont">Enable Service: <Switch checked={catStatus} onChange={onChange} /></span>
             </div>            
           }
           <div className="">
@@ -132,8 +163,8 @@ const columns = [
 
     {
       title: 'Departure Location',
-      dataIndex: 'departure',
-      key: 'departure',
+      dataIndex: 'start',
+      key: 'start',
     },
     {
       title: 'Destination',
@@ -142,13 +173,13 @@ const columns = [
     },
     {
       title: 'Departure Time',
-      dataIndex: 'd_time',
-      key: 'd_time',
+      dataIndex: 'departureTime',
+      key: 'departureTime',
     },
     {
       title: 'Arrival Time',
-      dataIndex: 'a_time',
-      key: 'a_time',
+      dataIndex: 'arrivalTime',
+      key: 'arrivalTime',
     },
 
     {
@@ -161,14 +192,3 @@ const columns = [
   ];
 
 
-const data = [
-    {
-    //   key: '1',
-      departure: 'Lagos',
-      destination: 'Abuja',
-      d_time: '9:00',
-      a_time: '12:00',
-      price: '1000',
-    },
-
-  ];
