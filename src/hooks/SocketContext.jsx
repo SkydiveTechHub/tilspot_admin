@@ -10,7 +10,10 @@ export const SocketProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
 
   useEffect(() => {
-    const socketInstance = io(process.env.REACT_APP_SOCKET_URL, {
+    const socketInstance = io(
+      // process.env.REACT_APP_SOCKET_URL
+      'https://tilspot-production.up.railway.app'
+      , {
       transports: ["websocket"],
       reconnectionAttempts: 5,
       reconnectionDelay: 2000,
