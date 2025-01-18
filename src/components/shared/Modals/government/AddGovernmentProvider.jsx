@@ -71,7 +71,7 @@ const { values, handleChange, resetForm, errors } = useForm(initialState);
         onCancel={handleCancel}
       >
 
-        <div className="flex items-center gap-2">
+        {/* <div className="flex items-center gap-2">
           {uploadedImage && (
             <div className="image-preview">
               <img src={uploadedImage} alt="Uploaded Preview" style={{ width: '60px', height: '60px', borderRadius: '50%' }} />
@@ -81,7 +81,7 @@ const { values, handleChange, resetForm, errors } = useForm(initialState);
           {
             uploadedImage === '' || uploadedImage === null && <span className='text-[12px] italic  text-[gray]'>Optional</span>
           }
-        </div>
+        </div> */}
         
         <form className='mt-6 space-y-6' onSubmit={handleSubmit}>
           <FormInput

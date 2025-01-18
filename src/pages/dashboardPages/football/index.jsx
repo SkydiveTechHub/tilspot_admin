@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react'
 import { BlackText, GrayText } from '../../../components/shared/typograph'
 import { PryButton } from '../../../components/shared/button'
 import InstanceView from './InstanceView'
-import AddFootballTicketProvider from '../../../components/shared/Modals/football/AddFootballProvider'
 import { useDispatch, useSelector } from 'react-redux'
-import { getMatch } from '../../../store/actions'
+import { getMatch, getProviderByCategory } from '../../../store/actions'
 import { checkCategory } from '../../../store/reducers/providerSlice'
+import AddFootballTicketProvider from '../../../components/shared/Modals/football/AddFootballProvider'
 
 const role = localStorage.getItem('role')
 const FootballPage = () => {
@@ -13,7 +13,8 @@ const FootballPage = () => {
   const [hasData, setHasData] = useState(false)
   const [data, setData] = useState([])
   const [catId, setCatId] = useState('');
-      const [catStatus, setCatStatus] = useState(false);
+  const [provId, setProvId] = useState('');
+  const [catStatus, setCatStatus] = useState(false);
   const dispatch = useDispatch();
   const { categories } = useSelector((state) => state.providers);
 
@@ -29,15 +30,30 @@ const FootballPage = () => {
       }
     }, [categories]);
 
+
+            const fetchMatchData = async (id)=>{
+              console.log(id)
+              try {
+                const res = await dispatch(getMatch())
+                      console.log(res)
+                      if(res.payload.statusCode){
+                        setData(res.payload.data)
+                        setProvId(id)
+                        setHasData(true)
+                      }
+              } catch (error) {
+                  console.log(error)
+              }
+            }
+
         useEffect(()=>{
           const fetchProvider = async() =>{
             if (catId){
               try {
-              const res = await dispatch(getMatch())
-              console.log(res)
+              const res = await dispatch(getProviderByCategory(catId))
+              
               if(res.payload.statusCode){
-                setData(res.payload.providers)
-                setHasData(true)
+                fetchMatchData(res.payload.providers[0]._id)
               }                
               } catch (error) {
                 
@@ -47,16 +63,21 @@ const FootballPage = () => {
           };
           fetchProvider()
         },[catId])
+
+        console.log(provId, catId)
   return (
     <>
             <AddFootballTicketProvider
+                catId={catId}
+                provId={provId}            
                 openModal={open}
                 handleCancel={()=>setOpen(false)}
                 handleOk={()=>setOpen(false)}
+                action={'create'}
             />   
         {
           hasData?
-          <InstanceView id={catId} catStatus={catStatus} data={data}/>
+          <InstanceView p_Id={provId} id={catId} catStatus={catStatus} data={data}/>
           :
           <div className='h-screen'>
 

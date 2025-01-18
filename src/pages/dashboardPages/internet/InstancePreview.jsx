@@ -9,17 +9,21 @@ import { useNavigate, useParams } from 'react-router-dom'
  
 import AddParkingZone from '../../../components/shared/Modals/parking/AddParkingZone'
 import AddInternetPlan from '../../../components/shared/Modals/Internet/AddInternetPlan'
-import { useDispatch } from 'react-redux'
-import { createInternetPlans, getPlansByProvider } from '../../../store/actions'
+import { useDispatch, useSelector } from 'react-redux'
+import { createInternetPlans, deleteProvider, getPlansByProvider } from '../../../store/actions'
+import { checkCategory } from '../../../store/reducers/providerSlice'
 
 const PreviewInternetProvider = () => {
   const params = useParams()
+  const [data, setData] = useState()
   const {id} = params
   const dispatch = useDispatch()
+  const [catId, setCatId] = useState('')
   const navigate = useNavigate()
   const [open, setOpen] = useState(false)
   const [upgradeModal, setUpgradeModal] = useState(false)
   const [deleteZone, setDeleteZone] = useState(false)
+  const { categories } = useSelector((state) => state.providers);
   const usable_column = [
     ...columns,
     {
@@ -38,6 +42,15 @@ const PreviewInternetProvider = () => {
     },
   ];
 
+      useEffect(() => {
+        if (categories) {
+          const cat = categories.find((i) => i.name === 'Internet');
+          setCatId(cat._id);
+        } else {
+          dispatch(checkCategory())
+        }
+      }, [categories]);
+
 
   const fetchProviderPlans = async ()=>{
     try {
@@ -47,6 +60,31 @@ const PreviewInternetProvider = () => {
       
     }
   }
+
+    const handleDelete = async () =>{
+      try {
+        const res = await dispatch(deleteProvider({
+          catId :catId,
+          providerId:id
+        }))
+        
+  
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    const handleDeletePlan = async () =>{
+      try {
+        const res = await dispatch(deleteProvider({
+          catId :catId,
+          providerId:id
+        }))
+        
+  
+      } catch (error) {
+        console.log(error)
+      }
+    }
 
   useEffect(()=>{
     fetchProviderPlans()
@@ -63,14 +101,14 @@ const PreviewInternetProvider = () => {
         openModal={open}
         char={'Internet Provider'}
         handleCancel={()=>setOpen(false)}
-        handleOk={()=>setOpen(false)}
+        handleOk={handleDelete}
 
     />
           <DeleteInstanceModal
         openModal={deleteZone}
         char={'Internet Plan'}
         handleCancel={()=>setDeleteZone(false)}
-        handleOk={()=>setDeleteZone(false)}
+        handleOk={handleDeletePlan}
 
     />
       <div>
@@ -125,13 +163,3 @@ const columns = [
 ];
 
 
-const data = [
-  {
-  //   key: '1',
-    name: 'Long Sub',
-    duration: '30days',
-    price: '1000',
-  },
-
-
-];

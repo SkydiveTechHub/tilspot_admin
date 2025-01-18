@@ -28,6 +28,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { checkAuth } from "./store/reducers/authSlice";
 import StatisticPage from "./pages/dashboardPages/statistics";
+import { SocketProvider } from "./hooks/SocketContext";
 
 
 function App() {
@@ -52,63 +53,67 @@ function App() {
 		<>
 		  {loading &&  <Loader />}
 
-		  
+			<SocketProvider>
 			<Routes>
-				{
-					hasRole&&
+				
+					{
+						hasRole&&
 
-					<>
-							<Route element={<ProtectedRoute roles={['admin']} />}>
-								<Route element={<DashboardLayout />}>
-									<Route path="/dashboard/staff" element={<StaffPage />} />
-									<Route path="/dashboard/fees" element={<FeesPage/>}/>
-									<Route path="/dashboard/statistics" element={<StatisticPage/>}/>
-									<Route path="/dashboard/preview-internet/:id" element={<PreviewInternetProvider/>}/>
-									<Route path="/dashboard/parking-location/:id" element={<PreviewParkingLocation/>}/>
-									<Route path="/dashboard/preview-football" element={<PreviewFootballMatches/>}/>
-								</Route>
-							</Route>
-
-							<Route element={<ProtectedRoute roles={['operator']} />}>
-								<Route element={<DashboardLayout />}>
-									<Route path="/dashboard" element={<Dashboard />} />
-						
+						<>
+								<Route element={<ProtectedRoute roles={['admin']} />}>
+									<Route element={<DashboardLayout />}>
+										<Route path="/dashboard/staff" element={<StaffPage />} />
+										<Route path="/dashboard/fees" element={<FeesPage/>}/>
+										<Route path="/dashboard/statistics" element={<StatisticPage/>}/>
+										<Route path="/dashboard/preview-internet/:id" element={<PreviewInternetProvider/>}/>
+										<Route path="/dashboard/parking-location/:id" element={<PreviewParkingLocation/>}/>
+										<Route path="/dashboard/preview-football/:id" element={<PreviewFootballMatches/>}/>
+									</Route>
 								</Route>
 
-								
-							</Route>			
-							<Route element={<ProtectedRoute roles={['operator', 'admin']} />}>
-								<Route element={<DashboardLayout />}>
-									<Route path="/dashboard/airtime" element={<AirtimePage/>}/>
-									<Route path="/dashboard/internet" element={<InternetPage/>}/>
-									
-									<Route path="/dashboard/gas" element={<GasPage/>}/>
-									<Route path="/dashboard/electricity" element={<ElectricityPage/>}/>
-									<Route path="/dashboard/parking" element={<ParkingPage/>}/>
-									
-									<Route path="/dashboard/transport" element={<TransportPage/>}/>
-									<Route path="/dashboard/cable" element={<CablePage/>}/>
-									<Route path="/dashboard/football" element={<FootballPage/>}/>
-									
-									<Route path="/dashboard/government" element={<GovernmentPage/>}/>
-									<Route path="/dashboard/housing" element={<HousingPage/>}/>
-									<Route path="/dashboard/waste" element={<WastePage/>}/>
-						
-								</Route>
+								<Route element={<ProtectedRoute roles={['operator']} />}>
+									<Route element={<DashboardLayout />}>
+										<Route path="/dashboard/" element={<Dashboard />} />
+							
+									</Route>
 
-								
-							</Route>			
-					</>
+									
+								</Route>			
+								<Route element={<ProtectedRoute roles={['operator', 'admin']} />}>
+									<Route element={<DashboardLayout />}>
+										<Route path="/dashboard/airtime" element={<AirtimePage/>}/>
+										<Route path="/dashboard/internet" element={<InternetPage/>}/>
+										
+										<Route path="/dashboard/gas" element={<GasPage/>}/>
+										<Route path="/dashboard/electricity" element={<ElectricityPage/>}/>
+										<Route path="/dashboard/parking" element={<ParkingPage/>}/>
+										
+										<Route path="/dashboard/transport" element={<TransportPage/>}/>
+										<Route path="/dashboard/cable" element={<CablePage/>}/>
+										<Route path="/dashboard/football" element={<FootballPage/>}/>
+										
+										<Route path="/dashboard/government" element={<GovernmentPage/>}/>
+										<Route path="/dashboard/housing" element={<HousingPage/>}/>
+										<Route path="/dashboard/waste" element={<WastePage/>}/>
+							
+									</Route>
 
-				}
-				<Route path="/" element={<Login />} />
-				<Route path="/login" element={<Login />} />
-				<Route path="/register" element={<Register />} />
-				<Route path="/reset-password" element={<ResetPassword />} />
-				<Route path="/forgot-password" element={<ForgotPassword />} />
-				<Route path="/otp" element={<OPTpage />} />
+									
+								</Route>			
+						</>
+
+					}
+					<Route path="/" element={<Login />} />
+					<Route path="/login" element={<Login />} />
+					<Route path="/register" element={<Register />} />
+					<Route path="/reset-password" element={<ResetPassword />} />
+					<Route path="/forgot-password" element={<ForgotPassword />} />
+					<Route path="/otp" element={<OPTpage />} />
+				
+
+
 			</Routes>
-
+			</SocketProvider>
 		</>
 	);
 }

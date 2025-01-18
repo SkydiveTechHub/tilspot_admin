@@ -95,7 +95,7 @@ const AddInternetPlan = ({ id, openModal, handleOk, handleCancel }) => {
                     type="text"
                     name={`price-${index}`}
                     value={plan.price}
-                    onChange={(e) => handlePlanChange(index, 'price', e.target.value)}
+                    onChange={(e) => handlePlanChange(index, 'price', Number(e.target.value))}
                     placeholder="Enter plan price"
                   />
                   <FormInput

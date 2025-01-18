@@ -36,17 +36,17 @@ export const DeactivateModal = ({children, title, openModal, handleOk, handleCan
 };
 export const LogoutModal = ({children, title, openModal, handleOk, handleCancel }) => {
   const url = process.env.REACT_APP_TEST_URL;
-  const socket = io('https://55c9-102-89-22-32.ngrok-free.app',{
-    reconnectionAttempts:5
-  });
+  // const socket = io(url,{
+  //   reconnectionAttempts:5
+  // });
 
-    useEffect(() => {
-      socket.on("disconnection", () => console.log("Socket is disconnected"));
+    // useEffect(() => {
+    //   socket.on("disconnection", () => console.log("Socket is disconnected"));
   
-      return () => {
-        socket.off("disconnection");
-      };
-    }, []);
+    //   return () => {
+    //     socket.off("disconnection");
+    //   };
+    // }, []);
 
   const dispatch = useDispatch()
   const navigate = useNavigate()

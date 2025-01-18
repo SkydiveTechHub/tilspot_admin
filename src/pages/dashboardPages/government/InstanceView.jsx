@@ -29,15 +29,20 @@ const InstanceView = ({data, catStatus, id}) => {
         catId :id,
         providerId:provId
       }))
-      
+      if(res.statusCode){
+        setOpenDelete(false)
+      }
 
     } catch (error) {
       console.log(error)
     }
   }
   const onChange = async (checked) => {
+    const payload ={
+      id, checked
+    }
     try {
-      await dispatch(enableOrDisableCategory(id)).then(
+      await dispatch(enableOrDisableCategory(payload)).then(
         dispatch(getAllCategories())
       )
 
@@ -45,6 +50,7 @@ const InstanceView = ({data, catStatus, id}) => {
       console.log(error)
     }
   };
+
 
   const usable_column = [
     ...columns,
@@ -109,8 +115,8 @@ return (
           />
           <AddGovernmentProvider
               openModal={open}
-              handleCancel={()=>setOpen(false)}
-              handleOk={()=>setOpen(false)}
+              handleCancel={()=>{setOpen(false); setAction('create')}}
+              handleOk={()=>{setOpen(false); setAction('create')}}
               userData={userData}
               action={action}
               catId={id}

@@ -11,7 +11,7 @@ import { getAllCategories, login } from "../../store/actions";
 import { io } from "socket.io-client";
 
 const url = process.env.REACT_APP_SOCKET_URL;
-const socket = io('https://55c9-102-89-22-32.ngrok-free.app', {
+const socket = io(url, {
   transports: ['websocket'], 
       reconnectionAttempts: 5, 
     reconnectionDelay: 2000, 
@@ -30,13 +30,13 @@ const Login = () => {
   const dispatch = useDispatch();
   const { values, handleChange, resetForm, errors } = useForm(initialState);
 
-  useEffect(() => {
-    socket.on("connect", () => console.log("Socket is connected", socket.id));
+  // useEffect(() => {
+  //   socket.on("connect", () => console.log("Socket is connected", socket.id));
 
-    return () => {
-      socket.off("connect");
-    };
-  }, []);
+  //   return () => {
+  //     socket.off("connect");
+  //   };
+  // }, []);
 
 
   const handleSubmit = async (e) => {
@@ -54,7 +54,7 @@ const Login = () => {
           await dispatch(getAllCategories());
           navigate("/dashboard/staff");
         } else {
-          navigate("/dashboard");
+          navigate("/dashboard/");
         }
       }
     } catch (error) {

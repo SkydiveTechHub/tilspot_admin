@@ -4,6 +4,7 @@ import FormInput from '../../../components/shared/FormInput';
 import { PryButton } from '../../../components/shared/button';
 import { useDispatch, useSelector } from 'react-redux';
 import { checkCategory } from '../../../store/reducers/providerSlice';
+import { setFees } from '../../../store/actions';
 
 const FeesPage = () => {
   const dispatch = useDispatch();
@@ -30,11 +31,30 @@ const FeesPage = () => {
   }, [categories]);
 
 
+
   const { values, handleChange, resetForm, errors } = useForm(initialState, initialState);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(values); 
+
+    const params ={
+      processing_fees: Object.values(values).map(item => Number(item.amount)),
+      processing_fee_types: Object.values(values).map(item => item.factor),
+      categoryIds: categories.map((i)=>i._id)
+    }
+
+    console.log(params)
+
+    try {
+      const res = await dispatch(setFees(params));
+      console.log(res)
+    } catch (error) {
+      console.log(error)
+    }
+
+
+    console.log(params)
   };
 
   return (

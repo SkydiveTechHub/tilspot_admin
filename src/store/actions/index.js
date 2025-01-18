@@ -39,9 +39,14 @@ export {
   getZonesByLocation,
   getLocations,
   getMatch,
+  editMatch,
   createMatch,
   createJorney,
   editJourney,
   getAllJourney,
-  getJourneyDetails
+  getJourneyDetails,
+  getMatchTickets,
+  deleteMatch,
+  deleteTicket,
+  setFees
 } from "./providerAction";

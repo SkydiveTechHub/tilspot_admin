@@ -86,6 +86,20 @@ export const getMatch = createAsyncThunk(
         }
     }
 )
+export const getMatchTickets = createAsyncThunk(
+    'provider/get_match_tickets',
+    async (data, {dispatch, rejectWithValue })=>{
+        dispatch(startLoad())
+        try {
+            const res = await providerService.GetMatchTickets(data)
+            return res
+        } catch (error) {
+            return rejectWithValue(error.response.data)
+        } finally{
+            dispatch(stopLoad())
+        }
+    }
+)
 export const getAllJourney = createAsyncThunk(
     'provider/get_all_journey',
     async (data, {dispatch, rejectWithValue })=>{
@@ -268,6 +282,20 @@ export const editZone = createAsyncThunk(
         }
     }
 )
+export const editMatch = createAsyncThunk(
+    'provider/edit_match',
+    async (data, {dispatch, rejectWithValue })=>{
+        dispatch(startLoad())
+        try {
+            const res = await providerService.EditMatch(data)
+            return res
+        } catch (error) {
+            return rejectWithValue(error.response.data)
+        }finally{
+            dispatch(stopLoad())
+        }
+    }
+)
 export const deleteProvider = createAsyncThunk(
     'provider/delete_provider',
     async (data, {dispatch, rejectWithValue })=>{
@@ -324,12 +352,54 @@ export const deleteZone = createAsyncThunk(
         }
     }
 )
+export const deleteMatch = createAsyncThunk(
+    'provider/delete_match',
+    async (data, {dispatch, rejectWithValue })=>{
+        dispatch(startLoad())
+        try {
+            const res = await providerService.DeleteMatch(data)
+            return res
+        } catch (error) {
+            return rejectWithValue(error.response.data)
+        }finally{
+            dispatch(stopLoad())
+        }
+    }
+)
+export const deleteTicket = createAsyncThunk(
+    'provider/delete_ticket',
+    async (data, {dispatch, rejectWithValue })=>{
+        dispatch(startLoad())
+        try {
+            const res = await providerService.DeleteTicket(data)
+            return res
+        } catch (error) {
+            return rejectWithValue(error.response.data)
+        }finally{
+            dispatch(stopLoad())
+        }
+    }
+)
 export const enableOrDisableCategory = createAsyncThunk(
     'provider/enableOrDisableCategory',
     async (data, {dispatch, rejectWithValue })=>{
         dispatch(startLoad())
         try {
             const res = await providerService.EnableOrDisableCategory(data)
+            return res
+        } catch (error) {
+            return rejectWithValue(error.response.data)
+        }finally{
+            dispatch(stopLoad())
+        }
+    }
+)
+export const setFees = createAsyncThunk(
+    'provider/set_fees',
+    async (data, {dispatch, rejectWithValue })=>{
+        dispatch(startLoad())
+        try {
+            const res = await providerService.SetFees(data)
             return res
         } catch (error) {
             return rejectWithValue(error.response.data)

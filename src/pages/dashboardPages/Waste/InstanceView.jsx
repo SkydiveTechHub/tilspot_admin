@@ -38,8 +38,11 @@ const InstanceView = ({data, catStatus, id}) => {
     }
   }
   const onChange = async (checked) => {
+    const payload ={
+      id, checked
+    }
     try {
-      await dispatch(enableOrDisableCategory(id)).then(
+      await dispatch(enableOrDisableCategory(payload)).then(
         dispatch(getAllCategories())
       )
 
@@ -47,6 +50,7 @@ const InstanceView = ({data, catStatus, id}) => {
       console.log(error)
     }
   };
+
 
   const usable_column = [
     ...columns,

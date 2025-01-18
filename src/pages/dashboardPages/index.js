@@ -16,26 +16,40 @@ import StatisticsModal from "../../components/shared/Modals/StatisticModal";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllBills, getMyRecord, getOperatorRecord } from "../../store/actions";
 import { io } from "socket.io-client";
+import { useSocket } from "../../hooks/SocketContext";
 
 const userData = JSON.parse(localStorage.getItem('userData'))
 const url = process.env.REACT_APP_SOCKET_URL;
-const socket = io(url, {
-    // reconnection:false,
-    reconnectionAttempts: 5, 
-    reconnectionDelay: 2000, 
-      // transports: ['websocket'], 
-      withCredentials: true,
-  });
+
 
 const Dashboard = () => {
 
-      useEffect(() => {
-        socket.on("completedBills", (bills, date, time) => console.log(bills, date,time));
+    const socket = useSocket();
+    const [billData, setBillsData] = useState([])
+
     
-        return () => {
-          socket.off("completedBills");
-        };
-      }, []);
+    console.log(socket)
+
+    useEffect(() => {
+    console.log(socket)
+      if (!socket) return;
+  
+      // Listen for the "completedBills" event
+      socket.on("completedBills", ({bills, date, time}) => {
+        console.log("Bills:", bills);
+        if(bills.lenght>1){
+          setBillsData(bills)
+        }
+        console.log("Date:", date);
+        console.log("Time:", time);
+      });
+  
+      // Cleanup on component unmount
+      return () => {
+        socket.off("completedBills");
+      };
+    }, [socket]);
+  
 
 
 

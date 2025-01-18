@@ -25,9 +25,7 @@ const AddTransportProvider = ({
   const [range, setRange] = useState(null); // For time range
   const [active, setActive] = useState(false); // For button activation
   const [successModalOpen, setSuccessModalOpen] = useState(false); // Success modal state
-  const format = 'HH:mm'; // Time format
-
-  // Initial form state based on action
+  const format = 'HH:mm'; 
   const initialState = action === 'edit'
     ? {
         departure: userData?.start || '',
@@ -58,7 +56,7 @@ const AddTransportProvider = ({
     setRange(dates);
   };
 
-  // Validate form fields to enable/disable the button
+
   useEffect(() => {
     setActive(
       !!values.departure &&

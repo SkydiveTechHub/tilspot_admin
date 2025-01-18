@@ -7,68 +7,107 @@ import ConfirmModal from '../ConfirmModal';
 import { GrayText, Label } from '../../typograph';
 import SuccessModal from '../SuccessModal';
 import { DatePicker, Space } from 'antd';
-import { createMatch } from '../../../../store/actions';
+import { createMatch, editMatch } from '../../../../store/actions';
 import { useDispatch } from 'react-redux';
+import { formatDate } from '../../../../utils/tools';
 
 
 
 const initialState = {
-  instance_name: '',
-  type: '',
+  league:'',
+  home: '',
+  away: '',
+  stadium: '',
+  time: '',
 };
 
 const AddFootballTicketProvider = ({ catId, provId, action, userData, openModal, handleOk, handleCancel }) => {
   const dispatch = useDispatch()
   const [active, setActive] = useState(false);
   const [more, setMore] = useState(false);
+  const [date, setDate] = useState('');
   const [secondModalOpen, setSecondModalOpen] = useState(false);
-  const [ticketType, setTicketType] = useState([{ name: "", price: ""}]);
+  const [ticketType, setTicketType] = useState([{sittingArea: "", price: "", description:''}]);
+  const initialState = action === 'edit' ? {
+    league:userData.league,
+    home: userData.homeTeam,
+    away: userData.awayTeam,
+    stadium: userData.stadium,
+    time: userData.dateTime,
+  } : {
+    league:'',
+    home: '',
+    away: '',
+    stadium: '',
+    time: '',
+  };
   const { values, handleChange, resetForm, errors } = useForm(initialState);
+
+  useEffect(() => {
+    resetForm(initialState);
+    setTicketType(userData?.tickets || []);
+  }, [userData]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form submitted:', values);
+    console.log(catId, provId);
+
     const params = {
-        name:values.p_name,
-        providerLogo: ''
+      catId,
+      provId,
+      payload:{
+        homeTeam: values.home,
+        awayTeam:values.away,
+        stadium:values.stadium,
+        tickets:ticketType,
+        league:values.league,
+        dateTime:formatDate(date)
+        }
+    }
+
+      console.log(params)
+    try {
+      let res 
+      if(action ==='edit'){
+        res =  await dispatch(editMatch({
+        matchId:userData._id,
+        provId:provId,
+        payload:params
+      })) 
+      }else{
+        res =  await dispatch(createMatch(params)) 
       }
-    // try {
-    //   let res 
-    //   if(action ==='edit'){
-    //     res =  await dispatch(editProvider({
-    //     catId:catId,
-    //     provId:provId,
-    //     payload:params
-    //   })) 
-    //   }else{
-    //     res =  await dispatch(createMatch({
-    //       catId:catId,
-    //       payload:params
-    //     })) 
-    //   }
 
 
-    //   console.log(res)
-    //   if (res.payload.statusCode){
-    //     setIsSuccessModalOpen(true); 
-    //     handleOk(); 
-    //   }
-    // } catch (error) {
+      console.log(res)
+      if (res.payload.statusCode){
+        setSecondModalOpen(true)
+        handleOk()
+        // setIsSuccessModalOpen(true); 
+        // handleOk(); 
+      }
+    } catch (error) {
       
-    // }
+    }
     resetForm()
   };
 
   const validate = () => {
-    setActive(!!values.instance_name);
+    setActive(!!values.league);
   };
 
   useEffect(() => {
     validate();
   }, [values]); 
 
+  const handleTicketChange = (index, field, value) => {
+    const updatedPlans = [...ticketType];
+    updatedPlans[index][field] = value;
+    setTicketType(updatedPlans);
+  };
+
     const IncreasePlanCount = () => {
-      setTicketType([...ticketType, { name: "", price: ""}]);
+      setTicketType([...ticketType, { sittingArea: "", price: "", description:''}]);
   };
 
   const DecreasePlanCount = (index) => {
@@ -99,11 +138,11 @@ const AddFootballTicketProvider = ({ catId, provId, action, userData, openModal,
             <FormInput
               label="League Name"
               type="text"
-              name="instance_name"
-              value={values.instance_name}
+              name="league"
+              value={values.league}
               onChange={handleChange}
               placeholder="Enter provider name"
-              error={errors?.instance_name}
+              error={errors?.league}
     
             />
             <div className='relative w-full'>
@@ -111,8 +150,9 @@ const AddFootballTicketProvider = ({ catId, provId, action, userData, openModal,
               <DatePicker
                 showTime
                 onChange={(value, dateString) => {
-                  console.log('Selected Time: ', value);
-                  console.log('Formatted Selected Time: ', dateString);
+                  // console.log('Selected Time: ', value);
+                  // console.log('Formatted Selected Time: ', dateString);
+                  setDate(dateString)
                 }}
                 onOk={onOk}
               />
@@ -124,22 +164,22 @@ const AddFootballTicketProvider = ({ catId, provId, action, userData, openModal,
             <FormInput
               label="Home Team"
               type="text"
-              name="instance_name"
-              value={values.instance_name}
+              name="home"
+              value={values.home}
               onChange={handleChange}
-              placeholder="Enter provider name"
-              error={errors?.instance_name}
+              placeholder="Enter Home Team"
+              error={errors?.home}
     
             />
             <span>-</span>
             <FormInput
               label="Away Team"
               type="text"
-              name="instance_name"
-              value={values.instance_name}
+              name="away"
+              value={values.away}
               onChange={handleChange}
               placeholder="Enter provider name"
-              error={errors?.instance_name}
+              error={errors?.away}
     
             />
           </div>
@@ -147,15 +187,18 @@ const AddFootballTicketProvider = ({ catId, provId, action, userData, openModal,
           <FormInput
             label="Stadium"
             type="text"
-            name="instance_name"
-            value={values.instance_name}
+            name="stadium"
+            value={values.stadium}
             onChange={handleChange}
             placeholder="Enter provider name"
-            error={errors?.instance_name}
+            error={errors?.stadium}
   
           />
 
+          
+
           <div className='space-y-4'>
+            <p className='bg-gray font-semibold'>Match Tickets</p>
             {
               ticketType.map((i, id)=>{
                 return(
@@ -166,9 +209,9 @@ const AddFootballTicketProvider = ({ catId, provId, action, userData, openModal,
                           <FormInput
                             label="Seat Area"
                             type="text"
-                            name="instance_name"
-                            value={values.instance_name}
-                            onChange={handleChange}
+                            name="sittingArea"
+                            value={i.sittingArea}
+                            onChange={(e) => handleTicketChange(id, 'sittingArea', (e.target.value))}
                             placeholder="Enter plan name"
                             error={errors?.instance_name}
                   
@@ -176,9 +219,9 @@ const AddFootballTicketProvider = ({ catId, provId, action, userData, openModal,
                           <FormInput
                             label="Price per Ticket"
                             type="text"
-                            name="instance_name"
-                            value={values.instance_name}
-                            onChange={handleChange}
+                            name="price"
+                            value={i.price}
+                            onChange={(e) => handleTicketChange(id, 'price', Number(e.target.value))}
                             placeholder="Enter plan price"
                             error={errors?.instance_name}              
                           />     
@@ -187,10 +230,10 @@ const AddFootballTicketProvider = ({ catId, provId, action, userData, openModal,
                         <FormInput
                             label="Description"
                             type="textarea"
-                            name="instance_name"
-                            value={values.instance_name}
-                            onChange={handleChange}
-                            placeholder="Enter plan price"
+                            name="description"
+                            value={i.description}
+                            onChange={(e) => handleTicketChange(id, 'description', e.target.value)}
+                            placeholder="Enter description"
                             error={errors?.instance_name}
                   
                           />  
@@ -241,10 +284,7 @@ const AddFootballTicketProvider = ({ catId, provId, action, userData, openModal,
             error={errors?.type}
           /> */}
 
-          <AuthButton handleClick={()=>{
-            setSecondModalOpen(true)
-            handleCancel()
-            }} inactive={!active} value="Add Match" />
+          <AuthButton inactive={!active} value="Add Match" />
         </form>
       </Modal>    
     </>

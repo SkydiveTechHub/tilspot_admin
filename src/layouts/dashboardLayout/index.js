@@ -2,25 +2,38 @@ import React, { useEffect, useState } from 'react';
 import TopNav from '../../components/dashboardComponents/TopNav.jsx';
 import { Outlet } from 'react-router-dom';
 import SideBar from '../../components/dashboardComponents/SideBar';
-import { io } from "socket.io-client";
+import { useSocket } from '../../hooks/SocketContext.jsx';
 
-const url = process.env.REACT_APP_SOCKET_URL;
-const socket = io('https://55c9-102-89-22-32.ngrok-free.app', {
-  transports: ['websocket'], 
-      reconnectionAttempts: 5, 
-    reconnectionDelay: 2000, 
-  withCredentials: true,    
-});
 
 const DashboardLayout = () => {
+  const userData = JSON.parse(localStorage.getItem('userData'))
+      const socket = useSocket();
+      useEffect(() => {
+        if (socket) {
+    
+          const userId = userData.id; 
+          const userType = 'admin';
+    
+          if (userId && userType) {
 
-  useEffect(() => {
-    socket.on("identify", (userId, userType) => console.log(userId, userType));
+            socket.emit("identify", { userId, userType });
+            console.log("Emitting 'identify' event with:", { userId, userType });
+          } else {
+            console.error("Missing userId or userType");
+          }
+    
 
-    return () => {
-      socket.off("identify");
-    };
-  }, []);
+          socket.on("identify", (response) => {
+            console.log("Identify response from server:", response);
+          });
+        }
+    
+        return () => {
+          if (socket) {
+            socket.off("identify");
+          }
+        };
+      }, [socket]);
 
   const [open, setOpen] = useState(false);
   const handleToggleSidebar = () => {

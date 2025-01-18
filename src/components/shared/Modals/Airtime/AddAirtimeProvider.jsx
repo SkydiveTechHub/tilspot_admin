@@ -51,8 +51,6 @@ const AddAirtimeProvider = ({catId, action, userData, openModal, handleOk, handl
         })) 
       }
 
-
-      console.log(res)
       if (res.payload.statusCode){
         dispatch(getProviderByCategory(catId));
         setIsSuccessModalOpen(true); 

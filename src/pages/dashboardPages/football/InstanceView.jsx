@@ -8,10 +8,11 @@ import { Dropdown, Menu, Space, Switch } from "antd";
 import { CiMenuKebab } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { enableOrDisableCategory, getAllCategories } from "../../../store/actions";
+import { deleteMatch, enableOrDisableCategory, getAllCategories } from "../../../store/actions";
+import DeleteInstanceModal from "../../../components/shared/Modals/DeleteInstanceModal";
 
 const role = localStorage.getItem('role')
-const InstanceView = ({data, catStatus, id}) => {
+const InstanceView = ({data, catStatus, id, p_Id}) => {
   const navigate = useNavigate()
   const [open, setOpen] = useState(false)
     const [provId, setProvId] = useState(false)
@@ -24,21 +25,21 @@ const InstanceView = ({data, catStatus, id}) => {
 
   console.log(data)
 
-  // const handleDelete = async () =>{
-  //   try {
-  //     const res = await dispatch(deleteProvider({
-  //       catId :id,
-  //       providerId:provId
-  //     }))
+  const handleDelete = async () =>{
+    try {
+      const res = await dispatch(deleteMatch(provId))
       
 
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  // }
+    } catch (error) {
+      console.log(error)
+    }
+  }
   const onChange = async (checked) => {
+    const payload ={
+      id, checked
+    }
     try {
-      await dispatch(enableOrDisableCategory(id)).then(
+      await dispatch(enableOrDisableCategory(payload)).then(
         dispatch(getAllCategories())
       )
 
@@ -46,6 +47,7 @@ const InstanceView = ({data, catStatus, id}) => {
       console.log(error)
     }
   };
+
 
   const usable_column = [
     ...columns,
@@ -59,7 +61,7 @@ const InstanceView = ({data, catStatus, id}) => {
           const { key } = e;
           switch (key) {
             case "1":
-              navigate("/dashboard/preview-football");
+              navigate(`/dashboard/preview-football/${record.providerId}-${record._id}`);
               break;
               case "2":
                 setAction('edit')
@@ -103,10 +105,21 @@ const InstanceView = ({data, catStatus, id}) => {
 return (
 
         <div className="space-y-6">
+          <DeleteInstanceModal
+              openModal={openDelete}
+              char={'Match'}
+              handleCancel={()=>setOpenDelete(false)}
+              handleOk={handleDelete}
+
+          />
           <AddFootballTicketProvider
               openModal={open}
-              handleCancel={()=>setOpen(false)}
-              handleOk={()=>setOpen(false)}
+              handleCancel={()=>{setOpen(false); setAction('create')}}
+              handleOk={()=>{setOpen(false); setAction('create')}}
+              action={action}
+              catId={id}
+              provId={p_Id}
+              userData={userData}
           /> 
           {
             role === 'admin'&&
@@ -118,7 +131,7 @@ return (
 
 
             <Section title={"Available Football Matches"}>
-                <TransactionsTable handleDelete={()=>{}} columns={usable_column} data={data}/>            
+                <TransactionsTable  columns={usable_column} data={data}/>            
             </Section> 
 
         </div>
@@ -143,11 +156,13 @@ export const Card = ({bgColor, TColor, iconUrl, date, title,tag }) =>{
   )
 }
 
+// teams: 'homeTeam - awayTeam'
+
 const columns = [
     {
       title: 'League Name',
-      dataIndex: 'name',
-      key: 'name',
+      dataIndex: 'league',
+      key: 'league',
       render: (text) => <a>{text}</a>,
     },
     {
@@ -159,12 +174,13 @@ const columns = [
       title: 'Stadium',
       dataIndex: 'stadium',
       key: 'stadium',
-      render: (text) => <a>{text}</a>,
+      render: (text) => <p>{text}</p>,
     },
     {
       title: 'Date',
-      dataIndex: 'date',
-      key: 'date',
+      dataIndex: 'dateTime',
+      key: 'dateTime',
+      render: (text) => <p>{text.split('T')[0]}</p>,
     },
 
   ];

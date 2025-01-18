@@ -28,7 +28,11 @@ class providerService {
     return res?.data || res;
   }
   static async GetMatch() {
-    const res = await baseAxios.get(`/getMatchAndTickets`);
+    const res = await baseAxios.get(`/getAllMatchesWithTickets`);
+    return res?.data || res;
+  }
+  static async GetMatchTickets(data) {
+    const res = await baseAxios.get(`/getMatchAndTickets?matchId=674d9fd3b9867e55b532b74a`);
     return res?.data || res;
   }
   static async GetAllJourney(data) {
@@ -51,7 +55,7 @@ class providerService {
     return res?.data || res;
   }
   static async CreateMatch(data) {
-    const res = await baseAxios.post(`/createAndUpdateMatchAndTickets`, data.payload);
+    const res = await baseAxios.post(`/createAndUpdateMatchAndTickets?providerId=${data.provId}`, data.payload);
     return res?.data || res;
   }
   // static async CreateInternetPlan(data) {
@@ -84,7 +88,7 @@ class providerService {
     return res?.data || res;
   }
   static async EditMatch(data) {
-    const res = await baseAxios.post(`/createAndUpdateMatchAndTickets?providerId=${data.catId}&providerId=${data.provId}`, data.payload);
+    const res = await baseAxios.post(`/createAndUpdateMatchAndTickets?providerId=${data.provId}&matchId=${data.matchId}`, data.payload);
     return res?.data || res;
   }
   static async EditLocation(data) {
@@ -124,13 +128,17 @@ class providerService {
     return res?.data || res;
   }
   static async DeleteMatch(data) {
-    const res = await baseAxios.post(`/deleteAZone/${data}`);
+    const res = await baseAxios.post(`/deleteMatchWithTickets/${data}`);
     return res?.data || res;
   }
   
 
   static async EnableOrDisableCategory(data) {
-    const res = await baseAxios.post(`/enableOrDisableCategory/${data}`);
+    const res = await baseAxios.post(`/enableOrDisableCategory/${data.id}`, {enable:data.checked});
+    return res?.data || res;
+  }
+  static async SetFees(data) {
+    const res = await baseAxios.post(`https://tilspot-production.up.railway.app/v1/admin/setMultipleCategoriesProcessingFees`, data);
     return res?.data || res;
   }
 
