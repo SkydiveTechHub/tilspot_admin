@@ -15,7 +15,7 @@ export const SocketProvider = ({ children }) => {
       // 'https://tilspot-production.up.railway.app'
       , {
       transports: ["websocket"],
-      reconnectionAttempts: 5,
+      // reconnectionAttempts: 5,
       reconnectionDelay: 2000,
       withCredentials: true,
     });

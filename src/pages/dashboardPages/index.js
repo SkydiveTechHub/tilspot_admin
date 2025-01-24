@@ -26,12 +26,7 @@ const Dashboard = () => {
 
     const socket = useSocket();
     const [billData, setBillsData] = useState([])
-
-    
-    console.log(socket)
-
     useEffect(() => {
-    console.log(socket)
       if (!socket) return;
   
       // Listen for the "completedBills" event
@@ -84,15 +79,15 @@ const Dashboard = () => {
           }
           
         }
-        const fetchBills = async() =>{
-          try {
-            const res = await dispatch(getAllBills())
-            console.log(res)
-          } catch (error) {
+        // const fetchBills = async() =>{
+        //   try {
+        //     const res = await dispatch(getAllBills())
+        //     console.log(res)
+        //   } catch (error) {
             
-          }
+        //   }
           
-        }
+        // }
         useEffect(()=>{
             userData.role === 'operator'?fetchMyRecord():fetchOperatorRecord();
             
@@ -100,7 +95,7 @@ const Dashboard = () => {
         },[filterDuration])
 
         useEffect(()=>{
-            fetchBills()
+            // fetchBills()
         },[])
 
 
@@ -295,26 +290,34 @@ const Dashboard = () => {
                 </>
 
             </Section>
-            <Section title={"Pending Order"} className="overview-section" >
-                <div className="gap-6 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                    {
-                        serviceEnum.map((i, id)=>
-                        <Card
-                            tag={i.service_name}
-                            TColor={i.serviceTC}
-                            iconUrl={i.service_icon}
-                            date={'10/2/2024'}
-                            time={'13:00'}
-                            // date={'Wallet Balance'}
-                            title={'Pending Order'}
-                            bgColor={i.serviceBG}
-                            handleClick={()=>handleFindModal(i.service_type)}
-                        />                        
-                        )
-                    }
+            <Section title={"Pending Order"} className="overview-section">
+              <div className="gap-6 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                {billData.map((bill, index) => {
+                  const matchedService = serviceEnum.find(
+                    (service) => service.service_type === bill.categoryName
+                  );
 
-                </div>
+                  if (matchedService) {
+                    return (
+                      <Card
+                        key={index}
+                        tag={matchedService.service_name}
+                        TColor={matchedService.serviceTC}
+                        iconUrl={matchedService.service_icon}
+                        date={bill.date || "N/A"} // Assuming `bill` contains a `date` key, replace "N/A" with a fallback value.
+                        time={bill.time || "N/A"} // Assuming `bill` contains a `time` key, replace "N/A" with a fallback value.
+                        title={bill.title || "Pending Order"} // Assuming `bill` contains a `title` key.
+                        bgColor={matchedService.serviceBG}
+                        handleClick={() => handleFindModal(matchedService.service_type)}
+                      />
+                    );
+                  }
+
+                  return null; // Skip items that don't have a matching service enum.
+                })}
+              </div>
             </Section>
+
 
 
         </div>
