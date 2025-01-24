@@ -124,7 +124,8 @@ class providerService {
     return res?.data || res;
   }
   static async DeleteTicket(data) {
-    const res = await baseAxios.post(`/deleteATicket/${data}`);
+    console.log(data)
+    const res = await baseAxios.post(`/deleteATicket/${data.ticket}`);
     return res?.data || res;
   }
   static async DeleteMatch(data) {
@@ -138,7 +139,7 @@ class providerService {
     return res?.data || res;
   }
   static async SetFees(data) {
-    const res = await baseAxios.post(`https://tilspot-production.up.railway.app/v1/admin/setMultipleCategoriesProcessingFees`, data);
+    const res = await baseAxios.post(`/setMultipleCategoriesProcessingFees`, data);
     return res?.data || res;
   }
 

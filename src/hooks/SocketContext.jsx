@@ -11,8 +11,8 @@ export const SocketProvider = ({ children }) => {
 
   useEffect(() => {
     const socketInstance = io(
-      // process.env.REACT_APP_SOCKET_URL
-      'https://tilspot-production.up.railway.app'
+      process.env.REACT_APP_SOCKET_URL
+      // 'https://tilspot-production.up.railway.app'
       , {
       transports: ["websocket"],
       reconnectionAttempts: 5,

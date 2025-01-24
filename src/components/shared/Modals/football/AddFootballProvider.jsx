@@ -13,13 +13,6 @@ import { formatDate } from '../../../../utils/tools';
 
 
 
-const initialState = {
-  league:'',
-  home: '',
-  away: '',
-  stadium: '',
-  time: '',
-};
 
 const AddFootballTicketProvider = ({ catId, provId, action, userData, openModal, handleOk, handleCancel }) => {
   const dispatch = useDispatch()
@@ -29,11 +22,11 @@ const AddFootballTicketProvider = ({ catId, provId, action, userData, openModal,
   const [secondModalOpen, setSecondModalOpen] = useState(false);
   const [ticketType, setTicketType] = useState([{sittingArea: "", price: "", description:''}]);
   const initialState = action === 'edit' ? {
-    league:userData.league,
-    home: userData.homeTeam,
-    away: userData.awayTeam,
-    stadium: userData.stadium,
-    time: userData.dateTime,
+    league:userData?.match?.league,
+    home: userData?.match?.homeTeam,
+    away: userData?.match?.awayTeam,
+    stadium: userData?.match?.stadium,
+    time: userData?.match?.dateTime,
   } : {
     league:'',
     home: '',
@@ -75,7 +68,12 @@ const AddFootballTicketProvider = ({ catId, provId, action, userData, openModal,
         payload:params
       })) 
       }else{
+        console.log(params)
         res =  await dispatch(createMatch(params)) 
+        if(res.payload.statusCode){
+          handleOk();
+          window.location.reload()
+        }
       }
 
 

@@ -28,7 +28,12 @@ const InstanceView = ({data, catStatus, id, p_Id}) => {
   const handleDelete = async () =>{
     try {
       const res = await dispatch(deleteMatch(provId))
-      
+      console.log(res)
+      if(res.payload.statusCode){
+        setOpenDelete('false')
+        navigate(0);
+        window.location.reload()
+      }
 
     } catch (error) {
       console.log(error)

@@ -19,10 +19,12 @@ const PreviewFootballMatches = () => {
   const [match, setMatch] =useState()
   const [tickets, setTickets] =useState()
   const [ticketData, setTicketData] =useState()
+  const [userData, setUserData] =useState()
   const params = useParams()
   const {id} = params
   const providerId = id.split('-')[0]
   const matchId = id.split('-')[1]
+  const [action, setAction] = useState('create')
 
 
   const usable_column = [
@@ -48,6 +50,8 @@ const PreviewFootballMatches = () => {
     try {
       const res = await dispatch(getMatchTickets(params))
       if (res.payload.statusCode){
+        console.log(res)
+        setUserData(res.payload.data)
         setMatch(res.payload.data.match)
         setTickets(res.payload.data.tickets)
       }
@@ -69,6 +73,12 @@ const PreviewFootballMatches = () => {
             matchId :id,
             ticket: ticketData._id
           }))
+
+          if(res.payload.statusCode){
+            setDeleteATicket(false)
+            navigate(0)
+            window.location.reload()
+          }
           
     
         } catch (error) {
@@ -83,8 +93,10 @@ const PreviewFootballMatches = () => {
     <>
       <AddFootballTicketProvider
         openModal={upgradeModal}
-        handleCancel={()=>setUpgradeModal(false)}
-        handleOk={()=>setUpgradeModal(false)}
+        handleCancel={()=>{setUpgradeModal(false); setAction('create')}}
+        handleOk={()=>{setUpgradeModal(false); setAction('create')}}
+        userData={userData}
+        action={action}
       />
 
       <DeleteInstanceModal
@@ -112,7 +124,7 @@ const PreviewFootballMatches = () => {
                   <li><BlackText style={'font-bold text-[14px] capitalize'} text={'Date & Time:'}/><GrayText style={'text-[16px]'} text={'10/12/2202 - 10:00 GMT'}/></li>
               </ul>
               <div className='flex items-center  gap-4'>
-                <button onClick={()=>{setUpgradeModal(true)}} className='bg-[#219653] rounded-[8px] font-mont text-white py-[6px] px-11 text-[16px] font-[500] leading-[24px]'><img src='/images/add-icon.png' className='inline-flex pr-2' alt='account'/>Edit Match</button>
+                <button onClick={()=>{setUpgradeModal(true); setAction('edit')}} className='bg-[#219653] rounded-[8px] font-mont text-white py-[6px] px-11 text-[16px] font-[500] leading-[24px]'><img src='/images/add-icon.png' className='inline-flex pr-2' alt='account'/>Edit Match</button>
                 <button onClick={()=>{setOpen(true)}} className='bg-[#FF0000] rounded-[8px] font-mont text-white py-[6px] px-11 text-[16px] font-[500] leading-[24px]'><img src='/images/bin-icon.png' className='inline-flex pr-2' alt='account'/>Delete Match</button>
               </div>   
           </div>

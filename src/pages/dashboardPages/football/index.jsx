@@ -18,6 +18,7 @@ const FootballPage = () => {
   const dispatch = useDispatch();
   const { categories } = useSelector((state) => state.providers);
 
+
   
     useEffect(() => {
       if (categories) {
@@ -87,8 +88,10 @@ const FootballPage = () => {
                   <img src="/images/layers.png" alt="" />
                   <BlackText style={'font-[600]'} text='No Provider Available'/>
                   <GrayText style={'md:w-[40%] text-center text-[12px]'} text={'You haven’t added any Provider. Click the button below to add a provided!'}/>
-      
-                  <PryButton handleClick={()=>setOpen(true)} text={'Add Football Provider'}/>
+                  {
+                    role === 'admin' && <PryButton handleClick={()=>setOpen(true)} text={'Add Football Provider'}/>
+                  }
+                  
       
               
       
