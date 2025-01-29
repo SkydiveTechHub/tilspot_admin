@@ -6,34 +6,7 @@ import { useSocket } from '../../hooks/SocketContext.jsx';
 
 
 const DashboardLayout = () => {
-  const userData = JSON.parse(localStorage.getItem('userData'))
-      const socket = useSocket();
-      useEffect(() => {
-        if (socket) {
-    
-          const userId = userData.id; 
-          const userType = 'admin';
-    
-          if (userId && userType) {
 
-            socket.emit("identify", { userId, userType });
-            console.log("Emitting 'identify' event with:", { userId, userType });
-          } else {
-            console.error("Missing userId or userType");
-          }
-    
-
-          socket.on("identify", (response) => {
-            console.log("Identify response from server:", response);
-          });
-        }
-    
-        return () => {
-          if (socket) {
-            socket.off("identify");
-          }
-        };
-      }, [socket]);
 
   const [open, setOpen] = useState(false);
   const handleToggleSidebar = () => {

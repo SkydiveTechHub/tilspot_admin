@@ -26,15 +26,19 @@ const Dashboard = () => {
 
     const socket = useSocket();
     const [billData, setBillsData] = useState([])
+    const [currentBillData, setCurrentBillData] = useState({})
+
     useEffect(() => {
       if (!socket) return;
   
       // Listen for the "completedBills" event
       socket.on("completedBills", ({bills, date, time}) => {
-        console.log("Bills:", bills);
-        if(bills.lenght>1){
+        console.log(bills);
+        localStorage.setItem('bills', JSON.stringify(bills))
+        // if(bills.lenght>0){
+          // console.log(true)
           setBillsData(bills)
-        }
+        // }
         console.log("Date:", date);
         console.log("Time:", time);
       });
@@ -44,7 +48,44 @@ const Dashboard = () => {
         socket.off("completedBills");
       };
     }, [socket]);
+
+
+    const userData = JSON.parse(localStorage.getItem('userData'))
+    // const socket = useSocket();
+    useEffect(() => {
+      if (socket) {
   
+        const userId = userData.id; 
+        const userType = 'admin';
+  
+        if (userId && userType) {
+
+          socket.emit("identify", { userId, userType });
+          console.log("Emitting 'identify' event with:", { userId, userType });
+        } else {
+          console.error("Missing userId or userType");
+        }
+  
+
+        socket.on("identify", (response) => {
+          console.log("Identify response from server:", response);
+        });
+      }
+  
+      return () => {
+        if (socket) {
+          socket.off("identify");
+        }
+      };
+    }, [socket]);
+
+
+    // const availableBills = JSON.parse(localStorage.getItem('bills'))
+    // useEffect(() => {
+    //   if (availableBills) {
+    //     setBillsData(availableBills)
+    //   }
+    // }, []);
 
 
 
@@ -93,10 +134,6 @@ const Dashboard = () => {
             
             
         },[filterDuration])
-
-        useEffect(()=>{
-            // fetchBills()
-        },[])
 
 
 
@@ -152,95 +189,105 @@ const Dashboard = () => {
         },	
       
       ]
+
     
     const  service_modal = {
             airtime:   <PreviewAirtimeOrderModal
                             openModal={open}
                             handleCancel={()=>setOpen(false)}
                             handleOk={()=>setOpen(false)}
-                            provider={'MTN'}
-                            phone={'09022334455'}
-                            amount={'500'}
+                            provider={currentBillData?.bill?.providerName}
+                            phone={currentBillData?.bill?.providerData?.phoneNumber}
+                            amount={currentBillData?.bill?.amount}
+                            billId={currentBillData?.billId}
                         />,
             internet:   <PreviewInternetOrderModal
                             openModal={open}
                             handleCancel={()=>setOpen(false)}
                             handleOk={()=>setOpen(false)}
-                            provider={'MTN'}
-                            plan = {'mtn_2gb_30days'}
-                            phone={'09022334455'}
-                            amount={'500'}
+                            provider={currentBillData?.bill?.providerName}
+                            plan = {currentBillData?.bill?.providerData?.plan}
+                            phone={currentBillData?.bill?.providerData?.phoneNumber}
+                            amount={currentBillData?.bill?.amount}
                         />,
             cable:   <PreviewCableOrderModal
                             openModal={open}
                             handleCancel={()=>setOpen(false)}
                             handleOk={()=>setOpen(false)}
-                            provider={'MTN'}
-                            acctNo={'111223344222'}
-                            phone={'09022334455'}
-                            amount={'500'}
+                            billId={currentBillData?.billId}
+                            provider={currentBillData?.bill?.providerName}
+                            acctNo={currentBillData?.bill?.providerData?.accountNumber}
+                            phone={currentBillData?.bill?.providerData?.phoneNumber}
+                            amount={currentBillData?.bill?.amount}
                         />,
             gas:   <PreviewGasOrderModal
                             openModal={open}
                             handleCancel={()=>setOpen(false)}
                             handleOk={()=>setOpen(false)}
-                            provider={'MTN'}
-                            acctNo={'09022334455'}
-                            amount={'500'}
+                            billId={currentBillData?.billId}
+                            provider={currentBillData?.bill?.providerName}
+                            acctNo={currentBillData?.bill?.providerData?.phoneNumber}
+                            amount={currentBillData?.bill?.amount}
                         />,
 
             transportation:   <PreviewTransportOrderModal
                             openModal={open}
                             handleCancel={()=>setOpen(false)}
                             handleOk={()=>setOpen(false)}
+                            billId={currentBillData?.billId}
                             d_location={'MTN'}
-                            phone={'09022334455'}
-                            amount={'500'}
+                            phone={currentBillData?.bill?.providerData?.phoneNumber}
+                            amount={currentBillData?.bill?.amount}
                         />,
             parking:   <PreviewParkingOrderModal
                             openModal={open}
                             handleCancel={()=>setOpen(false)}
                             handleOk={()=>setOpen(false)}
-                            provider={'MTN'}
-                            reg ={'8882288c'}
-                            phone={'09022334455'}
-                            amount={'500'}
+                            billId={currentBillData?.billId}
+                            provider={currentBillData?.bill?.providerName}
+                            reg ={currentBillData?.bill?.providerData?.carRegistrationNumber}
+                            phone={currentBillData?.bill?.providerData?.phoneNumber}
+                            amount={currentBillData?.bill?.amount}
                         />,
             football:   <PreviewFootballOrderModal
                             openModal={open}
                             handleCancel={()=>setOpen(false)}
                             handleOk={()=>setOpen(false)}
-                            provider={'MTN'}
+                            billId={currentBillData?.billId}
+                            provider={currentBillData?.bill?.providerName}
                             reg ={'8882288c'}
-                            phone={'09022334455'}
-                            amount={'500'}
+                            phone={currentBillData?.bill?.providerData?.phoneNumber}
+                            amount={currentBillData?.bill?.amount}
                         />,
             waste:   <PreviewWasteOrderModal
                             openModal={open}
                             handleCancel={()=>setOpen(false)}
                             handleOk={()=>setOpen(false)}
-                            provider={'MTN'}
+                            billId={currentBillData?.billId}
+                            provider={currentBillData?.bill?.providerName}
                             reg ={'8882288c'}
-                            phone={'09022334455'}
-                            amount={'500'}
+                            phone={currentBillData?.bill?.providerData?.phoneNumber}
+                            amount={currentBillData?.bill?.amount}
                         />,
             government:   <PreviewGovernmentOrderModal
                             openModal={open}
                             handleCancel={()=>setOpen(false)}
                             handleOk={()=>setOpen(false)}
-                            provider={'MTN'}
+                            billId={currentBillData?.billId}
+                            provider={currentBillData?.bill?.providerName}
                             reg ={'8882288c'}
-                            phone={'09022334455'}
-                            amount={'500'}
+                            phone={currentBillData?.bill?.providerData?.phoneNumber}
+                            amount={currentBillData?.bill?.amount}
                         />,
             housing:   <PreviewHousingOrderModal
                             openModal={open}
                             handleCancel={()=>setOpen(false)}
                             handleOk={()=>setOpen(false)}
-                            provider={'MTN'}
+                            billId={currentBillData?.billId}
+                            provider={currentBillData?.bill?.providerName}
                             reg ={'8882288c'}
-                            phone={'09022334455'}
-                            amount={'500'}
+                            phone={currentBillData?.bill?.providerData?.phoneNumber}
+                            amount={currentBillData?.bill?.amount}
                         />,
         }
 
@@ -291,12 +338,15 @@ const Dashboard = () => {
 
             </Section>
             <Section title={"Pending Order"} className="overview-section">
+
+              {
+                billData.length === 0 ?<div className="flex items-center justify-center h-[200px]"> <h1 className="font-mont font-bold text-[18px]">No Pending Bills</h1> </div>:
+             
               <div className="gap-6 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                 {billData.map((bill, index) => {
                   const matchedService = serviceEnum.find(
-                    (service) => service.service_type === bill.categoryName
+                    (service) => service.service_name === bill.bill.categoryName
                   );
-
                   if (matchedService) {
                     return (
                       <Card
@@ -304,11 +354,11 @@ const Dashboard = () => {
                         tag={matchedService.service_name}
                         TColor={matchedService.serviceTC}
                         iconUrl={matchedService.service_icon}
-                        date={bill.date || "N/A"} // Assuming `bill` contains a `date` key, replace "N/A" with a fallback value.
-                        time={bill.time || "N/A"} // Assuming `bill` contains a `time` key, replace "N/A" with a fallback value.
-                        title={bill.title || "Pending Order"} // Assuming `bill` contains a `title` key.
+                        date={bill.bill.createdAt.split('T')[0] || "N/A"} // Assuming `bill` contains a `date` key, replace "N/A" with a fallback value.
+                        time={bill.bill.createdAt.split('T')[1].split('.')[0] || "N/A"} // Assuming `bill` contains a `time` key, replace "N/A" with a fallback value.
+                        title={bill.bill.title || "Pending Order"} // Assuming `bill` contains a `title` key.
                         bgColor={matchedService.serviceBG}
-                        handleClick={() => handleFindModal(matchedService.service_type)}
+                        handleClick={() => {handleFindModal(matchedService.service_type); setCurrentBillData(bill)}}
                       />
                     );
                   }
@@ -316,6 +366,7 @@ const Dashboard = () => {
                   return null; // Skip items that don't have a matching service enum.
                 })}
               </div>
+               }
             </Section>
 
 

@@ -142,6 +142,16 @@ class providerService {
     const res = await baseAxios.post(`/setMultipleCategoriesProcessingFees`, data);
     return res?.data || res;
   }
+  static async ApproveBill(data) {
+    console.log(data)
+    const res = await baseAxios.post(`/approvePayment/${data}`, data);
+    return res?.data || res;
+  }
+  static async RejectBill(data) {
+    console.log(data)
+    const res = await baseAxios.post(`/approvePayment/${data}`, data);
+    return res?.data || res;
+  }
 
 
 }

@@ -36,6 +36,7 @@ const AddStaffModal = ({  openModal, handleOk, handleCancel }) => {
       const res = await dispatch(createStaff(params))
       if(res.payload.statusCode){
         handleOk();
+        setSecondModalOpen(true)
         resetForm();
       }
     } catch (error) {
@@ -121,10 +122,7 @@ const AddStaffModal = ({  openModal, handleOk, handleCancel }) => {
   
           />
 
-          <AuthButton inactive={Object.keys(errors).length !== 0 && true } handleClick={()=>{
-            setSecondModalOpen(true)
-            handleCancel()
-            }} value="Add Staff" />
+          <AuthButton inactive={Object.keys(errors).length !== 0 && true }  value="Add Staff" />
         </form>
       </Modal>    
     </>

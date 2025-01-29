@@ -16,6 +16,8 @@ const AirtimePage = () => {
     const [catStatus, setCatStatus] = useState(false);
     const dispatch = useDispatch();
     const { categories } = useSelector((state) => state.providers);
+
+    console.log(categories)
     
       useEffect(() => {
         if (categories) {

@@ -50,11 +50,11 @@ const Login = () => {
       console.log(res);
 
       if (res.payload.statusCode) {
+        await dispatch(getAllCategories());
         if (res.payload.data.user.role === "admin") {
-          await dispatch(getAllCategories());
           navigate("/dashboard/staff");
         } else {
-          navigate("/dashboard/");
+          navigate("/dashboard");
         }
       }
     } catch (error) {

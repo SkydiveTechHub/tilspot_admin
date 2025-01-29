@@ -33,6 +33,7 @@ import { SocketProvider } from "./hooks/SocketContext";
 
 function App() {
 	const dispatch =  useDispatch()
+	const navigate = useNavigate()
 	const role = localStorage.getItem('role')
 	const [hasRole, setHasRole] = useState(false)
 	const loading = useSelector((state) => state.app.loading);
@@ -42,6 +43,7 @@ function App() {
 		// dispatch(checkAuth())
 		if(!role){
 			dispatch(checkAuth())
+			// navigate(0)
 		}else{
 			setHasRole(true)
 		}
@@ -73,7 +75,7 @@ function App() {
 
 								<Route element={<ProtectedRoute roles={['operator']} />}>
 									<Route element={<DashboardLayout />}>
-										<Route path="/dashboard/" element={<Dashboard />} />
+										<Route path="/dashboard" element={<Dashboard />} />
 							
 									</Route>
 

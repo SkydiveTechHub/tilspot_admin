@@ -408,3 +408,17 @@ export const setFees = createAsyncThunk(
         }
     }
 )
+export const approveBill = createAsyncThunk(
+    'provider/approve_bill',
+    async (data, {dispatch, rejectWithValue })=>{
+        dispatch(startLoad())
+        try {
+            const res = await providerService.ApproveBill(data)
+            return res
+        } catch (error) {
+            return rejectWithValue(error.response.data)
+        }finally{
+            dispatch(stopLoad())
+        }
+    }
+)

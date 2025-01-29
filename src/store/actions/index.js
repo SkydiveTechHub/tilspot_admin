@@ -48,5 +48,7 @@ export {
   getMatchTickets,
   deleteMatch,
   deleteTicket,
-  setFees
+  setFees,
+  approveBill
+  
 } from "./providerAction";

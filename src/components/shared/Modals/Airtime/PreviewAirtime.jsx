@@ -3,8 +3,11 @@ import { Button, Modal } from 'antd';
 import SuccessModal from '../SuccessModal';
 import useForm from '../../../../hooks/useForm';
 import FormInput from '../../FormInput';
+import { useDispatch } from 'react-redux';
+import { approveBill } from '../../../../store/actions';
 
-const PreviewAirtimeOrderModal = ({children, title, openModal, handleOk, handleCancel, returnText, imgUrl, provider, phone, amount }) => {
+const PreviewAirtimeOrderModal = ({children, title, openModal, handleOk, handleCancel, returnText, imgUrl, provider, phone, amount, billId }) => {
+  const dispatch = useDispatch();
   const [secondModalOpen, setSecondModalOpen] = useState(false)
   const [openFailed, setOpenedFailed] = useState(false)
   const initialState = {
@@ -21,11 +24,21 @@ const PreviewAirtimeOrderModal = ({children, title, openModal, handleOk, handleC
     setOpenedFailed(true);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
 
+    try {
+      const res = await dispatch(approveBill(billId));
+      console.log(res)
+      if (res.payload.statusCode){
+        handleProceed();
+      }
+    } catch (error) {
+      
+    }
+
     console.log('Form submitted:', values);
-    setOpenedFailed(false);
+    // setOpenedFailed(false);
     handleCancel?.(); 
     resetForm();
   };
@@ -83,7 +96,7 @@ const PreviewAirtimeOrderModal = ({children, title, openModal, handleOk, handleC
           </div>
 
           <div className='flex items-center justify-between w-full'>
-            <button onClick={handleProceed} className='bg-[#219653] rounded-[8px] text-white py-[10px] px-11 text-[14px] md:text-[16px] font-[500] leading-[24px]'>Completed</button>
+            <button onClick={handleSubmit} className='bg-[#219653] rounded-[8px] text-white py-[10px] px-11 text-[14px] md:text-[16px] font-[500] leading-[24px]'>Completed</button>
             <button onClick={handleReturn} className='bg-[red] rounded-[8px] text-white py-[10px] px-11 text-[14px] md:text-[16px] font-[500] leading-[24px]'>Failed</button>
           </div>                 
         </div>
