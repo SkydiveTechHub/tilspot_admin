@@ -49,6 +49,7 @@ export {
   deleteMatch,
   deleteTicket,
   setFees,
-  approveBill
+  approveBill,
+  rejectdPaymentBill
   
 } from "./providerAction";

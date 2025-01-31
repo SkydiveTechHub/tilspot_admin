@@ -4,7 +4,7 @@ import { AuthButton } from '../../button';
 import { Modal } from 'antd';
 import SuccessModal from '../SuccessModal';
 import { useDispatch } from 'react-redux';
-import { createInternetPlans } from '../../../../store/actions';
+import { createInternetPlans, getPlansByProvider } from '../../../../store/actions';
 
 const AddInternetPlan = ({ id, openModal, handleOk, handleCancel }) => {
   const [planList, setPlanList] = useState([{ name: '', price: '', duration: '' }]);
@@ -52,8 +52,12 @@ const AddInternetPlan = ({ id, openModal, handleOk, handleCancel }) => {
         })
       );
       console.log('Response:', res);
-      setSecondModalOpen(true); // Open success modal
-      handleOk(); // Close parent modal
+      if (res.payload.statusCode){
+        setSecondModalOpen(true); 
+        handleOk();      
+        dispatch(getPlansByProvider(id))   
+      }
+
     } catch (error) {
       console.error('Error submitting plans:', error);
     }

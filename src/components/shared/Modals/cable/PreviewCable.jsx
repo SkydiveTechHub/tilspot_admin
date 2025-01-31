@@ -3,8 +3,11 @@ import { Button, Modal } from 'antd';
 import SuccessModal from '../SuccessModal';
 import useForm from '../../../../hooks/useForm';
 import FormInput from '../../FormInput';
+import { approveBill, rejectdPaymentBill } from '../../../../store/actions';
+import { useDispatch } from 'react-redux';
 
-const PreviewCableOrderModal = ({children, title, openModal, handleOk, handleCancel, provider, acctNo, phone, amount, imgUrl }) => {
+const PreviewCableOrderModal = ({ openModal, handleOk, handleCancel, provider, acctNo, phone, amount, imgUrl, billId }) => {
+  const dispatch = useDispatch();
   const [secondModalOpen, setSecondModalOpen] = useState(false)
   const [openFailed, setOpenedFailed] = useState(false)
   const initialState = {
@@ -21,13 +24,41 @@ const PreviewCableOrderModal = ({children, title, openModal, handleOk, handleCan
     setOpenedFailed(true);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
 
-    console.log('Form submitted:', values);
-    setOpenedFailed(false);
-    handleCancel?.(); 
+    try {
+      const res = await dispatch(approveBill(billId));
+      console.log(res)
+      if (res.payload.statusCode){
+        handleProceed();
+      }
+    } catch (error) {
+      
+    }
     resetForm();
+  };
+
+  const handleReject = async(e) => {
+    e.preventDefault();
+    const params = {
+      billId,
+      paylaod:{
+        rejectionReason:values.desc
+      }
+      
+    }
+
+    try {
+      const res = await dispatch(rejectdPaymentBill(params));
+      console.log(res)
+      if (res.payload.statusCode){
+        handleReturn();
+      }
+    } catch (error) {
+      
+    }
+
   };
 
   return (
@@ -43,8 +74,8 @@ const PreviewCableOrderModal = ({children, title, openModal, handleOk, handleCan
         className="basic-modal"
         title="Cable Order Failed"
         open={openFailed}
-        onOk={() => setOpenedFailed(false)}
-        onCancel={() => setOpenedFailed(false)}
+        onOk={() =>{ setOpenedFailed(false); handleOk()}}
+        onCancel={() =>{ setOpenedFailed(false); handleOk()}}
       >
         <div className="flex items-center justify-center gap-6 md:px-[2rem] flex-col w-full">
           {imgUrl && <img src={imgUrl} alt="Failure reason" />}
@@ -61,7 +92,7 @@ const PreviewCableOrderModal = ({children, title, openModal, handleOk, handleCan
 
           <div className="flex items-center justify-center w-full">
             <button
-              onClick={handleSubmit}
+              onClick={handleReject}
               className="bg-[#219653] rounded-[8px] text-white py-[10px] px-11 text-[14px] md:text-[16px] font-[500] leading-[24px]"
             >
               Submit
@@ -86,7 +117,7 @@ const PreviewCableOrderModal = ({children, title, openModal, handleOk, handleCan
           </div>
 
           <div className='flex items-center justify-between w-full'>
-            <button onClick={handleProceed} className='bg-[#219653] rounded-[8px] text-white py-[10px] px-11 text-[14px] md:text-[16px] font-[500] leading-[24px]'>Completed</button>
+            <button onClick={handleSubmit} className='bg-[#219653] rounded-[8px] text-white py-[10px] px-11 text-[14px] md:text-[16px] font-[500] leading-[24px]'>Completed</button>
             <button onClick={handleReturn} className='bg-[red] rounded-[8px] text-white py-[10px] px-11 text-[14px] md:text-[16px] font-[500] leading-[24px]'>Failed</button>
           </div>                     
         </div>

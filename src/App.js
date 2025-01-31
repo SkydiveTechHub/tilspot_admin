@@ -75,7 +75,7 @@ function App() {
 
 								<Route element={<ProtectedRoute roles={['operator']} />}>
 									<Route element={<DashboardLayout />}>
-										<Route path="/dashboard" element={<Dashboard />} />
+										<Route path="/dashboard/index" element={<Dashboard />} />
 							
 									</Route>
 

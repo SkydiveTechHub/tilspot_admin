@@ -47,14 +47,12 @@ const Login = () => {
     };
     try {
       const res = await dispatch(login(params));
-      console.log(res);
-
       if (res.payload.statusCode) {
         await dispatch(getAllCategories());
         if (res.payload.data.user.role === "admin") {
           navigate("/dashboard/staff");
         } else {
-          navigate("/dashboard");
+          navigate("/dashboard/index");
         }
       }
     } catch (error) {

@@ -36,6 +36,7 @@ const providerSlice = createSlice({
         })
         builder.addCase(getProviderByCategory.fulfilled, (state, {payload})=>{
             state.isLoading = false;
+            state.providers = payload.providers
         })
         builder.addCase(getMatch.fulfilled, (state, {payload})=>{
             state.matches = payload;

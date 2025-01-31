@@ -14,7 +14,7 @@ export const pageEnum = [
 	{
 		title:'Dashboard',
 		pages:[
-			"/dashboard/", "/dashboard"
+			"/dashboard/index", "/dashboard"
 		]
 	},
 	{

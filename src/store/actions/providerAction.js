@@ -422,3 +422,17 @@ export const approveBill = createAsyncThunk(
         }
     }
 )
+export const rejectdPaymentBill = createAsyncThunk(
+    'provider/reject_bill',
+    async (data, {dispatch, rejectWithValue })=>{
+        dispatch(startLoad())
+        try {
+            const res = await providerService.RejectBill(data)
+            return res
+        } catch (error) {
+            return rejectWithValue(error.response.data)
+        }finally{
+            dispatch(stopLoad())
+        }
+    }
+)

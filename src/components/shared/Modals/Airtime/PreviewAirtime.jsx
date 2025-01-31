@@ -4,9 +4,9 @@ import SuccessModal from '../SuccessModal';
 import useForm from '../../../../hooks/useForm';
 import FormInput from '../../FormInput';
 import { useDispatch } from 'react-redux';
-import { approveBill } from '../../../../store/actions';
+import { approveBill, rejectdPaymentBill } from '../../../../store/actions';
 
-const PreviewAirtimeOrderModal = ({children, title, openModal, handleOk, handleCancel, returnText, imgUrl, provider, phone, amount, billId }) => {
+const PreviewAirtimeOrderModal = ({ openModal, handleOk, handleCancel, returnText, imgUrl, provider, phone, amount, billId }) => {
   const dispatch = useDispatch();
   const [secondModalOpen, setSecondModalOpen] = useState(false)
   const [openFailed, setOpenedFailed] = useState(false)
@@ -32,6 +32,28 @@ const PreviewAirtimeOrderModal = ({children, title, openModal, handleOk, handleC
       console.log(res)
       if (res.payload.statusCode){
         handleProceed();
+      }
+    } catch (error) {
+      
+    }
+    resetForm();
+  };
+
+  const handleReject = async(e) => {
+    e.preventDefault();
+    const params = {
+      billId,
+      paylaod:{
+        rejectionReason:values.desc
+      }
+      
+    }
+
+    try {
+      const res = await dispatch(rejectdPaymentBill(params));
+      console.log(res)
+      if (res.payload.statusCode){
+        handleReturn();
       }
     } catch (error) {
       
@@ -74,7 +96,7 @@ const PreviewAirtimeOrderModal = ({children, title, openModal, handleOk, handleC
 
           <div className="flex items-center justify-center w-full">
             <button
-              onClick={handleSubmit}
+              onClick={handleReject}
               className="bg-[#219653] rounded-[8px] text-white py-[10px] px-11 text-[14px] md:text-[16px] font-[500] leading-[24px]"
             >
               Submit

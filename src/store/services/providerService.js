@@ -32,7 +32,7 @@ class providerService {
     return res?.data || res;
   }
   static async GetMatchTickets(data) {
-    const res = await baseAxios.get(`/getMatchAndTickets?matchId=674d9fd3b9867e55b532b74a`);
+    const res = await baseAxios.get(`/getMatchAndTickets?providerId=${data.providerId}&matchId=${data.matchId}`);
     return res?.data || res;
   }
   static async GetAllJourney(data) {
@@ -149,7 +149,7 @@ class providerService {
   }
   static async RejectBill(data) {
     console.log(data)
-    const res = await baseAxios.post(`/approvePayment/${data}`, data);
+    const res = await baseAxios.post(`/rejectdPayment/${data.billId}`, data.payload);
     return res?.data || res;
   }
 

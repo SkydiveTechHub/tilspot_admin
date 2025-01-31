@@ -8,7 +8,7 @@ import { GrayText } from '../../typograph';
 import SuccessModal from '../SuccessModal';
 import UserImageUpload from '../../UserImageUpload';
 import { useDispatch } from 'react-redux';
-import { createProvider, editProvider } from '../../../../store/actions';
+import { createProvider, editProvider, getProviderByCategory } from '../../../../store/actions';
 // import SelectPlanModal from '../SelectPlanModal';
 
 
@@ -52,11 +52,10 @@ const AddInternetProvider = ({catId, action, userData, openModal, handleOk, hand
         })) 
       }
 
-
-      console.log(res)
       if (res.payload.statusCode){
         setSecondModalOpen(true); 
         handleOk(); 
+        dispatch(getProviderByCategory(catId))
       }
     } catch (error) {
       

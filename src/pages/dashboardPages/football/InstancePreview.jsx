@@ -115,7 +115,7 @@ const PreviewFootballMatches = () => {
 
       <div>
         <div >
-          <div className='flex justify-between items-start w-full'>
+          <div className='flex justify-between flex-col md:flex-row items-start w-full'>
               <ul className='space-y-3'>
                   <li><BlackText style={'font-bold text-[14px] capitalize'} text={'League Name:'}/><GrayText style={'text-[16px]'} text={match?.league}/></li>
                   <li><BlackText style={'font-bold text-[14px] capitalize'} text={'Home Team:'}/><GrayText style={'text-[16px]'} text={match?.homeTeam}/></li>
@@ -124,8 +124,8 @@ const PreviewFootballMatches = () => {
                   <li><BlackText style={'font-bold text-[14px] capitalize'} text={'Date & Time:'}/><GrayText style={'text-[16px]'} text={'10/12/2202 - 10:00 GMT'}/></li>
               </ul>
               <div className='flex items-center  gap-4'>
-                <button onClick={()=>{setUpgradeModal(true); setAction('edit')}} className='bg-[#219653] rounded-[8px] font-mont text-white py-[6px] px-11 text-[16px] font-[500] leading-[24px]'><img src='/images/add-icon.png' className='inline-flex pr-2' alt='account'/>Edit Match</button>
-                <button onClick={()=>{setOpen(true)}} className='bg-[#FF0000] rounded-[8px] font-mont text-white py-[6px] px-11 text-[16px] font-[500] leading-[24px]'><img src='/images/bin-icon.png' className='inline-flex pr-2' alt='account'/>Delete Match</button>
+                <button onClick={()=>{setUpgradeModal(true); setAction('edit')}} className='bg-[#219653] rounded-[8px] font-mont text-white py-[6px] px-4 md:px-11 text-[13px] md:text-[16px] font-[500] leading-[24px]'><img src='/images/add-icon.png' className='inline-flex pr-2' alt='account'/>Edit Match</button>
+                <button onClick={()=>{setOpen(true)}} className='bg-[#FF0000] rounded-[8px] font-mont text-white py-[6px] px-4 md:px-11 text-[13px] md:text-[16px] font-[500] leading-[24px]'><img src='/images/bin-icon.png' className='inline-flex pr-2' alt='account'/>Delete Match</button>
               </div>   
           </div>
 

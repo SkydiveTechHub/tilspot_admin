@@ -44,7 +44,7 @@ const SideBar = ({handleClick}) => {
             {
               name: 'Dashboard',
               icons: <LuLayoutDashboard />,
-              url: '/',
+              url: '/index',
             },
             ]
           : []),
