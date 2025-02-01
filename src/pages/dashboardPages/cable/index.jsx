@@ -15,7 +15,7 @@ const CablePage = () => {
   const [catId, setCatId] = useState('');
       const [catStatus, setCatStatus] = useState(false);
   const dispatch = useDispatch();
-  const { categories } = useSelector((state) => state.providers);
+  const { providers, categories } = useSelector((state) => state.providers);
 
   
     useEffect(() => {
@@ -56,7 +56,7 @@ const CablePage = () => {
             />   
         {
           hasData?
-          <InstanceView id={catId} catStatus={catStatus} data={data}/>
+          <InstanceView id={catId} catStatus={catStatus} data={providers}/>
           :
           <div className='h-screen'>
 

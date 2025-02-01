@@ -1,5 +1,4 @@
 import LOGO from "../assets/img/Logo.png";
-import DashLOGO from "../assets/img/Logo.png";
 
 export const Logo = ({size}) => {
 	return <img src={LOGO} style={{width:`${size}rem`}} alt="sme cloud logo" />;

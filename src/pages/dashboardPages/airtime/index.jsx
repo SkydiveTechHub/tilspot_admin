@@ -15,7 +15,7 @@ const AirtimePage = () => {
     const [catId, setCatId] = useState('');
     const [catStatus, setCatStatus] = useState(false);
     const dispatch = useDispatch();
-    const { categories } = useSelector((state) => state.providers);
+    const { providers, categories } = useSelector((state) => state.providers);
 
     console.log(categories)
     
@@ -59,7 +59,7 @@ const AirtimePage = () => {
             />   
         {
           hasData?
-          <InstanceView id={catId} catStatus={catStatus} data={data}/>
+          <InstanceView id={catId} catStatus={catStatus} data={providers}/>
           :
           <div className='h-screen'>
 

@@ -20,12 +20,22 @@ export const SocketProvider = ({ children }) => {
       withCredentials: true,
     });
 
+    let hasConnected = false;
+
+
     socketInstance.on("connect", () => {
       console.log("Socket connected:", socketInstance.id);
+      hasConnected = true
     });
 
     socketInstance.on("connect_error", (error) => {
       console.error("Connection failed:", error);
+    });
+
+    socketInstance.on("disconnect", () => {
+      if (!hasConnected) {
+        socket.connect(); // Allow only one attempt
+      }
     });
 
     setSocket(socketInstance);

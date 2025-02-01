@@ -3,7 +3,8 @@ import { login, register } from "../actions/authAction";
 
 const initialState = {
     user: null,
-    isLoading: false
+    isLoading: false,
+    role: null
 }
 
 
@@ -52,6 +53,7 @@ const authSlice = createSlice({
             localStorage.setItem('role', payload.data.user.role)
             state.isLoading = false;
             state.user = payload.data.user
+            state.role = payload.data.user.role
         })
         builder.addCase(login.rejected, (state)=>{
             state.isLoading = false

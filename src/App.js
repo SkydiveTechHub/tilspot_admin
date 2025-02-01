@@ -34,18 +34,16 @@ import { SocketProvider } from "./hooks/SocketContext";
 function App() {
 	const dispatch =  useDispatch()
 	const navigate = useNavigate()
-	const role = localStorage.getItem('role')
+	// const role = localStorage.getItem('role')
 	const [hasRole, setHasRole] = useState(false)
 	const loading = useSelector((state) => state.app.loading);
-	const user = useSelector((state) => state.auth.user);
+	const {role} = useSelector((state) => state.auth);
 
 	  useEffect(()=>{
 		// dispatch(checkAuth())
 		if(!role){
 			dispatch(checkAuth())
 			// navigate(0)
-		}else{
-			setHasRole(true)
 		}
 	  },[])
 
@@ -58,19 +56,19 @@ function App() {
 			<SocketProvider>
 			<Routes>
 				
-					{
-						hasRole&&
+					{/* {
+						hasRole&& */}
 
 						<>
 								<Route element={<ProtectedRoute roles={['admin']} />}>
-									<Route element={<DashboardLayout />}>
+									{/* <Route element={<DashboardLayout />}> */}
 										<Route path="/dashboard/staff" element={<StaffPage />} />
 										<Route path="/dashboard/fees" element={<FeesPage/>}/>
 										<Route path="/dashboard/statistics" element={<StatisticPage/>}/>
 										<Route path="/dashboard/preview-internet/:id" element={<PreviewInternetProvider/>}/>
 										<Route path="/dashboard/parking-location/:id" element={<PreviewParkingLocation/>}/>
 										<Route path="/dashboard/preview-football/:id" element={<PreviewFootballMatches/>}/>
-									</Route>
+									{/* </Route> */}
 								</Route>
 
 								<Route element={<ProtectedRoute roles={['operator']} />}>
@@ -104,7 +102,7 @@ function App() {
 								</Route>			
 						</>
 
-					}
+					{/* } */}
 					<Route path="/" element={<Login />} />
 					<Route path="/login" element={<Login />} />
 					<Route path="/register" element={<Register />} />
