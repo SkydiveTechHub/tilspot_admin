@@ -1,5 +1,6 @@
 // SocketContext.js
 import React, { createContext, useContext, useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { io } from "socket.io-client";
 
 // Create a context for the socket
@@ -8,42 +9,48 @@ const SocketContext = createContext();
 // Socket Provider to wrap the app and share the socket instance
 export const SocketProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
+  const {role} = useSelector((state)=>state.auth)
 
   useEffect(() => {
-    const socketInstance = io(
-      process.env.REACT_APP_SOCKET_URL
-      // 'https://tilspot-production.up.railway.app'
-      , {
-      transports: ["websocket"],
-      // reconnectionAttempts: 5,
-      reconnectionDelay: 2000,
-      withCredentials: true,
-    });
+    if(role === 'operator'){
+        const socketInstance = io(
+          process.env.REACT_APP_SOCKET_URL
+          // 'https://tilspot-production.up.railway.app'
+          , {
+          transports: ["websocket"],
+          // reconnectionAttempts: 5,
+          reconnectionDelay: 2000,
+          withCredentials: true,
+        });
 
-    let hasConnected = false;
+        let hasConnected = false;
 
 
-    socketInstance.on("connect", () => {
-      console.log("Socket connected:", socketInstance.id);
-      hasConnected = true
-    });
+            socketInstance.on("connect", () => {
 
-    socketInstance.on("connect_error", (error) => {
-      console.error("Connection failed:", error);
-    });
+                console.log("Socket connected:", socketInstance.id);
+                hasConnected = true        
+            });
 
-    socketInstance.on("disconnect", () => {
-      if (!hasConnected) {
-        socket.connect(); // Allow only one attempt
-      }
-    });
+        socketInstance.on("connect_error", (error) => {
+          console.error("Connection failed:", error);
+        });
 
-    setSocket(socketInstance);
+        socketInstance.on("disconnect", () => {
+          if (!hasConnected) {
+            socket.connect(); // Allow only one attempt
+          }
+        });
 
-    return () => {
-      socketInstance.disconnect();
-    };
-  }, []);
+        setSocket(socketInstance);
+
+        return () => {
+          socketInstance.disconnect();
+        };
+
+    }
+
+  }, [role]);
 
   return (
     <SocketContext.Provider value={socket}>

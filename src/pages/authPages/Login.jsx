@@ -10,13 +10,13 @@ import { useDispatch } from "react-redux";
 import { getAllCategories, login } from "../../store/actions";
 import { io } from "socket.io-client";
 
-const url = process.env.REACT_APP_SOCKET_URL;
-const socket = io(url, {
-  transports: ['websocket'], 
-      reconnectionAttempts: 5, 
-    reconnectionDelay: 2000, 
-  withCredentials: true,    
-});
+// const url = process.env.REACT_APP_SOCKET_URL;
+// const socket = io(url, {
+//   transports: ['websocket'], 
+//       reconnectionAttempts: 5, 
+//     reconnectionDelay: 2000, 
+//   withCredentials: true,    
+// });
 
 
 

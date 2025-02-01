@@ -27,20 +27,15 @@ const Dashboard = () => {
     const socket = useSocket();
     const [billData, setBillsData] = useState([])
     const [currentBillData, setCurrentBillData] = useState({})
+    const {role} = useSelector((state)=>state.auth)
 
     useEffect(() => {
       if (!socket) return;
   
-      // Listen for the "completedBills" event
       socket.on("completedBills", ({bills, date, time}) => {
         console.log(bills);
         localStorage.setItem('bills', JSON.stringify(bills))
-        // if(bills.lenght>0){
-          // console.log(true)
           setBillsData(bills)
-        // }
-        console.log("Date:", date);
-        console.log("Time:", time);
       });
   
       // Cleanup on component unmount
@@ -53,12 +48,12 @@ const Dashboard = () => {
     const userData = JSON.parse(localStorage.getItem('userData'))
     // const socket = useSocket();
     useEffect(() => {
-      if (socket) {
+      if (role) {
   
         const userId = userData.id; 
         const userType = 'admin';
   
-        if (userId && userType) {
+        if (userId) {
 
           socket.emit("identify", { userId, userType });
           console.log("Emitting 'identify' event with:", { userId, userType });
@@ -67,17 +62,19 @@ const Dashboard = () => {
         }
   
 
-        socket.on("identify", (response) => {
-          console.log("Identify response from server:", response);
-        });
+        // socket.on("identify", (response) => {
+        //   console.log("Identify response from server:", response);
+        // });
+
+        return () => {
+          if (socket) {
+            socket.off("identify");
+          }
+        };
       }
   
-      return () => {
-        if (socket) {
-          socket.off("identify");
-        }
-      };
-    }, [socket]);
+
+    }, []);
 
 
     // const availableBills = JSON.parse(localStorage.getItem('bills'))
@@ -207,7 +204,7 @@ const Dashboard = () => {
                             handleOk={()=>setOpen(false)}
                             provider={currentBillData?.bill?.providerName}
                             plan = {currentBillData?.bill?.providerData?.plan}
-                            phone={currentBillData?.bill?.providerData?.phoneNumber}
+                            phone={currentBillData?.bill?.providerData?.accountNumber}
                             amount={currentBillData?.bill?.amount}
                         />,
             cable:   <PreviewCableOrderModal
@@ -246,6 +243,10 @@ const Dashboard = () => {
                             billId={currentBillData?.billId}
                             provider={currentBillData?.bill?.providerName}
                             reg ={currentBillData?.bill?.providerData?.carRegistrationNumber}
+                            duration ={currentBillData?.bill?.providerData?.duration}
+                            price ={currentBillData?.bill?.providerData?.price}
+                            location ={currentBillData?.bill?.providerData?.locationName}
+                            zone ={currentBillData?.bill?.providerData?.zone}
                             phone={currentBillData?.bill?.providerData?.phoneNumber}
                             amount={currentBillData?.bill?.amount}
                         />,

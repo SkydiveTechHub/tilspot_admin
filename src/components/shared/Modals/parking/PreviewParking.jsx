@@ -4,7 +4,7 @@ import SuccessModal from '../SuccessModal';
 import FormInput from '../../FormInput';
 import useForm from '../../../../hooks/useForm';
 
-const PreviewParkingOrderModal = ({children, title, openModal, handleOk, handleCancel, provider, zone, location, phone, imgUrl, reg }) => {
+const PreviewParkingOrderModal = ({children, title, openModal, handleOk, handleCancel, provider, zone, location, price, duration, phone, imgUrl, reg }) => {
   const [secondModalOpen, setSecondModalOpen] = useState(false)
   const [openFailed, setOpenedFailed] = useState(false)
 
@@ -82,6 +82,10 @@ const PreviewParkingOrderModal = ({children, title, openModal, handleOk, handleC
             <span className='font-bold text-[16px]'>{location}</span>
             <span className='text-[14px]'>Zone:</span>
             <span className='font-bold text-[16px]'>{zone}</span>
+            <span className='text-[14px]'>Duration:</span>
+            <span className='font-bold text-[16px]'>{duration}</span>
+            <span className='text-[14px]'>Price:</span>
+            <span className='font-bold text-[16px]'>{price}</span>
             <span className='text-[14px]'>Reg Number:</span>
             <span className='font-bold text-[16px]'>{reg}</span>
             <span className='text-[14px]'>Phone Number:</span>

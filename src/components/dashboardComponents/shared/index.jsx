@@ -2,12 +2,12 @@ import { useDispatch } from "react-redux"
 import useForm from "../../../hooks/useForm"
 import { AuthButton } from "../../shared/button"
 import FormInput from "../../shared/FormInput"
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Modal } from 'antd';
-import { Link, useNavigate } from "react-router-dom"
-import { GrayText } from "../../shared/typograph"
+import { useNavigate } from "react-router-dom"
 import { logout } from "../../../store/reducers/authSlice";
-import { io } from "socket.io-client";
+import { useSocket } from "../../../hooks/SocketContext";
+
 
 
 export const DeactivateModal = ({children, title, openModal, handleOk, handleCancel }) => {
@@ -35,18 +35,21 @@ export const DeactivateModal = ({children, title, openModal, handleOk, handleCan
   );
 };
 export const LogoutModal = ({children, title, openModal, handleOk, handleCancel }) => {
-  const url = process.env.REACT_APP_TEST_URL;
-  // const socket = io(url,{
-  //   reconnectionAttempts:5
-  // });
+  const [isLogout, setLogout] = useState(false)
+  const socket = useSocket();
 
-    // useEffect(() => {
-    //   socket.on("disconnection", () => console.log("Socket is disconnected"));
-  
-    //   return () => {
-    //     socket.off("disconnection");
-    //   };
-    // }, []);
+    useEffect(() => {
+      if(isLogout){
+        console.log('logout is true')
+        socket.on("disconnect", () => console.log("Socket is disconnected"));
+    
+        return () => {
+          socket.off("disconnect");
+        };        
+      }
+
+    }, [socket, logout]);
+
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -68,7 +71,7 @@ export const LogoutModal = ({children, title, openModal, handleOk, handleCancel 
             <p className="font-mont text-[14px] font-[400] text-[gray]">Are you sure you want to logout?</p>
             <div className="space-x-6">
                 <button className="font-mont text-[16px] w-[150px] font-[400] bg-[#F9F9F9] rounded-lg p-[10px]">Cancel</button>
-                <button onClick={handleLogout} className="font-mont text-[16px] w-[150px] font-[400] text-[white] bg-primary rounded-lg p-[10px]">Log Out</button>
+                <button onClick={()=>{handleLogout(); setLogout(true)}} className="font-mont text-[16px] w-[150px] font-[400] text-[white] bg-primary rounded-lg p-[10px]">Log Out</button>
             </div>            
         </div>
 
