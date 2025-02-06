@@ -8,6 +8,7 @@ export const getAllCategories = createAsyncThunk(
         dispatch(startLoad())
         try {
             const res = await providerService.GetAllCategories()
+            console.log(res)
             return res.data
         } catch (error) {
             return rejectWithValue(error.response.data)

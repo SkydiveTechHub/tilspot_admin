@@ -30,8 +30,8 @@ const providerSlice = createSlice({
 
         builder.addCase(getAllCategories.fulfilled, (state, {payload})=>{
             state.isLoading = false;
-            state.categories = payload
-            console.log(payload)
+            state.categories = payload.data
+            // console.log(payload)
             localStorage.setItem('categories', JSON.stringify(payload))
         })
         builder.addCase(getProviderByCategory.fulfilled, (state, {payload})=>{

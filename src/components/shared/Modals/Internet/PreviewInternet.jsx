@@ -96,7 +96,7 @@ const PreviewInternetOrderModal = ({billId, title, openModal, handleOk, handleCa
 
           <div className="flex items-center justify-center w-full">
             <button
-              onClick={handleSubmit}
+              onClick={handleReject}
               className="bg-[#219653] rounded-[8px] text-white py-[10px] px-11 text-[14px] md:text-[16px] font-[500] leading-[24px]"
             >
               Submit

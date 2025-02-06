@@ -61,14 +61,14 @@ function App() {
 
 						<>
 								<Route element={<ProtectedRoute roles={['admin']} />}>
-									{/* <Route element={<DashboardLayout />}> */}
+									<Route element={<DashboardLayout />}>
 										<Route path="/dashboard/staff" element={<StaffPage />} />
 										<Route path="/dashboard/fees" element={<FeesPage/>}/>
 										<Route path="/dashboard/statistics" element={<StatisticPage/>}/>
 										<Route path="/dashboard/preview-internet/:id" element={<PreviewInternetProvider/>}/>
 										<Route path="/dashboard/parking-location/:id" element={<PreviewParkingLocation/>}/>
 										<Route path="/dashboard/preview-football/:id" element={<PreviewFootballMatches/>}/>
-									{/* </Route> */}
+									</Route>
 								</Route>
 
 								<Route element={<ProtectedRoute roles={['operator']} />}>

@@ -4,7 +4,8 @@ import baseAxios from "../../api/baseAxios"
 class providerService {
 
   static async GetAllCategories() {
-    const res = await baseAxios.get(`/getAllCategories`);
+    const res = await baseAxios.post(`/getAllCategories`);
+    console.log(res)
     return res?.data || res;
   }
   static async GetProviderbyCategory(data) {
