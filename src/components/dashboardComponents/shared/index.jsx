@@ -43,7 +43,10 @@ export const LogoutModal = ({children, title, openModal, handleOk, handleCancel 
       if(isLogout && socket  && role ==='operator'){
         socket.on("disconnect", () => console.log("Socket is disconnected"));
         socket.disconnect();  
-            
+        dispatch(logout())
+        setLogout(false)
+        navigate('/') 
+        
         return () => {
           socket.off("disconnect");
           setLogout(false)
