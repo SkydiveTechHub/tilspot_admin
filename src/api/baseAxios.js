@@ -4,9 +4,9 @@ const endpoint = process.env.REACT_APP_TEST_URL;
 
 const Instance = axios.create({
   baseURL: endpoint,
-  headers:{
-    'ngrok-skip-browser-warning': 'true'
-  }
+  // headers:{
+  //   'ngrok-skip-browser-warning': 'true'
+  // }
 });
 
 // Request interceptor to set the token dynamically
