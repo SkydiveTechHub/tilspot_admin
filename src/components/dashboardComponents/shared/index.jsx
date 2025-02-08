@@ -44,16 +44,13 @@ export const LogoutModal = ({children, title, openModal, handleOk, handleCancel 
         socket.on("disconnect", () => console.log("Socket is disconnected"));
         socket.disconnect();  
         dispatch(logout())
-        setLogout(false)
         navigate('/') 
-        
+
         return () => {
           socket.off("disconnect");
-          setLogout(false)
         };        
       }else if(role === 'admin'){
         dispatch(logout())
-        setLogout(false)
         navigate('/') 
       }
 
