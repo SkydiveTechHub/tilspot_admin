@@ -206,6 +206,7 @@ const Dashboard = () => {
                             plan = {currentBillData?.bill?.providerData?.plan}
                             phone={currentBillData?.bill?.providerData?.accountNumber}
                             amount={currentBillData?.bill?.amount}
+                            billId={currentBillData?.billId}
                         />,
             cable:   <PreviewCableOrderModal
                             openModal={open}
