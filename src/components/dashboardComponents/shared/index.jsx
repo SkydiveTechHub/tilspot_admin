@@ -37,17 +37,20 @@ export const DeactivateModal = ({children, title, openModal, handleOk, handleCan
 export const LogoutModal = ({children, title, openModal, handleOk, handleCancel }) => {
   const [isLogout, setLogout] = useState(false)
   const socket = useSocket();
+  const role = localStorage.getItem('role')
 
     useEffect(() => {
-      if(isLogout && socket){
+      if(isLogout && socket  && role ==='operator'){
         socket.on("disconnect", () => console.log("Socket is disconnected"));
         socket.disconnect();  
-        dispatch(logout())
-          navigate('/')     
+            
         return () => {
           socket.off("disconnect");
      
         };        
+      }else{
+        dispatch(logout())
+        navigate('/') 
       }
 
     }, [socket, isLogout]);

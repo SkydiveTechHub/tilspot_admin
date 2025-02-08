@@ -34,7 +34,6 @@ const Dashboard = () => {
   
       socket.on("completedBills", ({bills, date, time}) => {
         console.log(bills);
-        localStorage.setItem('bills', JSON.stringify(bills))
           setBillsData(bills)
       });
   
@@ -48,7 +47,7 @@ const Dashboard = () => {
     const userData = JSON.parse(localStorage.getItem('userData'))
     // const socket = useSocket();
     useEffect(() => {
-      if (role) {
+      if (role === 'operator') {
   
         const userId = userData.id; 
         const userType = 'admin';

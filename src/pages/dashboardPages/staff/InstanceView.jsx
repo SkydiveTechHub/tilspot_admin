@@ -76,9 +76,10 @@ const InstanceView = ({data}) => {
 
     const handleDelete = async () =>{
       try {
-        const res = await dispatch(deleteStaff(userData?.id))
+        const res = await dispatch(deleteStaff(userData?._id))
         if(res.payload.statusCode){
           dispatch(getAllStaffs())
+          setOpenDelete(false)
         }
   
       } catch (error) {
