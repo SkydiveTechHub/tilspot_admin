@@ -12,8 +12,11 @@ import DeleteInstanceModal from "../../../components/shared/Modals/DeleteInstanc
 import EditStaffModal from "../../../components/shared/Modals/staff/EditStaffModal";
 import StatisticsModal from "../../../components/shared/Modals/StatisticModal";
 import { CleaningServices } from "@mui/icons-material";
+import { deleteStaff, getAllStaffs } from "../../../store/actions";
+import { useDispatch } from "react-redux";
 
 const InstanceView = ({data}) => {
+  const dispatch = useDispatch()
   const [open, setOpen] = useState(false)
   const [openDelete, setOpenDelete] = useState(false)
   const [userData, setUserData] = useState([])
@@ -43,6 +46,7 @@ const InstanceView = ({data}) => {
               // Handle enable action
               break;
             case "4":
+              setUserData(record)
               setOpenDelete(true)
               break;
             default:
@@ -70,6 +74,17 @@ const InstanceView = ({data}) => {
     },
   ];
 
+    const handleDelete = async () =>{
+      try {
+        const res = await dispatch(deleteStaff(userData?.id))
+        if(res.payload.statusCode){
+          dispatch(getAllStaffs())
+        }
+  
+      } catch (error) {
+        console.log(error)
+      }
+    }
   console.log(userData)
 return (
         <div className="space-y-6">
@@ -89,7 +104,7 @@ return (
               openModal={openDelete}
               char={'Staff'}
               handleCancel={()=>setOpenDelete(false)}
-              handleOk={()=>setOpenDelete(false)}
+              handleOk={handleDelete}
 
           />
           <AddStaffModal

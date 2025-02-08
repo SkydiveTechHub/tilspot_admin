@@ -5,7 +5,7 @@ import useForm from '../../../../hooks/useForm';
 import { Modal } from 'antd';
 import SuccessModal from '../SuccessModal';
 import { useDispatch } from 'react-redux';
-import { createStaff } from '../../../../store/actions';
+import { createStaff, getAllStaffs } from '../../../../store/actions';
 
 const initialState = {
   lname: '',
@@ -38,6 +38,7 @@ const AddStaffModal = ({  openModal, handleOk, handleCancel }) => {
         handleOk();
         setSecondModalOpen(true)
         resetForm();
+        dispatch(getAllStaffs())
       }
     } catch (error) {
       resetForm();

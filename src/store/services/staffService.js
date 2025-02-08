@@ -39,7 +39,7 @@ class staffService {
     return res?.data || res;
   }
   static async DeleteStaff(data) {
-    const res = await baseAxios.post(`/deleteOperator/:adminId`, data);
+    const res = await baseAxios.post(`/deleteOperator/${data}`);
     return res?.data || res;
   }
   

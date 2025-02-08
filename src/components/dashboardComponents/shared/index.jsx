@@ -37,18 +37,18 @@ export const DeactivateModal = ({children, title, openModal, handleOk, handleCan
 export const LogoutModal = ({children, title, openModal, handleOk, handleCancel }) => {
   const [isLogout, setLogout] = useState(false)
   const socket = useSocket();
-  console.log(socket)
 
     useEffect(() => {
-      console.log('first')
-      // if(isLogout){
-      //   console.log('logout is true')
-      //   socket.on("disconnect", () => console.log("Socket is disconnected"));
-    
-      //   return () => {
-      //     socket.off("disconnect");
-      //   };        
-      // }
+      if(isLogout && socket){
+        socket.on("disconnect", () => console.log("Socket is disconnected"));
+        socket.disconnect();  
+        dispatch(logout())
+          navigate('/')     
+        return () => {
+          socket.off("disconnect");
+     
+        };        
+      }
 
     }, [socket, isLogout]);
 
@@ -57,8 +57,7 @@ export const LogoutModal = ({children, title, openModal, handleOk, handleCancel 
   const navigate = useNavigate()
   const handleLogout= ()=>{
     setLogout(true)
-    dispatch(logout())
-    navigate('/')
+
   }
 
   return (

@@ -116,3 +116,17 @@ export const createStaff = createAsyncThunk(
         }
     }
 )
+export const deleteStaff = createAsyncThunk(
+    'staff/deleteStaff',
+    async (data, {dispatch, rejectWithValue })=>{
+        dispatch(startLoad())
+        try {
+            const res = await staffService.DeleteStaff(data)
+            return res
+        } catch (error) {
+            return rejectWithValue(error.response.data)
+        }finally{
+            dispatch(stopLoad())
+        }
+    }
+)
