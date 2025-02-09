@@ -26,21 +26,21 @@ export const SocketProvider = ({ children }) => {
         let hasConnected = false;
 
 
-            socketInstance.on("connect", () => {
+        //     socketInstance.on("connect", () => {
 
-                console.log("Socket connected:", socketInstance.id);
-                hasConnected = true        
-            });
+        //         console.log("Socket connected:", socketInstance.id);
+        //         hasConnected = true        
+        //     });
 
-        socketInstance.on("connect_error", (error) => {
-          console.error("Connection failed:", error);
-        });
+        // socketInstance.on("connect_error", (error) => {
+        //   console.error("Connection failed:", error);
+        // });
 
-        socketInstance.on("disconnect", () => {
-          if (!hasConnected) {
-            socket.connect(); // Allow only one attempt
-          }
-        });
+        // socketInstance.on("disconnect", () => {
+        //   if (!hasConnected) {
+        //     socket.connect(); // Allow only one attempt
+        //   }
+        // });
 
         setSocket(socketInstance);
 
@@ -48,6 +48,11 @@ export const SocketProvider = ({ children }) => {
           socketInstance.disconnect();
         };
 
+    }else if(role === null) {
+      if (socket) {
+        socket.disconnect();
+        setSocket(null);
+      }
     }
 
   }, [role]);

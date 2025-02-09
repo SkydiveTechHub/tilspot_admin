@@ -45,6 +45,12 @@ const AddInternetProvider = ({catId, action, userData, openModal, handleOk, hand
         provId:userData._id,
         payload:params
       })) 
+      if (res.payload.statusCode){
+        setSecondModalOpen(true); 
+        handleOk(); 
+        dispatch(getProviderByCategory(catId))
+      }
+
       }else{
         res =  await dispatch(createProvider({
           catId:catId,

@@ -10,8 +10,6 @@ const DashboardLayout = () => {
 
   const [open, setOpen] = useState(false);
   const handleToggleSidebar = () => {
-    console.log('Sidebar toggle clicked');
-    console.log('Sidebar open:', open);
     setOpen(!open);
   };
 

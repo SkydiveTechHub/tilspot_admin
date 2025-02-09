@@ -6,7 +6,7 @@ import { Modal } from 'antd';
 
 import SuccessModal from '../SuccessModal';
 import UserImageUpload from '../../UserImageUpload';
-import { createProvider, editProvider } from '../../../../store/actions';
+import { createProvider, editProvider, getProviderByCategory } from '../../../../store/actions';
 import { useDispatch } from 'react-redux';
 
 
@@ -39,6 +39,12 @@ const { values, handleChange, resetForm, errors } = useForm(initialState);
         provId:userData._id,
         payload:params
       })) 
+
+            if (res.payload.statusCode){
+              setSecondModalOpen(true); 
+              handleOk(); 
+              dispatch(getProviderByCategory(catId))
+            }
       }else{
         res =  await dispatch(createProvider({
           catId:catId,
@@ -49,6 +55,7 @@ const { values, handleChange, resetForm, errors } = useForm(initialState);
       if (res.payload.statusCode){
         setSecondModalOpen(true); 
         handleOk(); 
+        dispatch(getProviderByCategory(catId))
       }
     } catch (error) {
       

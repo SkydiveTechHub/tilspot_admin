@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import useForm from "../../hooks/useForm";
 import FormInput from "../../components/shared/FormInput";
 import { Link, useNavigate } from "react-router-dom";
@@ -9,6 +9,7 @@ import { AuthLayout3 } from "../../components/authComponents/AuthLayout";
 import { useDispatch } from "react-redux";
 import { getAllCategories, login } from "../../store/actions";
 import { io } from "socket.io-client";
+import { useSocket } from "../../hooks/SocketContext";
 
 // const url = process.env.REACT_APP_SOCKET_URL;
 // const socket = io(url, {
@@ -30,15 +31,6 @@ const Login = () => {
   const dispatch = useDispatch();
   const { values, handleChange, resetForm, errors } = useForm(initialState);
 
-  // useEffect(() => {
-  //   socket.on("connect", () => console.log("Socket is connected", socket.id));
-
-  //   return () => {
-  //     socket.off("connect");
-  //   };
-  // }, []);
-
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     const params = {
@@ -53,6 +45,7 @@ const Login = () => {
           navigate("/dashboard/staff");
         } else {
           navigate("/dashboard/index");
+
         }
       }
     } catch (error) {

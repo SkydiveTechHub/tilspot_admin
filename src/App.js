@@ -28,11 +28,12 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { checkAuth } from "./store/reducers/authSlice";
 import StatisticPage from "./pages/dashboardPages/statistics";
-import { SocketProvider } from "./hooks/SocketContext";
+import { SocketProvider, useSocket } from "./hooks/SocketContext";
 
 
 function App() {
 	const dispatch =  useDispatch()
+	const socket = useSocket()
 	const navigate = useNavigate()
 	// const role = localStorage.getItem('role')
 	const [hasRole, setHasRole] = useState(false)
@@ -46,7 +47,12 @@ function App() {
 			// navigate(0)
 		}
 	  },[])
-
+	  
+	  useEffect(()=>{
+		if(!socket | socket === null){
+			navigate('/')
+		}
+	  },[socket])
 	  
 	
 	  return (

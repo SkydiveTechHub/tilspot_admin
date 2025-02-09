@@ -44,6 +44,13 @@ const AddAirtimeProvider = ({catId, action, userData, openModal, handleOk, handl
         provId:userData._id,
         payload:params
       })) 
+
+      if (res.payload.statusCode){
+        dispatch(getProviderByCategory(catId));
+        setIsSuccessModalOpen(true); 
+        handleOk(); 
+        // refresh()
+      }
       }else{
         res =  await dispatch(createProvider({
           catId:catId,
@@ -55,7 +62,7 @@ const AddAirtimeProvider = ({catId, action, userData, openModal, handleOk, handl
         dispatch(getProviderByCategory(catId));
         setIsSuccessModalOpen(true); 
         handleOk(); 
-        refresh()
+        // refresh()
       }
     } catch (error) {
       

@@ -12,7 +12,7 @@ import { useAccordion } from "@material-tailwind/react";
 import DeleteInstanceModal from "../../../components/shared/Modals/DeleteInstanceModal";
 import ConfirmModal from "../../../components/shared/Modals/ConfirmModal";
 import { useDispatch } from "react-redux";
-import { deleteProvider, enableOrDisableCategory, getAllCategories } from "../../../store/actions";
+import { deleteProvider, enableOrDisableCategory, getAllCategories, getProviderByCategory } from "../../../store/actions";
 
 const role = localStorage.getItem('role')
 const InstanceView = ({data, catStatus, id}) => {
@@ -32,6 +32,10 @@ const InstanceView = ({data, catStatus, id}) => {
         catId :id,
         providerId:provId
       }))
+      if(res.payload.statusCode) {
+        dispatch(getProviderByCategory(id));
+        setOpenDelete(false)
+      }
       
 
     } catch (error) {
