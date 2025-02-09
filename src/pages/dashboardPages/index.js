@@ -346,7 +346,7 @@ const Dashboard = () => {
               <div className="gap-6 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                 {billData.map((bill, index) => {
                   const matchedService = serviceEnum.find(
-                    (service) => service.service_name === bill.bill.categoryName
+                    (service) => service.service_name === bill?.bill?.categoryName
                   );
                   if (matchedService) {
                     return (
