@@ -33,7 +33,7 @@ const AddAirtimeProvider = ({catId, action, userData, openModal, handleOk, handl
     e.preventDefault();
     const params = {
         name:values.p_name,
-        base64Image: uploadedImage
+        providerLogo: uploadedImage
       }
     try {
       let res 
