@@ -6,8 +6,9 @@ import { useDispatch } from 'react-redux';
 const StatisticsModal = ({totalRevenue, totalOrder, totalCompleted, totalFailed, title, staffId, openModal, handleOk, handleCancel, handleContinue }) => {
   const dispatch = useDispatch()
 
-  const [filterDuration, setFilterDuration] = useState('weekly')
+  const [filterDuration, setFilterDuration] = useState('today')
   const [hasRecord, setHasRecord] = useState(false)
+  const [summaryData, setSummary] = useState({})
 
   const fetchRecord = async () => {
     const params = {
@@ -17,8 +18,9 @@ const StatisticsModal = ({totalRevenue, totalOrder, totalCompleted, totalFailed,
     try {
       if(staffId){
         let res =  await dispatch(getOperatorPeriodicRecord(params)) 
-        if (res.statusCode){
+        if (res?.payload?.responseData.length > 0){
           setHasRecord(true)
+         setSummary(res?.payload?.responseData[0])
         }else{
           setHasRecord(false)
         }
@@ -39,22 +41,22 @@ const StatisticsModal = ({totalRevenue, totalOrder, totalCompleted, totalFailed,
   const cardData = [
     {
       title:'Total Revenue Generated',
-      amount: totalRevenue || 0,
+      amount: summaryData?.totalAmount || 0,
       icon:'/images/f1.svg'
     },	
     {
       title:'Total Order Processed',
-      amount:totalOrder || 0,
+      amount:summaryData?.processedCount || 0,
       icon:'/images/f2.svg'
     },	
     {
       title:'Total Completed Orders',
-      amount:totalCompleted || 0,
+      amount:summaryData?.approvedCount || 0,
       icon:'/images/f3.svg'
     },	
     {
       title:'Total Failed Orders',
-      amount: totalFailed || 0, 
+      amount:summaryData?.rejectedCount || 0, 
       icon:'/images/f4.svg'
       
     },	
@@ -66,7 +68,7 @@ const StatisticsModal = ({totalRevenue, totalOrder, totalCompleted, totalFailed,
     {
       key: '1',
       label: (
-        <button onClick={()=>(setFilterDuration('daily'))} >
+        <button onClick={()=>(setFilterDuration('today'))} >
           Today
         </button>
       ),
@@ -74,7 +76,7 @@ const StatisticsModal = ({totalRevenue, totalOrder, totalCompleted, totalFailed,
     {
       key: '2',
       label: (
-        <button onClick={()=>(setFilterDuration('weekly'))} >
+        <button onClick={()=>(setFilterDuration('currentWeek'))} >
           This Week
         </button>
       ),
@@ -82,7 +84,7 @@ const StatisticsModal = ({totalRevenue, totalOrder, totalCompleted, totalFailed,
     {
       key: '3',
       label: (
-        <button onClick={()=>(setFilterDuration('monthly'))} >
+        <button onClick={()=>(setFilterDuration('currentMonth'))} >
           This Month
         </button>
       ),

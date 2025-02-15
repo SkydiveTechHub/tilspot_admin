@@ -29,12 +29,11 @@ const AddAirtimeProvider = ({catId, action, userData, openModal, handleOk, handl
     setIsActive(!!values.p_name);
   }, [values]);
 
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     const params = {
         name:values.p_name,
-        providerLogo: uploadedImage
+        base64Image: uploadedImage
       }
     try {
       let res 
@@ -112,7 +111,7 @@ const AddAirtimeProvider = ({catId, action, userData, openModal, handleOk, handl
         </div>
 
         {/* Form Section */}
-        <form className="mt-6 space-y-6" onSubmit={handleSubmit}>
+        <form encType="multipart/form-data" className="mt-6 space-y-6" onSubmit={handleSubmit}>
           <FormInput
             label="Provider Name"
             type="text"

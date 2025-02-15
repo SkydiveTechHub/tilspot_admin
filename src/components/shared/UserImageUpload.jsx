@@ -21,7 +21,7 @@ const UserImageUpload = ({ onImageUpload }) => {
       }
 
       setError("");
-
+      console.log(file)
       const reader = new FileReader();
       reader.onloadend = () => {
         setImagePreview(reader.result);

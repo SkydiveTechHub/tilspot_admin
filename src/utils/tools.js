@@ -74,3 +74,22 @@ export function formatDate(inputDate) {
   // Format the date
   return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 }
+
+
+export function base64ToFile(base64String, filename, mimeType) {
+  // Remove the Base64 prefix (if it exists)
+  const base64Data = base64String.replace(/^data:[^;]+;base64,/, "");
+
+  // Convert Base64 to binary data
+  const byteCharacters = atob(base64Data);
+  const byteNumbers = new Array(byteCharacters.length);
+
+  for (let i = 0; i < byteCharacters.length; i++) {
+    byteNumbers[i] = byteCharacters.charCodeAt(i);
+  }
+
+  const byteArray = new Uint8Array(byteNumbers);
+  return new File([byteArray], filename, { type: mimeType });
+}
+
+

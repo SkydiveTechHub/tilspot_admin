@@ -12,6 +12,7 @@ const StatisticPage = () => {
     const serviceData = ['Airtime', 'Internet', 'Government', 'Gas', 'Waste', 'Transport', 'Football', 'Cable', 'Parking', 'Housing', 'Electricity'];
     const [activeTab, setActiveTab] = useState('Airtime')
     const [summaryData, setSummaryData] = useState()
+    const [chartData, setChartData] = useState([])
     const [filterDuration, setFilterDuration] = useState('daily')
 
     const fetchUserStat = async() =>{
@@ -26,11 +27,14 @@ const StatisticPage = () => {
       try {
         const res = await dispatch(getAdminGlobalRecord(filterDuration))
         console.log(res)
+        setChartData(res.payload.responseData)
       } catch (error) {
         
       }
       
     }
+
+    console.log(chartData)
 
     useEffect(()=>{
       fetchGlobalRecord()
@@ -89,8 +93,8 @@ const StatisticPage = () => {
         {
           key: '1',
           label: (
-            <button onClick={()=>(setFilterDuration('today'))} >
-              Today
+            <button onClick={()=>(setFilterDuration('daily'))} >
+              This Week
             </button>
           ),
         },
@@ -98,7 +102,7 @@ const StatisticPage = () => {
           key: '2',
           label: (
             <button onClick={()=>(setFilterDuration('weekly'))} >
-              This Week
+              This Month
             </button>
           ),
         },
@@ -106,7 +110,7 @@ const StatisticPage = () => {
           key: '3',
           label: (
             <button onClick={()=>(setFilterDuration('monthly'))} >
-              This Month
+              This Year
             </button>
           ),
         },
@@ -154,7 +158,7 @@ const StatisticPage = () => {
             })
              }
         </div>
-             {filterDuration !== 'daily' && <BarCharts duration={filterDuration}/>}
+              <BarCharts Cdata={chartData} duration={filterDuration}/>
                          
       </div>
 

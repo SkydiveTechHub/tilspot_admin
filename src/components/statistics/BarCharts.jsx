@@ -4,128 +4,130 @@ import { Bar, BarChart, CartesianGrid, Legend, XAxis, YAxis } from 'recharts'
                       
 
 
-const BarCharts = ({duration}) => {
+const BarCharts = ({duration, Cdata}) => {
     
+console.log(Cdata)
+console.log(Cdata[0]?.approveCount)
 
     const weeklyData = [
         {
           "name": "Sunday",
-          "uv": 4000,
-          "pv": 2400
+          "approveCount":  Cdata[0]?.approvedCount | 0 ,
+          "rejectCount": Cdata[0]?.rejectCount | 0
         },
         {
           "name": "Monday",
-          "uv": 3000,
-          "pv": 1398
+          "approveCount": Cdata[1]?.approvedCount | 0,
+          "rejectCount": Cdata[1]?.rejectedCount | 0
         },
         {
           "name": "Tuesday",
-          "uv": 2000,
-          "pv": 9800
+          "approveCount": Cdata[2]?.approvedCount | 0,
+          "rejectCount": Cdata[2]?.rejectedCount | 0
         },
         {
           "name": "Wednesday",
-          "uv": 2780,
-          "pv": 3908
+          "approveCount": Cdata[3]?.approvedCount | 0,
+          "rejectCount": Cdata[3]?.rejectedCount | 0
         },
         {
           "name": "Thursday",
-          "uv": 1890,
-          "pv": 4800
+          "approveCount": Cdata[4]?.approvedCount | 0,
+          "rejectCount": Cdata[4]?.rejectedCount | 0
         },
         {
           "name": "Friday",
-          "uv": 2390,
-          "pv": 3800
+          "approveCount": Cdata[5]?.approvedCount | 0,
+          "rejectCount": Cdata[5]?.rejectedCount | 0
         },
         {
           "name": "Saturday",
-          "uv": 3490,
-          "pv": 4300
+          "approveCount": Cdata[6]?.approvedCount | 0,
+          "rejectCount": Cdata[6]?.rejectedCount | 0
         }
       ]
     const yearlyData = [
         {
-          "name": "January",
-          "uv": 4000,
-          "pv": 2400
+          "name": "Jan",
+          "approveCount": Cdata[0]?.approvedCount | 0,
+          "rejectCount": Cdata[0]?.rejectedCount | 0
         },
         {
-          "name": "Feburary",
-          "uv": 3000,
-          "pv": 1398
+          "name": "Feb",
+          "approveCount": Cdata[1]?.approvedCount | 0,
+          "rejectCount": Cdata[1]?.rejectedCount | 0
         },
         {
-          "name": "March",
-          "uv": 2000,
-          "pv": 9800
+          "name": "Mar",
+          "approveCount": Cdata[2]?.approvedCount | 0,
+          "rejectCount": Cdata[2]?.rejectedCount | 0
         },
         {
-          "name": "April",
-          "uv": 2780,
-          "pv": 3908
+          "name": "Apr",
+          "approveCount": Cdata[3]?.approvedCount | 0,
+          "rejectCount": Cdata[3]?.rejectedCount | 0
         },
         {
           "name": "May",
-          "uv": 1890,
-          "pv": 4800
+          "approveCount": Cdata[4]?.approvedCount | 0,
+          "rejectCount": Cdata[4]?.rejectedCount | 0
         },
         {
-          "name": "June",
-          "uv": 2390,
-          "pv": 3800
+          "name": "Jun",
+          "approveCount": Cdata[5]?.approvedCount | 0,
+          "rejectCount": Cdata[5]?.rejectedCount | 0
         },
         {
-          "name": "July",
-          "uv": 3490,
-          "pv": 4300
+          "name": "Jul",
+          "approveCount": Cdata[6]?.approvedCount | 0,
+          "rejectCount": Cdata[6]?.rejectedCount | 0
         },
         {
-          "name": "August",
-          "uv": 3490,
-          "pv": 4300
+          "name": "Aug",
+          "approveCount": Cdata[7]?.approvedCount | 0,
+          "rejectCount": Cdata[7]?.rejectedCount | 0
         },
         {
-          "name": "September",
-          "uv": 3490,
-          "pv": 4300
+          "name": "Sep",
+          "approveCount": Cdata[8]?.approvedCount | 0,
+          "rejectCount": Cdata[8]?.rejectedCount | 0
         },
         {
-          "name": "October",
-          "uv": 3490,
-          "pv": 4300
+          "name": "Oct",
+          "approveCount": Cdata[9]?.approvedCount | 0,
+          "rejectCount": Cdata[9]?.rejectedCount | 0
         },
         {
-          "name": "November",
-          "uv": 3490,
-          "pv": 4300
+          "name": "Nov",
+          "approveCount": Cdata[10]?.approvedCount | 0,
+          "rejectCount": Cdata[10]?.rejectedCount | 0
         },
         {
-          "name": "December",
-          "uv": 3490,
-          "pv": 4300
+          "name": "Dec",
+          "approveCount": Cdata[11]?.approvedCount | 0,
+          "rejectCount": Cdata[11]?.rejectedCount | 0
         },
       ]
     const monthlyData = [
         {
           "name": "week 1",
-          "uv": 4000,
-          "pv": 2400
+          "approveCount": 4000,
+          "rejectCount": 2400
         },
         {
           "name": "Week 2",
-          "uv": 3000,
-          "pv": 1398
+          "approveCount": 3000,
+          "rejectCount": 1398
         },
         {
           "name": "Week 3",
-          "uv": 2000,
-          "pv": 9800
+          "approveCount": 2000,
+          "rejectCount": 9800
         },
         {
           "name": "Week 4",
-          "uv": 2780,
-          "pv": 3908
+          "approveCount": 2780,
+          "rejectCount": 3908
         },
 
       ]
@@ -133,7 +135,7 @@ const BarCharts = ({duration}) => {
       const [data, setData] = useState(weeklyData)
 
       useEffect(()=>{
-        if(duration === 'week'){
+        if(duration === 'daily'){
             setData(weeklyData)
         }else if(duration === 'month'){
             setData(monthlyData)
@@ -142,6 +144,8 @@ const BarCharts = ({duration}) => {
         }
       },[duration])
       
+
+      console.log(data)
             
 
   return (
@@ -153,8 +157,8 @@ const BarCharts = ({duration}) => {
             <YAxis />
             <Tooltip />
             <Legend />
-            <Bar width={10} dataKey="pv" fill="#002b6f" />
-            {/* <Bar dataKey="uv" fill="#82ca9d" /> */}
+            <Bar width={10} dataKey="approveCount" fill="#002b6f" />
+            <Bar dataKey="rejectCount" fill="red" />
         </BarChart>
     </div>
   )

@@ -89,7 +89,7 @@ const Dashboard = () => {
     const navigate = useNavigate();
     const [open, setOpen] = useState(false)
     const [summaryData, setSummaryData] = useState()
-        const [filterDuration, setFilterDuration] = useState('daily')
+        const [filterDuration, setFilterDuration] = useState('today')
         const {operatorStat} = useSelector((state)=>state.staff)
 
     const [modalToView, setModalToView] = useState()
@@ -111,6 +111,7 @@ const Dashboard = () => {
           try {
             const res = await dispatch(getMyRecord(filterDuration))
             console.log(res)
+            setSummaryData(res.payload.responseData[0])
           } catch (error) {
             
           }
@@ -138,7 +139,7 @@ const Dashboard = () => {
             {
               key: '1',
               label: (
-                <button onClick={()=>(setFilterDuration('daily'))} >
+                <button onClick={()=>(setFilterDuration('today'))} >
                   Today
                 </button>
               ),
@@ -146,7 +147,7 @@ const Dashboard = () => {
             {
               key: '2',
               label: (
-                <button onClick={()=>(setFilterDuration('weekly'))} >
+                <button onClick={()=>(setFilterDuration('currentWeek'))} >
                   This Week
                 </button>
               ),
@@ -154,7 +155,7 @@ const Dashboard = () => {
             {
               key: '3',
               label: (
-                <button onClick={()=>(setFilterDuration('monthly'))} >
+                <button onClick={()=>(setFilterDuration('currentMonth'))} >
                   This Month
                 </button>
               ),
@@ -164,22 +165,22 @@ const Dashboard = () => {
     const cardData = [
         {
           title:'Total Revenue Generated',
-          amount: summaryData?.totalWaste || 0,
+          amount: summaryData?.totalAmount || 0,
           icon:'/images/f1.svg'
         },	
         {
           title:'Total Order Processed',
-          amount:summaryData?.organizationIncome || 0,
+          amount:summaryData?.processedCount || 0,
           icon:'/images/f2.svg'
         },	
         {
           title:'Total Completed Orders',
-          amount:summaryData?.transactionPoint || 0,
+          amount:summaryData?.approvedCount || 0,
           icon:'/images/f3.svg'
         },	
         {
           title:'Total Failed Orders',
-          amount:summaryData?.commission || 0, 
+          amount:summaryData?.rejectedCount || 0, 
           icon:'/images/f4.svg'
           
         },	
