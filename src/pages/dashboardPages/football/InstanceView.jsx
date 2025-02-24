@@ -7,13 +7,13 @@ import AddFootballTicketProvider from "../../../components/shared/Modals/footbal
 import { Dropdown, Menu, Space, Switch } from "antd";
 import { CiMenuKebab } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { deleteMatch, enableOrDisableCategory, getAllCategories, getMatch } from "../../../store/actions";
 import DeleteInstanceModal from "../../../components/shared/Modals/DeleteInstanceModal";
 import { toast } from "react-toastify";
 
-const role = localStorage.getItem('role')
 const InstanceView = ({data, catStatus, id, p_Id}) => {
+  const { role } = useSelector((state) => state.auth);
   const navigate = useNavigate()
   const [open, setOpen] = useState(false)
     const [provId, setProvId] = useState(false)

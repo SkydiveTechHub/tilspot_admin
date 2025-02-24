@@ -7,11 +7,11 @@ import { Dropdown, Menu, Space, Switch } from "antd";
 import { CiMenuKebab } from "react-icons/ci";
 import DeleteInstanceModal from "../../../components/shared/Modals/DeleteInstanceModal";
 import { deleteProvider, enableOrDisableCategory, getAllCategories, getProviderByCategory } from "../../../store/actions";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
-const role = localStorage.getItem('role')
 const InstanceView = ({data, catStatus, id}) => {
+  const { role } = useSelector((state) => state.auth);
   const [open, setOpen] = useState(false)
     const [provId, setProvId] = useState(false)
   const [openDelete, setOpenDelete] = useState(false)

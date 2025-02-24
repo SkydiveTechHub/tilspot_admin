@@ -11,12 +11,12 @@ import { useNavigate } from "react-router-dom";
 import { useAccordion } from "@material-tailwind/react";
 import DeleteInstanceModal from "../../../components/shared/Modals/DeleteInstanceModal";
 import ConfirmModal from "../../../components/shared/Modals/ConfirmModal";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { deleteProvider, enableOrDisableCategory, getAllCategories, getProviderByCategory } from "../../../store/actions";
 import { toast } from "react-toastify";
 
-const role = localStorage.getItem('role')
 const InstanceView = ({data, catStatus, id}) => {
+  const { role } = useSelector((state) => state.auth);
   const [open, setOpen] = useState(false)
   const [provId, setProvId] = useState('')
   const [openDelete, setOpenDelete] = useState(false)
