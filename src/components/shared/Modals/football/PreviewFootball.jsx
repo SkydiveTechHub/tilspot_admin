@@ -3,10 +3,14 @@ import { Button, Modal } from 'antd';
 import SuccessModal from '../SuccessModal';
 import useForm from '../../../../hooks/useForm';
 import FormInput from '../../FormInput';
+import { getMyRecord, rejectdPaymentBill } from '../../../../store/actions';
+import { toast } from 'react-toastify';
+import { useDispatch } from 'react-redux';
 
-const PreviewFootballOrderModal = ({ openModal, handleOk, handleCancel, imgUrl, name, email, provider, fixture, seating_area, processing_fee, no_tickets, phone, address, amount, total }) => {
+const PreviewFootballOrderModal = ({ billId, openModal, handleOk, handleCancel, imgUrl, name, email, provider, fixture, seating_area, processing_fee, no_tickets, phone, address, amount, total }) => {
   const [secondModalOpen, setSecondModalOpen] = useState(false)
   const [openFailed, setOpenedFailed] = useState(false)
+  const dispatch = useDispatch()
 
   const initialState = {
     desc: '',
@@ -30,6 +34,37 @@ const PreviewFootballOrderModal = ({ openModal, handleOk, handleCancel, imgUrl, 
     handleCancel?.(); 
     resetForm();
   };
+
+    const handleReject = async(e) => {
+      e.preventDefault();
+      const params = {
+        billId,
+        paylaod:{
+          rejectionReason:values.desc
+        }
+        
+      }
+  
+      try {
+        const res = await dispatch(rejectdPaymentBill(params));
+        if (res.payload.statusCode){
+          toast.success(res.paylaod.message)
+          dispatch(getMyRecord('today'))
+          handleReturn();
+        }else{
+          toast.error(res.payload.message)
+          handleCancel()
+        }
+      } catch (error) {
+        toast.error('Something went wrong')
+        handleCancel()
+      }
+  
+      console.log('Form submitted:', values);
+      // setOpenedFailed(false);
+      handleCancel?.(); 
+      resetForm();
+    };
 
   return (
     <>

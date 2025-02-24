@@ -341,7 +341,7 @@ const Dashboard = () => {
                 </>
 
             </Section>
-            <Section title={"Pending Order"} className="overview-section">
+            <Section title={`Pending Order (${billData.length})`} className="overview-section">
 
               {
                 billData.length === 0 ?<div className="flex items-center justify-center h-[200px]"> <h1 className="font-mont font-bold text-[18px]">No Pending Bills</h1> </div>:

@@ -4,6 +4,7 @@ import SuccessModal from '../SuccessModal';
 import useForm from '../../../../hooks/useForm';
 import FormInput from '../../FormInput';
 import { toast } from 'react-toastify';
+import { getMyRecord } from '../../../../store/actions';
 
 const PreviewElectricityOrderModal = ({billId, children, title, openModal, handleOk, handleCancel, provider,acctNo,email,amount, imgUrl }) => {
   const [secondModalOpen, setSecondModalOpen] = useState(false)
@@ -30,6 +31,7 @@ const PreviewElectricityOrderModal = ({billId, children, title, openModal, handl
       const res = await dispatch(approveBill(billId));
       console.log(res)
       if (res.payload.statusCode){
+        dispatch(getMyRecord('today'))
         handleProceed();
       }else{
         toast.error(res.payload.message)
@@ -57,6 +59,7 @@ const PreviewElectricityOrderModal = ({billId, children, title, openModal, handl
       console.log(res)
       if (res.payload.statusCode){
         toast.success(res.paylaod.message)
+        dispatch(getMyRecord('today'))
         handleReturn();
       }else{
         toast.error(res.payload.message)
@@ -105,7 +108,7 @@ const PreviewElectricityOrderModal = ({billId, children, title, openModal, handl
 
           <div className="flex items-center justify-center w-full">
             <button
-              onClick={handleSubmit}
+              onClick={handleReject}
               className="bg-[#219653] rounded-[8px] text-white py-[10px] px-11 text-[14px] md:text-[16px] font-[500] leading-[24px]"
             >
               Submit
