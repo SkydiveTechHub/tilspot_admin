@@ -35,6 +35,7 @@ const staffSlice = createSlice({
         })
         builder.addCase(getOperatorRecord.fulfilled, (state, {payload})=>{
             state.isLoading = false;
+            
             state.operatorstat = payload
         })
         builder.addCase(createStaff.fulfilled, (state, {payload})=>{
@@ -45,3 +46,4 @@ const staffSlice = createSlice({
 })
 
 export default staffSlice.reducer
+

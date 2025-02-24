@@ -21,6 +21,7 @@ class staffService {
     return res?.data || res;
   }
   static async GetMyRecord(data) {
+    // const res = await baseAxios.get(`/getMyPeriodRecord/today`)
     const res = await baseAxios.get(`/getMyPeriodRecord/${data}`)
     return res?.data || res;
   }

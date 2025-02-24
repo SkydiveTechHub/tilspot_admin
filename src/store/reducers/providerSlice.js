@@ -9,7 +9,7 @@ const initialState = {
         location:null,
         zoneInfo:[]
     },
-    operatorStatData:{},
+    operatorStatData:null,
     categories: null,
     isLoading: false
 }
@@ -57,7 +57,7 @@ const providerSlice = createSlice({
         builder.addCase(getMyRecord.fulfilled, (state, {payload})=>{
             state.isLoading = false;
             console.log(payload)
-            state.operatorStatData = payload.respnseData[0]
+            state.operatorStatData = payload.responseData[0]
         })
 
 

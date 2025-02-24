@@ -28,7 +28,8 @@ const Dashboard = () => {
     const [billData, setBillsData] = useState([])
     const [currentBillData, setCurrentBillData] = useState({})
     const {role} = useSelector((state)=>state.auth)
-    const {operatorStatData} = useSelector((state)=>state.provider)
+    const {operatorStatData} = useSelector((state)=>state.providers)
+    console.log(operatorStatData)
 
     useEffect(() => {
       if (!socket) return;
