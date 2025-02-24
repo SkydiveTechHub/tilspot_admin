@@ -3,7 +3,7 @@ import { Button, Modal } from 'antd';
 import SuccessModal from '../SuccessModal';
 import useForm from '../../../../hooks/useForm';
 import FormInput from '../../FormInput';
-import { getMyRecord, rejectdPaymentBill } from '../../../../store/actions';
+import { approveBill, getMyRecord, rejectdPaymentBill } from '../../../../store/actions';
 import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
 
@@ -26,45 +26,56 @@ const PreviewFootballOrderModal = ({ billId, openModal, handleOk, handleCancel, 
     setOpenedFailed(true);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
 
-    console.log('Form submitted:', values);
-    setOpenedFailed(false);
-    handleCancel?.(); 
+    try {
+      const res = await dispatch(approveBill(billId));
+      console.log(res)
+      if (res.payload.statusCode){
+        dispatch(getMyRecord('today'))
+        handleProceed();
+      }else{
+        toast.error(res.payload.message)
+        handleCancel()
+      }
+    } catch (error) {
+      toast.error('Something went wrong')
+      handleCancel()
+    }
     resetForm();
   };
 
-    const handleReject = async(e) => {
-      e.preventDefault();
-      const params = {
-        billId,
-        paylaod:{
-          rejectionReason:values.desc
-        }
-        
+  const handleReject = async(e) => {
+    e.preventDefault();
+    const params = {
+      billId,
+      paylaod:{
+        rejectionReason:values.desc
       }
-  
-      try {
-        const res = await dispatch(rejectdPaymentBill(params));
-        if (res.payload.statusCode){
-          toast.success(res.paylaod.message)
-          dispatch(getMyRecord('today'))
-          handleReturn();
-        }else{
-          toast.error(res.payload.message)
-          handleCancel()
-        }
-      } catch (error) {
-        toast.error('Something went wrong')
+      
+    }
+
+    try {
+      const res = await dispatch(rejectdPaymentBill(params));
+      if (res.payload.statusCode){
+        toast.success(res.paylaod.message)
+        dispatch(getMyRecord('today'))
+        handleReturn();
+      }else{
+        toast.error(res.payload.message)
         handleCancel()
       }
-  
-      console.log('Form submitted:', values);
-      // setOpenedFailed(false);
-      handleCancel?.(); 
-      resetForm();
-    };
+    } catch (error) {
+      toast.error('Something went wrong')
+      handleCancel()
+    }
+
+    console.log('Form submitted:', values);
+    // setOpenedFailed(false);
+    handleCancel?.(); 
+    resetForm();
+  };
 
   return (
     <>
@@ -98,7 +109,7 @@ const PreviewFootballOrderModal = ({ billId, openModal, handleOk, handleCancel, 
 
           <div className="flex items-center justify-center w-full">
             <button
-              onClick={handleSubmit}
+              onClick={handleReject}
               className="bg-[#219653] rounded-[8px] text-white py-[10px] px-11 text-[14px] md:text-[16px] font-[500] leading-[24px]"
             >
               Submit
@@ -139,7 +150,7 @@ const PreviewFootballOrderModal = ({ billId, openModal, handleOk, handleCancel, 
 
 
           <div className='flex items-center justify-between w-full'>
-            <button onClick={handleProceed} className='bg-[#219653] rounded-[8px] text-white py-[10px] px-11 text-[14px] md:text-[16px] font-[500] leading-[24px]'>Completed</button>
+            <button onClick={handleSubmit} className='bg-[#219653] rounded-[8px] text-white py-[10px] px-11 text-[14px] md:text-[16px] font-[500] leading-[24px]'>Completed</button>
             <button onClick={handleReturn} className='bg-[red] rounded-[8px] text-white py-[10px] px-11 text-[14px] md:text-[16px] font-[500] leading-[24px]'>Failed</button>
           </div>               
         </div>

@@ -8,7 +8,6 @@ import { checkCategory } from '../../../store/reducers/providerSlice'
 import { getLocations, getProviderByCategory } from '../../../store/actions'
 
 
-const role = localStorage.getItem('role')
 const ParkingPage = () => {
   const [open, setOpen] = useState(false)
   const [hasData, setHasData] = useState(false)
@@ -17,7 +16,7 @@ const ParkingPage = () => {
   const [catStatus, setCatStatus] = useState(false);
   const dispatch = useDispatch();
   const { categories } = useSelector((state) => state.providers);
-  
+  const { role } = useSelector((state) => state.auth);
     useEffect(() => {
       if (categories) {
         const cat = categories.find((i) => i.name === 'Parking');

@@ -9,6 +9,7 @@ import { FiChevronDown } from 'react-icons/fi'
 import { HambergerMenu } from 'iconsax-react'
 import { pageEnum } from '../../../utils/data'
 import { useSelector } from 'react-redux'
+import EditStaffModal from '../../shared/Modals/staff/EditStaffModal'
 
 const TopNav = ({handleClick}) => {
 	const user = useSelector((state) => state.auth.user);
@@ -26,25 +27,30 @@ const TopNav = ({handleClick}) => {
 	}, [location])
 
   return (
-    <div className='w-full shadow-md  bg-[#F0F0F0] h-[80px] flex justify-between items-center px-6'>
-      <div  className='lg:hidden'>
-		<button className=' text-primary text-2xl font-500 p-3' onClick={handleClick}>
-			{/* ☰ */}
-			<HambergerMenu  size={30}/>
-		</button>
-      </div>
-
-	  <div>
-		<BlackText style={'font-bold text-[14px] md:text-[20px]'} text={pageTitle}/>
-	  </div>
-
-      <div className='flex lg:mr-[18%] gap-4'>
-		{/* <div className="hidden lg:inline"><NotifMenu/></div> */}
-		<UserMenu user={user}/>
-      </div>
+	<>
 
 
-    </div>
+		<div className='w-full shadow-md  bg-[#F0F0F0] h-[80px] flex justify-between items-center px-6'>
+			<div  className='lg:hidden'>
+				<button className=' text-primary text-2xl font-500 p-3' onClick={handleClick}>
+					{/* ☰ */}
+					<HambergerMenu  size={30}/>
+				</button>
+			</div>
+
+			<div>
+				<BlackText style={'font-bold text-[14px] md:text-[20px]'} text={pageTitle}/>
+			</div>
+
+			<div className='flex lg:mr-[18%] gap-4'>
+				{/* <div className="hidden lg:inline"><NotifMenu/></div> */}
+				<UserMenu user={user}/>
+			</div>
+
+
+		</div>
+	</>
+
   )
 }
 
@@ -81,16 +87,25 @@ const notifcontent = (
 );
 const Content = () =>{
 	const [isOpen, setOpen] = useState(false)
+	const [openEdit, setOpenEdit] = useState(false)
 	return(
 		<div className='p-6 w-[250px]'>
 		<div className='flex flex-col items-start gap-3'>
 			{/* <Link className='font-[500] font-mont text-[14px]' to={'/'}>Edit Profile</Link>
 			<Link className='font-[500] font-mont text-[14px]' to={'/'}>Subscription</Link> */}
+			<button onClick={()=>setOpenEdit(true)} className='font-[500] font-mont text-[14px]' to={'/forgot-password'}><img src='/images/account.png' className='inline-flex pr-2' alt='account'/>EditProfile</button>
 			<Link className='font-[500] font-mont text-[14px]' to={'/forgot-password'}><img src='/images/account.png' className='inline-flex pr-2' alt='account'/>Reset Password</Link>
 			<button onClick={()=>setOpen(true)} className='font-[500] font-mont text-[14px]'><img src='/images/Exit.png' className='inline-flex pr-2' alt='account'/>Log Out</button>
 	
 			<LogoutModal openModal={isOpen} handleOk={()=>setOpen(false)} handleCancel={()=>setOpen(false)}/>
-			
+			<EditStaffModal
+              openModal={openEdit}
+              handleCancel={()=>{setOpenEdit(false)}}
+              handleOk={()=>setOpenEdit(false)}
+            //   userData={userData}
+
+			  
+          /> 
 		</div>
 	  </div>
 	)

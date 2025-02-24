@@ -8,30 +8,28 @@ import { GrayText } from '../../typograph';
 import SuccessModal from '../SuccessModal';
 import { editStaff, getAllStaffs } from '../../../../store/actions';
 import { toast } from 'react-toastify';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 // import SelectPlanModal from '../SelectPlanModal';
 
 
 
-const EditStaffModal = ({ userData, type, openModal, handleOk, handleCancel }) => {
+const EditStaffModal = ({ type, openModal, handleOk, handleCancel }) => {
   const dispatch = useDispatch()
   const [active, setActive] = useState(false);
   const [more, setMore] = useState(false);
   const [secondModalOpen, setSecondModalOpen] = useState(false);
-  
+  const {user} = useSelector((state)=>state.staff)
+  console.log(user)
   const initialState = {
-    lname: userData?.last_name || "",
-    fname: userData?.first_name || "",
-    // email: userData?.email || "",
-    // password: "",
-    // c_password: "",
+    lname: user?.last_name || "",
+    fname: user?.first_name || "",
   };
 
   const { values, handleChange, resetForm, errors } = useForm(initialState);
 
   useEffect(() => {
     resetForm(initialState); // Reset form when userData changes
-  }, [userData]);
+  }, [user]);
 
 
   const handleSubmit =async (e) => {

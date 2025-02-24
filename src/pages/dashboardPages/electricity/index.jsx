@@ -8,7 +8,6 @@ import { getProviderByCategory } from '../../../store/actions'
 import { checkCategory } from '../../../store/reducers/providerSlice'
 
 
-const role = localStorage.getItem('role')
 const ElectricityPage = () => {
     const [open, setOpen] = useState(false)
     const [hasData, setHasData] = useState(true)
@@ -17,7 +16,7 @@ const ElectricityPage = () => {
         const [catStatus, setCatStatus] = useState(false);
     const dispatch = useDispatch();
     const { providers, categories } = useSelector((state) => state.providers);
-  
+  const { role } = useSelector((state) => state.auth);
     
       useEffect(() => {
         if (categories) {

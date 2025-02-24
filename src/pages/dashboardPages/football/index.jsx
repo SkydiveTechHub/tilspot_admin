@@ -7,7 +7,6 @@ import { getMatch, getProviderByCategory } from '../../../store/actions'
 import { checkCategory } from '../../../store/reducers/providerSlice'
 import AddFootballTicketProvider from '../../../components/shared/Modals/football/AddFootballProvider'
 
-const role = localStorage.getItem('role')
 const FootballPage = () => {
   const [open, setOpen] = useState(false)
   const [hasData, setHasData] = useState(false)
@@ -17,7 +16,7 @@ const FootballPage = () => {
   const [catStatus, setCatStatus] = useState(false);
   const dispatch = useDispatch();
   const { categories } = useSelector((state) => state.providers);
-
+const { role } = useSelector((state) => state.auth);
 
   
     useEffect(() => {

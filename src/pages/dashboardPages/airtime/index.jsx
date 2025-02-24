@@ -7,7 +7,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getProviderByCategory } from '../../../store/actions'
 import { checkCategory } from '../../../store/reducers/providerSlice'
 
-const role = localStorage.getItem('role')
 const AirtimePage = () => {
     const [open, setOpen] = useState(false)
     const [hasData, setHasData] = useState(false)
@@ -16,6 +15,7 @@ const AirtimePage = () => {
     const [catStatus, setCatStatus] = useState(false);
     const dispatch = useDispatch();
     const { providers, categories } = useSelector((state) => state.providers);
+    const { role } = useSelector((state) => state.auth);
 
     console.log(categories)
     

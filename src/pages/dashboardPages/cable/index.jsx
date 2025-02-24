@@ -7,7 +7,7 @@ import { getProviderByCategory } from '../../../store/actions'
 import { useDispatch, useSelector } from 'react-redux'
 import { checkCategory } from '../../../store/reducers/providerSlice'
 
-const role = localStorage.getItem('role')
+
 const CablePage = () => {
   const [open, setOpen] = useState(false)
   const [hasData, setHasData] = useState(false)
@@ -16,7 +16,7 @@ const CablePage = () => {
       const [catStatus, setCatStatus] = useState(false);
   const dispatch = useDispatch();
   const { providers, categories } = useSelector((state) => state.providers);
-
+const { role } = useSelector((state) => state.auth);
   
     useEffect(() => {
       if (categories) {
