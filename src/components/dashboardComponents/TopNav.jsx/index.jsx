@@ -93,7 +93,7 @@ const Content = () =>{
 		<div className='flex flex-col items-start gap-3'>
 			{/* <Link className='font-[500] font-mont text-[14px]' to={'/'}>Edit Profile</Link>
 			<Link className='font-[500] font-mont text-[14px]' to={'/'}>Subscription</Link> */}
-			<button onClick={()=>setOpenEdit(true)} className='font-[500] font-mont text-[14px]' to={'/forgot-password'}><img src='/images/account.png' className='inline-flex pr-2' alt='account'/>EditProfile</button>
+			<button onClick={()=>setOpenEdit(true)} className='font-[500] font-mont text-[14px]' to={'/forgot-password'}><img src='/images/account.png' className='inline-flex pr-2' alt='account'/>Edit Profile</button>
 			<Link className='font-[500] font-mont text-[14px]' to={'/forgot-password'}><img src='/images/account.png' className='inline-flex pr-2' alt='account'/>Reset Password</Link>
 			<button onClick={()=>setOpen(true)} className='font-[500] font-mont text-[14px]'><img src='/images/Exit.png' className='inline-flex pr-2' alt='account'/>Log Out</button>
 	

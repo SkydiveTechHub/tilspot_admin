@@ -18,7 +18,7 @@ const EditStaffModal = ({ type, openModal, handleOk, handleCancel }) => {
   const [active, setActive] = useState(false);
   const [more, setMore] = useState(false);
   const [secondModalOpen, setSecondModalOpen] = useState(false);
-  const {user} = useSelector((state)=>state.staff)
+  const {user} = useSelector((state)=>state.auth)
   console.log(user)
   const initialState = {
     lname: user?.last_name || "",
@@ -68,7 +68,7 @@ const EditStaffModal = ({ type, openModal, handleOk, handleCancel }) => {
   return (
     <>
       <SuccessModal
-        title={'Staff has been edited Successfully'}
+        title={'Profile has been updated Successfully'}
         openModal={secondModalOpen}
         handleContinue={()=>setSecondModalOpen(false)}
         handleCancel={()=>setSecondModalOpen(false)}
@@ -134,10 +134,7 @@ const EditStaffModal = ({ type, openModal, handleOk, handleCancel }) => {
   
           /> */}
 
-          <AuthButton handleClick={()=>{
-            setSecondModalOpen(true)
-            handleCancel()
-            }} inactive={!active} value="Edit Staff" />
+          <AuthButton inactive={!active} value="Edit Staff" />
         </form>
       </Modal>    
     </>
