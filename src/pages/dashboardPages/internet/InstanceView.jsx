@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import DeleteInstanceModal from "../../../components/shared/Modals/DeleteInstanceModal";
 import { deleteProvider, enableOrDisableCategory, getAllCategories, getProviderByCategory } from "../../../store/actions";
+import { toast } from "react-toastify";
 
 const role = localStorage.getItem('role')
 const InstanceView = ({data, catStatus, id}) => {
@@ -32,13 +33,18 @@ const InstanceView = ({data, catStatus, id}) => {
       }))
             if(res.payload.statusCode) {
               dispatch(getProviderByCategory(id));
+              toast.success('Provider Deleted Successfully!')
+              setOpenDelete(false)
+            }else{
+              toast.error(res.payload.message)
               setOpenDelete(false)
             }
-      
 
-    } catch (error) {
-      console.log(error)
-    }
+          } catch (error) {
+            console.log(error)
+            toast.error('Something went wrong')
+            setOpenDelete(false)
+          }
   }
 
   
@@ -132,7 +138,7 @@ return (
 
           {
             role === 'admin'&&
-            <div className="flex justify-between items-center">
+            <div className="flex flex-col md:flex-row md:justify-between md:items-center w-full">
               <PryButton handleClick={()=>setOpen(true)} text={'Add Internet Provider'}/>
                <span className="font-mont">Enable Service: <Switch checked={catStatus} onChange={onChange} /></span>
             </div>            

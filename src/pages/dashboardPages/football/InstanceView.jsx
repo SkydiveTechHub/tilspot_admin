@@ -8,8 +8,9 @@ import { Dropdown, Menu, Space, Switch } from "antd";
 import { CiMenuKebab } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { deleteMatch, enableOrDisableCategory, getAllCategories } from "../../../store/actions";
+import { deleteMatch, enableOrDisableCategory, getAllCategories, getMatch } from "../../../store/actions";
 import DeleteInstanceModal from "../../../components/shared/Modals/DeleteInstanceModal";
+import { toast } from "react-toastify";
 
 const role = localStorage.getItem('role')
 const InstanceView = ({data, catStatus, id, p_Id}) => {
@@ -31,13 +32,19 @@ const InstanceView = ({data, catStatus, id, p_Id}) => {
       console.log(res)
       if(res.payload.statusCode){
         setOpenDelete('false')
-        navigate(0);
-        window.location.reload()
+        dispatch(getMatch())
+          toast.success('Match Deleted Successfully!')
+          setOpenDelete(false)
+        }else{
+          toast.error(res.payload.message)
+          setOpenDelete(false)
+        }
+  
+      } catch (error) {
+        console.log(error)
+        toast.error('Something went wrong')
+        setOpenDelete(false)
       }
-
-    } catch (error) {
-      console.log(error)
-    }
   }
   const onChange = async (checked) => {
     const payload ={
@@ -128,7 +135,7 @@ return (
           /> 
           {
             role === 'admin'&&
-            <div className="flex justify-between items-center">
+            <div className="flex flex-col md:flex-row md:justify-between md:items-center w-full">
               <PryButton handleClick={()=>setOpen(true)} text={'Add Football Match'}/>
                <span className="font-mont">Enable Service: <Switch checked={catStatus} onChange={onChange} /></span>
             </div>            

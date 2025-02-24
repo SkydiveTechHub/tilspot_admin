@@ -18,7 +18,8 @@ export {
   getAllBills,
   getMyRecord,
   getOperatorPeriodicRecord,
-  deleteStaff
+  deleteStaff,
+  editStaff
 } from "./staffAction";
 export {
   getAllCategories,
@@ -27,6 +28,7 @@ export {
   createProvider,
   createLocation,
   createZone,
+  createService,
   editProvider,
   editLocation,
   editZone,

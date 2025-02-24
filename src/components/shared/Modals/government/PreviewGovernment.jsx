@@ -3,9 +3,15 @@ import { Button, Modal } from 'antd';
 import SuccessModal from '../SuccessModal';
 import useForm from '../../../../hooks/useForm';
 import FormInput from '../../FormInput';
-const PreviewGovernmentOrderModal = ({children, title, openModal, handleOk, handleCancel,  imgUrl, provider, acctNo, amount }) => {
+import { toast } from 'react-toastify';
+import { approveBill, rejectdPaymentBill } from '../../../../store/actions';
+import { useDispatch } from 'react-redux';
+
+
+const PreviewGovernmentOrderModal = ({billId, children, title, openModal, handleOk, handleCancel,  imgUrl, provider, acctNo, amount }) => {
   const [secondModalOpen, setSecondModalOpen] = useState(false)
   const [openFailed, setOpenedFailed] = useState(false)
+  const dispatch = useDispatch()
 
   const initialState = {
     desc: '',
@@ -21,14 +27,56 @@ const PreviewGovernmentOrderModal = ({children, title, openModal, handleOk, hand
     setOpenedFailed(true);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
 
+    try {
+      const res = await dispatch(approveBill(billId));
+      console.log(res)
+      if (res.payload.statusCode){
+        handleProceed();
+      }else{
+        toast.error(res.payload.message)
+        handleCancel()
+      }
+    } catch (error) {
+      toast.error('Something went wrong')
+      handleCancel()
+    }
+    resetForm();
+  };
+
+  const handleReject = async(e) => {
+    e.preventDefault();
+    const params = {
+      billId,
+      paylaod:{
+        rejectionReason:values.desc
+      }
+      
+    }
+
+    try {
+      const res = await dispatch(rejectdPaymentBill(params));
+      console.log(res)
+      if (res.payload.statusCode){
+        toast.success(res.paylaod.message)
+        handleReturn();
+      }else{
+        toast.error(res.payload.message)
+        handleCancel()
+      }
+    } catch (error) {
+      toast.error('Something went wrong')
+      handleCancel()
+    }
+
     console.log('Form submitted:', values);
-    setOpenedFailed(false);
+    // setOpenedFailed(false);
     handleCancel?.(); 
     resetForm();
   };
+
   return (
     <>
       <SuccessModal

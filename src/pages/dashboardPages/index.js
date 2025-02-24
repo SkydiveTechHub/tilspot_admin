@@ -28,6 +28,7 @@ const Dashboard = () => {
     const [billData, setBillsData] = useState([])
     const [currentBillData, setCurrentBillData] = useState({})
     const {role} = useSelector((state)=>state.auth)
+    const {operatorStatData} = useSelector((state)=>state.provider)
 
     useEffect(() => {
       if (!socket) return;
@@ -165,22 +166,22 @@ const Dashboard = () => {
     const cardData = [
         {
           title:'Total Revenue Generated',
-          amount: summaryData?.totalAmount || 0,
+          amount: operatorStatData?.totalAmount || 0,
           icon:'/images/f1.svg'
         },	
         {
           title:'Total Order Processed',
-          amount:summaryData?.processedCount || 0,
+          amount:operatorStatData?.processedCount || 0,
           icon:'/images/f2.svg'
         },	
         {
           title:'Total Completed Orders',
-          amount:summaryData?.approvedCount || 0,
+          amount:operatorStatData?.approvedCount || 0,
           icon:'/images/f3.svg'
         },	
         {
           title:'Total Failed Orders',
-          amount:summaryData?.rejectedCount || 0, 
+          amount:operatorStatData?.rejectedCount || 0, 
           icon:'/images/f4.svg'
           
         },	

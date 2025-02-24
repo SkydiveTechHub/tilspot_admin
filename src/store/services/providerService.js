@@ -47,7 +47,10 @@ class providerService {
     return res?.data || res;
   }
 
-
+  static async CreateService(data) {
+    const res = await baseAxios.post(`/createAndUpdateService/${data.catId}`, data.payload);
+    return res?.data || res;
+  }
 
 
 

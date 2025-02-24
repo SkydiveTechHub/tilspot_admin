@@ -5,6 +5,7 @@ import useForm from '../../../../hooks/useForm';
 import FormInput from '../../FormInput';
 import { useDispatch } from 'react-redux';
 import { approveBill, rejectdPaymentBill } from '../../../../store/actions';
+import { toast } from 'react-toastify';
 
 const PreviewAirtimeOrderModal = ({ openModal, handleOk, handleCancel, returnText, imgUrl, provider, phone, amount, billId }) => {
   const dispatch = useDispatch();
@@ -32,9 +33,13 @@ const PreviewAirtimeOrderModal = ({ openModal, handleOk, handleCancel, returnTex
       console.log(res)
       if (res.payload.statusCode){
         handleProceed();
+      }else{
+        toast.error(res.payload.message)
+        handleCancel()
       }
     } catch (error) {
-      
+      toast.error('Something went wrong')
+      handleCancel()
     }
     resetForm();
   };
@@ -53,10 +58,15 @@ const PreviewAirtimeOrderModal = ({ openModal, handleOk, handleCancel, returnTex
       const res = await dispatch(rejectdPaymentBill(params));
       console.log(res)
       if (res.payload.statusCode){
+        toast.success(res.paylaod.message)
         handleReturn();
+      }else{
+        toast.error(res.payload.message)
+        handleCancel()
       }
     } catch (error) {
-      
+      toast.error('Something went wrong')
+      handleCancel()
     }
 
     console.log('Form submitted:', values);

@@ -6,11 +6,15 @@ import { Modal } from 'antd';
 import ConfirmModal from '../ConfirmModal';
 import { GrayText } from '../../typograph';
 import SuccessModal from '../SuccessModal';
+import { editStaff, getAllStaffs } from '../../../../store/actions';
+import { toast } from 'react-toastify';
+import { useDispatch } from 'react-redux';
 // import SelectPlanModal from '../SelectPlanModal';
 
 
 
 const EditStaffModal = ({ userData, type, openModal, handleOk, handleCancel }) => {
+  const dispatch = useDispatch()
   const [active, setActive] = useState(false);
   const [more, setMore] = useState(false);
   const [secondModalOpen, setSecondModalOpen] = useState(false);
@@ -18,7 +22,7 @@ const EditStaffModal = ({ userData, type, openModal, handleOk, handleCancel }) =
   const initialState = {
     lname: userData?.last_name || "",
     fname: userData?.first_name || "",
-    email: userData?.email || "",
+    // email: userData?.email || "",
     // password: "",
     // c_password: "",
   };
@@ -29,17 +33,30 @@ const EditStaffModal = ({ userData, type, openModal, handleOk, handleCancel }) =
     resetForm(initialState); // Reset form when userData changes
   }, [userData]);
 
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   console.log("Form submitted:", values);
-  //   handleOk();
-  // };
 
-  const handleSubmit = (e) => {
+  const handleSubmit =async (e) => {
     e.preventDefault();
-    console.log('Form submitted:', values);
-    handleOk(); // Optional: close modal on submit
-    resetForm();
+    const params={
+      first_name: values.fname,
+      last_name: values.lname,
+    }
+    try {
+      const res = await dispatch(editStaff(params))
+      if(res.payload.statusCode){
+        handleOk();
+        setSecondModalOpen(true)
+        resetForm();
+        dispatch(getAllStaffs())
+      }else{
+        toast.error(res.payload.message)
+        handleCancel()
+      }
+    } catch (error) {
+      toast.error('Something went wrong')
+      resetForm();
+      handleCancel()
+    }
+    
   };
 
   const validate = () => {
@@ -87,7 +104,7 @@ const EditStaffModal = ({ userData, type, openModal, handleOk, handleCancel }) =
             error={errors?.lname}
   
           />
-          <FormInput
+          {/* <FormInput
             label="Email Address"
             type="email"
             name="email"
@@ -96,7 +113,7 @@ const EditStaffModal = ({ userData, type, openModal, handleOk, handleCancel }) =
             placeholder="Enter email"
             error={errors?.email}
   
-          />
+          /> */}
 
           {/* <FormInput
             label="Password"

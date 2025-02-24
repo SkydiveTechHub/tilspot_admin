@@ -11,10 +11,7 @@ class serviceService {
   }
 
 
-  static async CreateService(data) {
-    const res = await baseAxios.post(`/createAndUpdateService/${data.catId}`, data.payload);
-    return res?.data || res;
-  }
+
 
 
 

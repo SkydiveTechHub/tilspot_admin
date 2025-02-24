@@ -8,12 +8,14 @@ import UserImageUpload from '../../UserImageUpload';
 import { useDispatch } from 'react-redux';
 import { createProvider, editProvider, getProviderByCategory } from '../../../../store/actions';
 import { useRefresh } from '../../../../hooks/useRefresh';
+import { toast } from 'react-toastify';
 
 const AddAirtimeProvider = ({catId, action, userData, openModal, handleOk, handleCancel }) => {
   const dispatch = useDispatch()
   const refresh = useRefresh()
   const [isActive, setIsActive] = useState(false); // Controls button activation
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false); // Success modal state
+  const [isErrorModalOpen, setIsErrorModalOpen] = useState(false); // Success modal state
   const [uploadedImage, setUploadedImage] = useState(null); // Uploaded image state
   const initialState = action === 'edit' ? { p_name: userData?.name || '' } : { p_name: '' };
   const { values, handleChange, resetForm, errors } = useForm(initialState);
@@ -49,6 +51,9 @@ const AddAirtimeProvider = ({catId, action, userData, openModal, handleOk, handl
         setIsSuccessModalOpen(true); 
         handleOk(); 
         // refresh()
+      }else{
+        toast.error(res.payload.message)
+        handleCancel()
       }
       }else{
         res =  await dispatch(createProvider({
@@ -62,9 +67,13 @@ const AddAirtimeProvider = ({catId, action, userData, openModal, handleOk, handl
         setIsSuccessModalOpen(true); 
         handleOk(); 
         // refresh()
+      }else{
+        toast.error(res.payload.message)
+        handleCancel()
       }
     } catch (error) {
-      
+      toast.error('Something went wrong')
+        handleCancel()
     }
     resetForm()
   };

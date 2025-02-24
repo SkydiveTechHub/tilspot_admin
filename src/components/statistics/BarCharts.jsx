@@ -7,7 +7,7 @@ import { Bar, BarChart, CartesianGrid, Legend, XAxis, YAxis } from 'recharts'
 const BarCharts = ({duration, Cdata}) => {
     
 console.log(Cdata)
-console.log(Cdata[0]?.approveCount)
+console.log(Cdata[0]?.approvedCount)
 
     const weeklyData = [
         {
@@ -142,10 +142,10 @@ console.log(Cdata[0]?.approveCount)
         }else{
             setData(yearlyData)
         }
-      },[duration])
+      },[duration, Cdata])
       
 
-      console.log(data)
+    
             
 
   return (

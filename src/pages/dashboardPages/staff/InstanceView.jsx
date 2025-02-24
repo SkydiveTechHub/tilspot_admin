@@ -14,6 +14,7 @@ import StatisticsModal from "../../../components/shared/Modals/StatisticModal";
 import { CleaningServices } from "@mui/icons-material";
 import { deleteStaff, getAllStaffs } from "../../../store/actions";
 import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 
 const InstanceView = ({data}) => {
   const dispatch = useDispatch()
@@ -80,13 +81,15 @@ const InstanceView = ({data}) => {
         if(res.payload.statusCode){
           dispatch(getAllStaffs())
           setOpenDelete(false)
+          toast.success('Operator deleted successfully')
+        }else{
+          toast.error(res.payload.message)
         }
   
       } catch (error) {
-        console.log(error)
+        toast.error('Something went wrong !')
       }
     }
-  console.log(userData)
 return (
         <div className="space-y-6">
             <StatisticsModal

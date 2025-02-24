@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createProvider, editProvider, getAllCategories, getMatch, getProviderByCategory, getZonesByLocation } from "../actions";
+import { createProvider, editProvider, getAllCategories, getMatch, getMyRecord, getProviderByCategory, getZonesByLocation } from "../actions";
 
 
 const initialState = {
@@ -9,6 +9,7 @@ const initialState = {
         location:null,
         zoneInfo:[]
     },
+    operatorStatData:{},
     categories: null,
     isLoading: false
 }
@@ -52,6 +53,11 @@ const providerSlice = createSlice({
             state.isLoading = false;
             console.log(payload)
             state.locationDetals = payload.data
+        })
+        builder.addCase(getMyRecord.fulfilled, (state, {payload})=>{
+            state.isLoading = false;
+            console.log(payload)
+            state.operatorStatData = payload.respnseData[0]
         })
 
 

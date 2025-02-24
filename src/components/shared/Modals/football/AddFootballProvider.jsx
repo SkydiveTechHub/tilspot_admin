@@ -7,9 +7,11 @@ import ConfirmModal from '../ConfirmModal';
 import { GrayText, Label } from '../../typograph';
 import SuccessModal from '../SuccessModal';
 import { DatePicker, Space } from 'antd';
-import { createMatch, editMatch } from '../../../../store/actions';
+import { createMatch, editMatch, getMatch } from '../../../../store/actions';
 import { useDispatch } from 'react-redux';
 import { formatDate } from '../../../../utils/tools';
+import moment from 'moment/moment';
+import { toast } from 'react-toastify';
 
 
 
@@ -18,15 +20,22 @@ const AddFootballTicketProvider = ({ catId, provId, action, userData, openModal,
   const dispatch = useDispatch()
   const [active, setActive] = useState(false);
   const [more, setMore] = useState(false);
-  const [date, setDate] = useState('');
   const [secondModalOpen, setSecondModalOpen] = useState(false);
   const [ticketType, setTicketType] = useState([{sittingArea: "", price: "", description:''}]);
+  const [date, setDate] = useState(userData?.match?.dateTime ? moment(userData.match.dateTime) : null);
+
+  useEffect(() => {
+    if (userData?.match?.dateTime) {
+      setDate(moment(userData.match.dateTime));
+    }
+  }, [userData]);
+  
   const initialState = action === 'edit' ? {
     league:userData?.match?.league,
     home: userData?.match?.homeTeam,
     away: userData?.match?.awayTeam,
     stadium: userData?.match?.stadium,
-    time: userData?.match?.dateTime,
+    time: moment(userData.match.dateTime),
   } : {
     league:'',
     home: '',
@@ -72,7 +81,10 @@ const AddFootballTicketProvider = ({ catId, provId, action, userData, openModal,
         res =  await dispatch(createMatch(params)) 
         if(res.payload.statusCode){
           handleOk();
-          window.location.reload()
+          dispatch(getMatch())
+        }else{
+          toast.error(res.payload.message)
+          handleCancel()
         }
       }
 
@@ -83,9 +95,13 @@ const AddFootballTicketProvider = ({ catId, provId, action, userData, openModal,
         handleOk()
         // setIsSuccessModalOpen(true); 
         // handleOk(); 
+      }else{
+        toast.error(res.payload.message)
+        handleCancel()
       }
     } catch (error) {
-      
+      toast.error('Something went wrong !')
+      handleCancel()
     }
     resetForm()
   };
@@ -147,6 +163,7 @@ const AddFootballTicketProvider = ({ catId, provId, action, userData, openModal,
               <Label text={'Date & Time'}/>
               <DatePicker
                 showTime
+                value={date}
                 onChange={(value, dateString) => {
                   // console.log('Selected Time: ', value);
                   // console.log('Formatted Selected Time: ', dateString);

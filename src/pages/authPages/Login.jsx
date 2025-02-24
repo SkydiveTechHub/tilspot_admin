@@ -10,6 +10,7 @@ import { useDispatch } from "react-redux";
 import { getAllCategories, login } from "../../store/actions";
 import { io } from "socket.io-client";
 import { useSocket } from "../../hooks/SocketContext";
+import { toast } from "react-toastify";
 
 // const url = process.env.REACT_APP_SOCKET_URL;
 // const socket = io(url, {
@@ -40,6 +41,7 @@ const Login = () => {
     try {
       const res = await dispatch(login(params));
       if (res.payload.statusCode) {
+        toast.success('Login Successfull')
         await dispatch(getAllCategories());
         if (res.payload.data.user.role === "admin") {
           navigate("/dashboard/staff");
@@ -47,9 +49,12 @@ const Login = () => {
           navigate("/dashboard/index");
 
         }
+      }else{
+        toast.error(res.payload.message)
       }
     } catch (error) {
       console.error("Login error:", error);
+      toast.error('Something went wrong')
     }
   };
 

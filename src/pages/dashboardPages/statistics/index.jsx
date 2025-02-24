@@ -67,12 +67,12 @@ const StatisticPage = () => {
     const cardData = [
         {
           title:'Total Revenue Generated',
-          amount: bills?.total || 0,
+          amount: bills?.totalRevenue || 0,
           icon:'/images/f1.svg'
         },	
         {
           title:'Total Order Processed',
-          amount:bills?.total || 0,
+          amount:bills?.processed || 0,
           icon:'/images/f2.svg'
         },	
         {

@@ -6,6 +6,7 @@ import { Modal } from 'antd';
 import SuccessModal from '../SuccessModal';
 import { useDispatch } from 'react-redux';
 import { createStaff, getAllStaffs } from '../../../../store/actions';
+import { toast } from 'react-toastify';
 
 const initialState = {
   lname: '',
@@ -39,9 +40,14 @@ const AddStaffModal = ({  openModal, handleOk, handleCancel }) => {
         setSecondModalOpen(true)
         resetForm();
         dispatch(getAllStaffs())
+      }else{
+        toast.error(res.payload.message)
+        handleCancel()
       }
     } catch (error) {
+      toast.error('Something went wrong')
       resetForm();
+      handleCancel()
     }
     
   };

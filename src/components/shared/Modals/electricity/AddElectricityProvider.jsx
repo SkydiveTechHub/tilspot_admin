@@ -9,6 +9,7 @@ import SuccessModal from '../SuccessModal';
 import UserImageUpload from '../../UserImageUpload';
 import { createProvider, editProvider, getProviderByCategory } from '../../../../store/actions';
 import { useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
 // import SelectPlanModal from '../SelectPlanModal';
 
 
@@ -50,6 +51,9 @@ useEffect(() => {
               setSecondModalOpen(true); 
               handleOk(); 
               dispatch(getProviderByCategory(catId))
+            }else{
+              toast.error(res.payload.message)
+              handleCancel()
             }
       }else{
         res =  await dispatch(createProvider({
@@ -58,15 +62,17 @@ useEffect(() => {
         })) 
       }
 
-
-      console.log(res)
       if (res.payload.statusCode){
         setSecondModalOpen(true); 
         handleOk(); 
         dispatch(getProviderByCategory(catId))
+      }else{
+        toast.error(res.payload.message)
+        handleCancel()
       }
     } catch (error) {
-      
+      toast.error('Something went wrong !')
+      handleCancel()
     }
     resetForm()
   };

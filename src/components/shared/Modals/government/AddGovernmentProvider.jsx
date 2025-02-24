@@ -7,6 +7,9 @@ import ConfirmModal from '../ConfirmModal';
 import { GrayText } from '../../typograph';
 import SuccessModal from '../SuccessModal';
 import UserImageUpload from '../../UserImageUpload';
+import { createProvider, createService, editProvider, getProviderByCategory, getServiceByCategory } from '../../../../store/actions';
+import { toast } from 'react-toastify';
+import { useDispatch } from 'react-redux';
 // import SelectPlanModal from '../SelectPlanModal';
 
 const initialState = {
@@ -14,29 +17,61 @@ const initialState = {
   type: '',
 };
 
-const AddGovernmentProvider = ({ action, userData, openModal, handleOk, handleCancel }) => {
+const AddGovernmentProvider = ({catId, action, userData, openModal, handleOk, handleCancel }) => {
   const [active, setActive] = useState(false);
   const [more, setMore] = useState(false);
   const [secondModalOpen, setSecondModalOpen] = useState(false);
   const [uploadedImage, setUploadedImage] = useState(null);
-  let initialState; 
-
-  if (action === 'edit'){
-    initialState = {p_name: userData.name};
-  }  else{
-    initialState = {p_name: ''};
-  }
+  const dispatch = useDispatch()
+  const initialState = action === 'edit' ? { p_name: userData?.name || '' } : { p_name: '' };
 const { values, handleChange, resetForm, errors } = useForm(initialState);
   useEffect(() => {
     resetForm(initialState);
     setUploadedImage(userData?.providerLogo || null);
   }, [userData]);
 
-  const handleSubmit = (e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form submitted:', values);
-    handleOk(); // Optional: close modal on submit
-    resetForm();
+    const params = {
+        name:values.p_name,
+      }
+    try {
+      let res 
+      if(action ==='edit'){
+        res =  await dispatch(editProvider({
+        catId:catId,
+        // provId:userData._id,
+        payload:params
+      })) 
+            if (res.payload.statusCode){
+              setSecondModalOpen(true); 
+              handleOk(); 
+              dispatch(getProviderByCategory(catId))
+            }else{
+              toast.error(res.payload.message)
+              handleCancel()
+            }
+      }else{
+        res =  await dispatch(createService({
+          catId:catId,
+          payload:params
+        })) 
+      }
+
+      if (res.payload.statusCode){
+        setSecondModalOpen(true); 
+        handleOk(); 
+        dispatch(getServiceByCategory(catId))
+      }else{
+        toast.error(res.payload.message)
+        handleCancel()
+      }
+    } catch (error) {
+      toast.error('Something went wrong !')
+      handleCancel()
+    }
+    resetForm()
   };
 
   const validate = () => {
@@ -96,10 +131,7 @@ const { values, handleChange, resetForm, errors } = useForm(initialState);
           />
 
 
-          <AuthButton handleClick={()=>{
-            setSecondModalOpen(true)
-            handleCancel()
-            }} inactive={!active} value={`${action === 'edit'?'Edit' :'Add'} Provider`} />
+          <AuthButton inactive={!active} value={`${action === 'edit'?'Edit' :'Add'} Provider`} />
         </form>
       </Modal>    
     </>

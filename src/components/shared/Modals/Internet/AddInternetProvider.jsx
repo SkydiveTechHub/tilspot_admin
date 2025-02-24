@@ -9,6 +9,7 @@ import SuccessModal from '../SuccessModal';
 import UserImageUpload from '../../UserImageUpload';
 import { useDispatch } from 'react-redux';
 import { createProvider, editProvider, getProviderByCategory } from '../../../../store/actions';
+import { toast } from 'react-toastify';
 // import SelectPlanModal from '../SelectPlanModal';
 
 
@@ -49,6 +50,9 @@ const AddInternetProvider = ({catId, action, userData, openModal, handleOk, hand
         setSecondModalOpen(true); 
         handleOk(); 
         dispatch(getProviderByCategory(catId))
+      }else{
+        toast.error(res.payload.message)
+        handleCancel()
       }
 
       }else{
@@ -62,9 +66,13 @@ const AddInternetProvider = ({catId, action, userData, openModal, handleOk, hand
         setSecondModalOpen(true); 
         handleOk(); 
         dispatch(getProviderByCategory(catId))
+      }else{
+        toast.error(res.payload.message)
+        handleCancel()
       }
+
     } catch (error) {
-      
+      toast.error('Something went wrong !')
     }
     resetForm()
   };

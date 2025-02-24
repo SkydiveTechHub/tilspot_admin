@@ -5,6 +5,7 @@ import { Modal } from 'antd';
 import SuccessModal from '../SuccessModal';
 import { useDispatch } from 'react-redux';
 import { createInternetPlans, getPlansByProvider } from '../../../../store/actions';
+import { toast } from 'react-toastify';
 
 const AddInternetPlan = ({ id, openModal, handleOk, handleCancel }) => {
   const [planList, setPlanList] = useState([{ name: '', price: '', duration: '' }]);
@@ -40,8 +41,8 @@ const AddInternetPlan = ({ id, openModal, handleOk, handleCancel }) => {
     }
 
     const params = {
-      optionType: 'plan',
-      planOptions: planList,
+      // optionType: 'plan',
+      planOptions: JSON.stringify(planList),
     };
 
     try {
@@ -51,15 +52,17 @@ const AddInternetPlan = ({ id, openModal, handleOk, handleCancel }) => {
           payload: params,
         })
       );
-      console.log('Response:', res);
       if (res.payload.statusCode){
         setSecondModalOpen(true); 
-        handleOk();      
+        handleOk();    
         dispatch(getPlansByProvider(id))   
+      }else{
+        toast.error(res.payload.message)
       }
 
     } catch (error) {
       console.error('Error submitting plans:', error);
+      toast.error('Something went wrong !')
     }
   };
 

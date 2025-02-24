@@ -66,8 +66,8 @@ const GovernmentPage = () => {
               <div className='w-full h-[80%] flex justify-center items-center flex-col gap-4'>
       
                   <img src="/images/layers.png" alt="" />
-                  <BlackText style={'font-[600]'} text='No Provider Available'/>
-                  <GrayText style={'md:w-[40%] text-center text-[12px]'} text={'You haven’t added any Provider. Click the button below to add a provided!'}/>
+                  <BlackText style={'font-[600]'} text='No Service Available'/>
+                  <GrayText style={'md:w-[40%] text-center text-[12px]'} text={'You haven’t added any Provider. Click the button below to add a service!'}/>
       
                         {
                           role === 'admin' && <PryButton handleClick={()=>setOpen(true)} text={'Add Government Service'}/>

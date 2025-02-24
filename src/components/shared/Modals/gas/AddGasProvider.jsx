@@ -8,6 +8,7 @@ import SuccessModal from '../SuccessModal';
 import UserImageUpload from '../../UserImageUpload';
 import { createProvider, editProvider, getProviderByCategory } from '../../../../store/actions';
 import { useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
 
 
 
@@ -39,11 +40,13 @@ const { values, handleChange, resetForm, errors } = useForm(initialState);
         provId:userData._id,
         payload:params
       })) 
-
             if (res.payload.statusCode){
               setSecondModalOpen(true); 
               handleOk(); 
               dispatch(getProviderByCategory(catId))
+            }else{
+              toast.error(res.payload.message)
+              handleCancel()
             }
       }else{
         res =  await dispatch(createProvider({
@@ -56,9 +59,13 @@ const { values, handleChange, resetForm, errors } = useForm(initialState);
         setSecondModalOpen(true); 
         handleOk(); 
         dispatch(getProviderByCategory(catId))
+      }else{
+        toast.error(res.payload.message)
+        handleCancel()
       }
     } catch (error) {
-      
+      toast.error('Something went wrong !')
+      handleCancel()
     }
     resetForm()
   };

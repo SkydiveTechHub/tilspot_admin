@@ -5,6 +5,7 @@ import useForm from '../../../../hooks/useForm';
 import FormInput from '../../FormInput';
 import { approveBill, rejectdPaymentBill } from '../../../../store/actions';
 import { useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
 
 const PreviewCableOrderModal = ({ openModal, handleOk, handleCancel, provider, acctNo, phone, amount, imgUrl, billId }) => {
   const dispatch = useDispatch();
@@ -32,9 +33,13 @@ const PreviewCableOrderModal = ({ openModal, handleOk, handleCancel, provider, a
       console.log(res)
       if (res.payload.statusCode){
         handleProceed();
+      }else{
+        toast.error(res.payload.message)
+        handleCancel()
       }
     } catch (error) {
-      
+      toast.error('Something went wrong')
+      handleCancel()
     }
     resetForm();
   };
@@ -53,12 +58,21 @@ const PreviewCableOrderModal = ({ openModal, handleOk, handleCancel, provider, a
       const res = await dispatch(rejectdPaymentBill(params));
       console.log(res)
       if (res.payload.statusCode){
+        toast.success(res.paylaod.message)
         handleReturn();
+      }else{
+        toast.error(res.payload.message)
+        handleCancel()
       }
     } catch (error) {
-      
+      toast.error('Something went wrong')
+      handleCancel()
     }
 
+    console.log('Form submitted:', values);
+    // setOpenedFailed(false);
+    handleCancel?.(); 
+    resetForm();
   };
 
   return (

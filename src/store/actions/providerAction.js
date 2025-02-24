@@ -157,6 +157,20 @@ export const createProvider = createAsyncThunk(
         }
     }
 )
+export const createService = createAsyncThunk(
+    'provider/create_services',
+    async (data, {dispatch, rejectWithValue })=>{
+        dispatch(startLoad())
+        try {
+            const res = await providerService.CreateService(data)
+            return res
+        } catch (error) {
+            return rejectWithValue(error.response.data)
+        }finally{
+            dispatch(stopLoad())
+        }
+    }
+)
 export const createLocation = createAsyncThunk(
     'provider/create_Location',
     async (data, {dispatch, rejectWithValue })=>{
