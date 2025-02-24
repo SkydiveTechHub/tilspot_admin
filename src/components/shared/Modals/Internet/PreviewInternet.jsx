@@ -4,7 +4,7 @@ import SuccessModal from '../SuccessModal';
 import useForm from '../../../../hooks/useForm';
 import FormInput from '../../FormInput';
 import { useDispatch } from 'react-redux';
-import { approveBill, rejectdPaymentBill } from '../../../../store/actions';
+import { approveBill, getMyRecord, rejectdPaymentBill } from '../../../../store/actions';
 
 const PreviewInternetOrderModal = ({billId, title, openModal, handleOk, handleCancel, provider, plan, phone, amount, imgUrl }) => {
   const dispatch = useDispatch();
@@ -31,6 +31,7 @@ const PreviewInternetOrderModal = ({billId, title, openModal, handleOk, handleCa
       const res = await dispatch(approveBill(billId));
       console.log(res)
       if (res.payload.statusCode){
+        dispatch(getMyRecord('today'))
         handleProceed();
       }
     } catch (error) {
@@ -53,6 +54,7 @@ const PreviewInternetOrderModal = ({billId, title, openModal, handleOk, handleCa
       const res = await dispatch(rejectdPaymentBill(params));
       console.log(res)
       if (res.payload.statusCode){
+        dispatch(getMyRecord('today'))
         handleReturn();
       }
     } catch (error) {

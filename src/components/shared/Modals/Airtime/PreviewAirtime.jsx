@@ -4,7 +4,7 @@ import SuccessModal from '../SuccessModal';
 import useForm from '../../../../hooks/useForm';
 import FormInput from '../../FormInput';
 import { useDispatch } from 'react-redux';
-import { approveBill, rejectdPaymentBill } from '../../../../store/actions';
+import { approveBill, getMyRecord, rejectdPaymentBill } from '../../../../store/actions';
 import { toast } from 'react-toastify';
 
 const PreviewAirtimeOrderModal = ({ openModal, handleOk, handleCancel, returnText, imgUrl, provider, phone, amount, billId }) => {
@@ -32,6 +32,7 @@ const PreviewAirtimeOrderModal = ({ openModal, handleOk, handleCancel, returnTex
       const res = await dispatch(approveBill(billId));
       console.log(res)
       if (res.payload.statusCode){
+        dispatch(getMyRecord('today'))
         handleProceed();
       }else{
         toast.error(res.payload.message)
@@ -59,6 +60,7 @@ const PreviewAirtimeOrderModal = ({ openModal, handleOk, handleCancel, returnTex
       console.log(res)
       if (res.payload.statusCode){
         toast.success(res.paylaod.message)
+        dispatch(getMyRecord('today'))
         handleReturn();
       }else{
         toast.error(res.payload.message)

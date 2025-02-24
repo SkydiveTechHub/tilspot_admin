@@ -3,7 +3,7 @@ import { Button, Modal } from 'antd';
 import SuccessModal from '../SuccessModal';
 import useForm from '../../../../hooks/useForm';
 import FormInput from '../../FormInput';
-import { approveBill, rejectdPaymentBill } from '../../../../store/actions';
+import { approveBill, getMyRecord, rejectdPaymentBill } from '../../../../store/actions';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 
@@ -32,6 +32,7 @@ const PreviewCableOrderModal = ({ openModal, handleOk, handleCancel, provider, a
       const res = await dispatch(approveBill(billId));
       console.log(res)
       if (res.payload.statusCode){
+        dispatch(getMyRecord('today'))
         handleProceed();
       }else{
         toast.error(res.payload.message)
@@ -59,6 +60,7 @@ const PreviewCableOrderModal = ({ openModal, handleOk, handleCancel, provider, a
       console.log(res)
       if (res.payload.statusCode){
         toast.success(res.paylaod.message)
+        dispatch(getMyRecord('today'))
         handleReturn();
       }else{
         toast.error(res.payload.message)
