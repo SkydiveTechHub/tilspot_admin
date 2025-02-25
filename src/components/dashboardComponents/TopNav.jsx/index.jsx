@@ -74,7 +74,7 @@ const notifcontent = (
                     size="large"
                     gap={10}
                 >
-                    PA
+                    {/* {(user?.first_name).charAt(0)} */}
             </Avatar>
 			</div>
 			<div>
@@ -119,10 +119,22 @@ const UserMenu = ({user}) => (
   <Popover content={Content} title="">
     <button>
 
-	<img className='w-[40px] rounded-full inline-flex  pr-1' src="" alt="user" />
+	{/* <img className='w-[40px] rounded-full inline-flex  pr-1' src="" alt="user" /> */}
+	<Avatar
+                    // style={{
+                    // backgroundColor: 'blue',
+                    // verticalAlign: 'middle',
+                    // width:'60px',
+                    // height:'60px',
+                    // }}
+                    // size="large"
+                    // gap={10}
+                >
+                    {(user?.first_name).charAt(0)}
+            </Avatar>
 
 	<Space>
-		<span className='hidden lg:inline font-mont font-[500] text-[14px]'>{user?.first_name}</span>
+		<span className='hidden lg:inline font-mont font-[500] text-[14px]'> {user?.first_name}</span>
 		<FiChevronDown/>
 	</Space>
 	</button>
