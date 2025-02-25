@@ -57,7 +57,9 @@ const PreviewAirtimeOrderModal = ({ openModal, handleOk, handleCancel, returnTex
 
     try {
       const res = await dispatch(rejectdPaymentBill(params));
-      console.log(res)
+      console.log(res.payload)
+      console.log(res.payload.statusCode)
+      console.log(res.payload.message)
       if (res.payload.statusCode){
         toast.success(res.paylaod.message)
         dispatch(getMyRecord('today'))
@@ -67,13 +69,10 @@ const PreviewAirtimeOrderModal = ({ openModal, handleOk, handleCancel, returnTex
         handleCancel()
       }
     } catch (error) {
+      console.log(error)
       toast.error('Something went wrong')
       handleCancel()
     }
-
-    console.log('Form submitted:', values);
-    // setOpenedFailed(false);
-    handleCancel?.(); 
     resetForm();
   };
 

@@ -101,7 +101,7 @@ const AddTransportProvider = ({
   return (
     <>
       <SuccessModal
-        title={'Transport Provider has been added successfully'}
+        title={'Transport Transport Route has been added successfully'}
         openModal={successModalOpen}
         handleContinue={() => setSuccessModalOpen(false)}
         handleCancel={() => setSuccessModalOpen(false)}
@@ -109,7 +109,7 @@ const AddTransportProvider = ({
       />
       <Modal
         className="basic-modal"
-        title={`${action === 'edit' ? 'Edit' : 'Add'} Transport Provider`}
+        title={`${action === 'edit' ? 'Edit' : 'Add'} Transport Transport Route`}
         open={openModal}
         onOk={handleOk}
         onCancel={handleCancel}
@@ -158,7 +158,7 @@ const AddTransportProvider = ({
           <AuthButton
             handleClick={handleSubmit}
             inactive={!active}
-            value={action === 'edit' ? 'Update Provider' : 'Add Provider'}
+            value={action === 'edit' ? 'Update Transport Route' : 'Add Transport Route'}
           />
         </form>
       </Modal>

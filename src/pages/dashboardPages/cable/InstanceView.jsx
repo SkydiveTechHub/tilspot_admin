@@ -51,12 +51,16 @@ const InstanceView = ({data, catStatus, id}) => {
       id, checked
     }
     try {
-      await dispatch(enableOrDisableCategory(payload)).then(
-        dispatch(getAllCategories())
-      )
+     const res = await dispatch(enableOrDisableCategory(payload))
+    if (res.payload.statusCode){
+      dispatch(getAllCategories())
+    }else{
+      toast.error('Category status could not be modified')
+    }
 
     } catch (error) {
       console.log(error)
+      toast.error('Something went wrong')
     }
   };
 

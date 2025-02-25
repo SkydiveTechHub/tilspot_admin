@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import DeleteInstanceModal from "../../../components/shared/Modals/DeleteInstanceModal";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteProvider, enableOrDisableCategory, getAllCategories } from "../../../store/actions";
+import { toast } from "react-toastify";
 
 const InstanceView = ({data, catStatus, id}) => {
   const { role } = useSelector((state) => state.auth);
@@ -40,12 +41,16 @@ const InstanceView = ({data, catStatus, id}) => {
       id, checked
     }
     try {
-      await dispatch(enableOrDisableCategory(payload)).then(
-        dispatch(getAllCategories())
-      )
+     const res = await dispatch(enableOrDisableCategory(payload))
+    if (res.payload.statusCode){
+      dispatch(getAllCategories())
+    }else{
+      toast.error('Category status could not be modified')
+    }
 
     } catch (error) {
       console.log(error)
+      toast.error('Something went wrong')
     }
   };
 
