@@ -71,7 +71,7 @@ class providerService {
     return res?.data || res;
   }
   static async CreateJourney(data) {
-    const res = await baseAxios.post(`/createAndUpdateJourney`, data.payload);
+    const res = await baseAxios.post(`/createAndUpdateJourney/${data.provId}`, data.payload);
     return res?.data || res;
   }
   static async CreateZone(data) {

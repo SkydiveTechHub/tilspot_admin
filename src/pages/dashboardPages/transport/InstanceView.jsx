@@ -11,11 +11,12 @@ import { useNavigate } from "react-router-dom";
 import DeleteInstanceModal from "../../../components/shared/Modals/DeleteInstanceModal";
 import { useDispatch, useSelector } from "react-redux";
 import { enableOrDisableCategory, getAllCategories } from "../../../store/actions";
+import { toast } from "react-toastify";
 
 const InstanceView = ({data, catStatus, id, ppId}) => {
   const { role } = useSelector((state) => state.auth);
   const [open, setOpen] = useState(false)
-  const [provId, setProvId] = useState('ppId')
+  const [provId, setProvId] = useState(ppId)
   const [openDelete, setOpenDelete] = useState(false)
   const [openStatus, setOpenStatus] = useState(false)
   const [status, setStatus] = useState('')
@@ -36,16 +37,23 @@ const InstanceView = ({data, catStatus, id, ppId}) => {
         console.log(error)
       }
     }
-    const onChange = async (checked) => {
-      try {
-        await dispatch(enableOrDisableCategory(id)).then(
-          dispatch(getAllCategories())
-        )
-  
-      } catch (error) {
-        console.log(error)
-      }
-    };
+  const onChange = async (checked) => {
+    const payload ={
+      id, checked
+    }
+    try {
+     const res = await dispatch(enableOrDisableCategory(payload))
+    if (res.payload.statusCode){
+      dispatch(getAllCategories())
+    }else{
+      toast.error('Category status could not be modified')
+    }
+
+    } catch (error) {
+      console.log(error)
+      toast.error('Something went wrong')
+    }
+  };
 
   const usable_column = [
     ...columns,

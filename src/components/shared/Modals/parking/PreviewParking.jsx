@@ -4,7 +4,7 @@ import SuccessModal from '../SuccessModal';
 import FormInput from '../../FormInput';
 import useForm from '../../../../hooks/useForm';
 
-const PreviewParkingOrderModal = ({children, title, openModal, handleOk, handleCancel, provider, zone, location, price, duration, phone, imgUrl, reg }) => {
+const PreviewParkingOrderModal = ({billId, title, openModal, handleOk, handleCancel, provider, zone, location, price, duration, phone, imgUrl, reg }) => {
   const [secondModalOpen, setSecondModalOpen] = useState(false)
   const [openFailed, setOpenedFailed] = useState(false)
 

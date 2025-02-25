@@ -4,7 +4,7 @@ import SuccessModal from '../SuccessModal';
 import useForm from '../../../../hooks/useForm';
 import FormInput from '../../FormInput';
 import { toast } from 'react-toastify';
-import { approveBill, rejectdPaymentBill } from '../../../../store/actions';
+import { approveBill, getMyRecord, rejectdPaymentBill } from '../../../../store/actions';
 import { useDispatch } from 'react-redux';
 
 const PreviewHousingOrderModal = ({billId, children, title, openModal, handleOk, handleCancel, imgUrl, provider, acctNo, amount }) => {
@@ -56,12 +56,13 @@ const PreviewHousingOrderModal = ({billId, children, title, openModal, handleOk,
 
     try {
       const res = await dispatch(rejectdPaymentBill(params));
-      console.log(res)
+ 
       if (res.payload.statusCode){
-        toast.success(res.paylaod.message)
+        toast.success('Bill Rejected Successfully')
+        dispatch(getMyRecord('today'))
         handleReturn();
       }else{
-        toast.error(res.payload.message)
+        toast.error('Bill Rejected Unsuccessfully')
         handleCancel()
       }
     } catch (error) {
@@ -108,7 +109,7 @@ const PreviewHousingOrderModal = ({billId, children, title, openModal, handleOk,
 
           <div className="flex items-center justify-center w-full">
             <button
-              onClick={handleSubmit}
+              onClick={handleReject}
               className="bg-[#219653] rounded-[8px] text-white py-[10px] px-11 text-[14px] md:text-[16px] font-[500] leading-[24px]"
             >
               Submit

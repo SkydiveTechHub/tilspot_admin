@@ -53,12 +53,13 @@ const PreviewInternetOrderModal = ({billId, title, openModal, handleOk, handleCa
 
     try {
       const res = await dispatch(rejectdPaymentBill(params));
+ 
       if (res.payload.statusCode){
-        toast.success(res.paylaod.message)
+        toast.success('Bill Rejected Successfully')
         dispatch(getMyRecord('today'))
         handleReturn();
       }else{
-        toast.error(res.payload.message)
+        toast.error('Bill Rejected Unsuccessfully')
         handleCancel()
       }
     } catch (error) {

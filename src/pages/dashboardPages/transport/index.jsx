@@ -15,7 +15,7 @@ const TransportPage = () => {
   const [provId, setProvId] = useState('');
   const [catStatus, setCatStatus] = useState(false);
   const dispatch = useDispatch();
-  const { categories } = useSelector((state) => state.providers);
+  const { categories, journeyData } = useSelector((state) => state.providers);
   const { role } = useSelector((state) => state.auth);
 
     useEffect(() => {
@@ -62,7 +62,7 @@ const TransportPage = () => {
   return (
     <>
             <AddTransportProvider
-
+                // provId={provId}
                 catId={catId}
                 openModal={open}
                 handleCancel={()=>setOpen(false)}
@@ -70,7 +70,7 @@ const TransportPage = () => {
             />   
         {
           hasData?
-          <InstanceView id={catId} provId={provId} catStatus={catStatus} data={data}/>
+          <InstanceView id={catId} ppId={provId} catStatus={catStatus} data={journeyData}/>
           :
           <div className='h-screen'>
 

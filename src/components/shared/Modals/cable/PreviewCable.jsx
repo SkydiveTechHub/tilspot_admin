@@ -57,13 +57,13 @@ const PreviewCableOrderModal = ({ openModal, handleOk, handleCancel, provider, a
 
     try {
       const res = await dispatch(rejectdPaymentBill(params));
-      console.log(res)
+ 
       if (res.payload.statusCode){
-        toast.success(res.paylaod.message)
+        toast.success('Bill Rejected Successfully')
         dispatch(getMyRecord('today'))
         handleReturn();
       }else{
-        toast.error(res.payload.message)
+        toast.error('Bill Rejected Unsuccessfully')
         handleCancel()
       }
     } catch (error) {

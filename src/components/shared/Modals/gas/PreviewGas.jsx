@@ -5,7 +5,7 @@ import useForm from '../../../../hooks/useForm';
 import FormInput from '../../FormInput';
 import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
-import { approveBill, rejectdPaymentBill } from '../../../../store/actions';
+import { approveBill, getMyRecord, rejectdPaymentBill } from '../../../../store/actions';
 const PreviewGasOrderModal = ({billId, children, title, openModal, handleOk, handleCancel,  imgUrl, provider, acctNo, amount }) => {
   const [secondModalOpen, setSecondModalOpen] = useState(false)
   const [openFailed, setOpenedFailed] = useState(false)
@@ -56,12 +56,13 @@ const PreviewGasOrderModal = ({billId, children, title, openModal, handleOk, han
 
     try {
       const res = await dispatch(rejectdPaymentBill(params));
-      console.log(res)
+ 
       if (res.payload.statusCode){
-        toast.success(res.paylaod.message)
+        toast.success('Bill Rejected Successfully')
+        dispatch(getMyRecord('today'))
         handleReturn();
       }else{
-        toast.error(res.payload.message)
+        toast.error('Bill Rejected Unsuccessfully')
         handleCancel()
       }
     } catch (error) {
@@ -131,7 +132,7 @@ const PreviewGasOrderModal = ({billId, children, title, openModal, handleOk, han
 
 
           <div className='flex items-center justify-between w-full'>
-            <button onClick={handleProceed} className='bg-[#219653] rounded-[8px] text-white py-[10px] px-11 text-[14px] md:text-[16px] font-[500] leading-[24px]'>Completed</button>
+            <button onClick={handleSubmit} className='bg-[#219653] rounded-[8px] text-white py-[10px] px-11 text-[14px] md:text-[16px] font-[500] leading-[24px]'>Completed</button>
             <button onClick={handleReturn} className='bg-[red] rounded-[8px] text-white py-[10px] px-11 text-[14px] md:text-[16px] font-[500] leading-[24px]'>Failed</button>
           </div>                
         </div>

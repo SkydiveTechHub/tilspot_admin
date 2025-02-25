@@ -445,6 +445,7 @@ export const rejectdPaymentBill = createAsyncThunk(
             const res = await providerService.RejectBill(data)
             return res
         } catch (error) {
+            console.log(error)
             return rejectWithValue(error.response.data)
         }finally{
             dispatch(stopLoad())

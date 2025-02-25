@@ -8,7 +8,7 @@ import { AuthButton } from '../../button';
 import useForm from '../../../../hooks/useForm';
 import ConfirmModal from '../ConfirmModal';
 import SuccessModal from '../SuccessModal';
-import { createJorney, editJourney } from '../../../../store/actions';
+import { createJorney, editJourney, getAllJourney } from '../../../../store/actions';
 
 const { RangePicker } = TimePicker;
 
@@ -66,6 +66,7 @@ const AddTransportProvider = ({
     );
   }, [values, range]);
 
+  console.log(provId)
   // Form submission handler
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -83,11 +84,12 @@ const AddTransportProvider = ({
       if (action === 'edit') {
         res = await dispatch(editJourney({ journeyId:userData._id, provId:userData._providerId, payload: params }));
       } else {
-        res = await dispatch(createJorney({ catId, payload: params }));
+        res = await dispatch(createJorney({ provId, payload: params }));
       }
 
       if (res.payload.statusCode) {
-        handleOk(); // Close modal
+        handleOk(); 
+        dispatch(getAllJourney(provId))
         setSuccessModalOpen(true); // Open success modal
       }
     } catch (error) {

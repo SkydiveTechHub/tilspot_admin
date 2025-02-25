@@ -5,6 +5,7 @@ import { PryButton } from '../../../components/shared/button';
 import { useDispatch, useSelector } from 'react-redux';
 import { checkCategory } from '../../../store/reducers/providerSlice';
 import { setFees } from '../../../store/actions';
+import { toast } from 'react-toastify';
 
 const FeesPage = () => {
   const dispatch = useDispatch();
@@ -44,17 +45,19 @@ const FeesPage = () => {
       categoryIds: categories.map((i)=>i._id)
     }
 
-    console.log(params)
-
     try {
       const res = await dispatch(setFees(params));
-      console.log(res)
+      if(res.payload.stateCode){
+        dispatch(checkCategory())
+        toast.success('Successfully set processing fees')
+      }else{
+        toast.error('Processing Fees cannot be set successfully')
+      }
     } catch (error) {
+      toast.error('Something went wrong !')
       console.log(error)
     }
 
-
-    console.log(params)
   };
 
   return (
