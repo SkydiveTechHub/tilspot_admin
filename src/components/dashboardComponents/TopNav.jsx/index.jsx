@@ -2,14 +2,15 @@ import { DownOutlined } from '@ant-design/icons'
 import { Button, Dropdown, Space, Popover, Avatar } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { UserStatusTag } from '../../shared/button'
-import { Link, useLocation, useParams } from 'react-router-dom'
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { LogoutModal } from '../shared'
 import { BlackText } from '../../shared/typograph'
 import { FiChevronDown } from 'react-icons/fi'
 import { HambergerMenu } from 'iconsax-react'
 import { pageEnum } from '../../../utils/data'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import EditStaffModal from '../../shared/Modals/staff/EditStaffModal'
+import { forgotPassword } from '../../../store/actions'
 
 const TopNav = ({handleClick}) => {
 	const user = useSelector((state) => state.auth.user);
@@ -88,13 +89,35 @@ const notifcontent = (
 const Content = () =>{
 	const [isOpen, setOpen] = useState(false)
 	const [openEdit, setOpenEdit] = useState(false)
+	const dispatch = useDispatch()
+	const navigate = useNavigate()
+	const { role } = useSelector((state) => state.auth);
+	const user = useSelector((state) => state.auth.user);
+		const handleResetPassword = async (e) =>{
+			e.preventDefault()
+			try {
+				const res = await dispatch(forgotPassword({email:user?.email}))
+
+				if (res.payload.statusCode){
+					// setDisable(true)
+					navigate(res.payload.verifyOtpURL)
+				}
+			} catch (error) {
+				
+			}
+	
+		}
+
 	return(
 		<div className='p-6 w-[250px]'>
 		<div className='flex flex-col items-start gap-3'>
 			{/* <Link className='font-[500] font-mont text-[14px]' to={'/'}>Edit Profile</Link>
 			<Link className='font-[500] font-mont text-[14px]' to={'/'}>Subscription</Link> */}
 			<button onClick={()=>setOpenEdit(true)} className='font-[500] font-mont text-[14px]' to={'/forgot-password'}><img src='/images/account.png' className='inline-flex pr-2' alt='account'/>Edit Profile</button>
-			<Link className='font-[500] font-mont text-[14px]' to={'/forgot-password'}><img src='/images/account.png' className='inline-flex pr-2' alt='account'/>Reset Password</Link>
+			{
+				role === 'admin' && <button className='font-[500] font-mont text-[14px]' onClick={handleResetPassword}><img src='/images/account.png' className='inline-flex pr-2' alt='account'/>Reset Password</button>
+			}
+			
 			<button onClick={()=>setOpen(true)} className='font-[500] font-mont text-[14px]'><img src='/images/Exit.png' className='inline-flex pr-2' alt='account'/>Log Out</button>
 	
 			<LogoutModal openModal={isOpen} handleOk={()=>setOpen(false)} handleCancel={()=>setOpen(false)}/>
@@ -130,7 +153,7 @@ const UserMenu = ({user}) => (
                     // size="large"
                     // gap={10}
                 >
-                    {(user?.first_name).charAt(0)}
+                    {(user?.first_name)?.charAt(0)}
             </Avatar>
 
 	<Space>

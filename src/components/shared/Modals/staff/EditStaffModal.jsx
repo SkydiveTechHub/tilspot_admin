@@ -4,33 +4,103 @@ import { AuthButton } from '../../button';
 import useForm from '../../../../hooks/useForm';
 import { Modal } from 'antd';
 import ConfirmModal from '../ConfirmModal';
-import { GrayText } from '../../typograph';
+import { AuxAuthText, GrayText } from '../../typograph';
 import SuccessModal from '../SuccessModal';
-import { editStaff, getAllStaffs } from '../../../../store/actions';
+import { editStaff, forgotPassword, getAllStaffs, resetPassword, sendOTP } from '../../../../store/actions';
 import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
+import OTPInput from '../OTPinput';
 // import SelectPlanModal from '../SelectPlanModal';
 
 
 
-const EditStaffModal = ({ type, openModal, handleOk, handleCancel }) => {
+const EditStaffModal = ({ userData, openModal, handleOk, handleCancel }) => {
   const dispatch = useDispatch()
   const [active, setActive] = useState(false);
   const [more, setMore] = useState(false);
+  const [canReset, setCanReset] = useState(false);
   const [secondModalOpen, setSecondModalOpen] = useState(false);
-  const {user} = useSelector((state)=>state.auth)
+  const user = useSelector((state) => state.auth.user);
   console.log(user)
   const initialState = {
-    lname: user?.last_name || "",
-    fname: user?.first_name || "",
+    lname: userData?.last_name || "",
+    fname: userData?.first_name || "",
+  };
+  const passInitialState = {
+    password:  "",
+    c_password: "",
   };
 
   const { values, handleChange, resetForm, errors } = useForm(initialState);
+  const { values:passvalue, handleChange:passChange, resetForm:resetPassform, errors:passError } = useForm(passInitialState);
 
   useEffect(() => {
     resetForm(initialState); // Reset form when userData changes
-  }, [user]);
+  }, [userData]);
 
+
+      const [otp, setOtp] = useState("");
+  
+      const handleOtpChange = (value) => {
+        setOtp(value);
+      };
+  
+      const handleVerifydOtp = async (e) =>{
+  
+              e.preventDefault();
+              const params = {
+                // id: user.id,
+                payload: {otp:otp},
+              };
+              try {
+                const res = await dispatch(sendOTP(params));          
+                if (res.payload.statusCode) {
+                  setCanReset(true)
+                }
+              } catch (error) {
+                console.error("Login error:", error);
+              }
+      }
+
+       
+          const handleSendOtp = async () =>{
+            try {
+              const res = await dispatch(forgotPassword({email:user?.email}))
+      
+              if (res.payload.statusCode){
+                setMore(true)
+              }else{
+                toast.error('OTP was not sent successfully')
+              }
+            } catch (error) {
+              toast.error('Something went wrong')
+            }
+        
+          }
+  
+
+              const handleResetPassword = async (e) =>{
+          
+                      e.preventDefault();
+                      const params = {
+                        id: userData._id,
+                        payload: {newPassword:passvalue.password},
+                      };
+                      try {
+                        const res = await dispatch(resetPassword(params));
+                        console.log(res);
+                  
+                        if (res.payload.statusCode) {
+                          resetPassform()
+                          toast.success('Password Updated successfully')
+                        }else{
+                          toast.error('Password Updated unsuccessfully')
+                        }
+                      } catch (error) {
+                        console.error("Login error:", error);
+                        toast.error('Something went wrong')
+                      }
+              }
 
   const handleSubmit =async (e) => {
     e.preventDefault();
@@ -41,6 +111,9 @@ const EditStaffModal = ({ type, openModal, handleOk, handleCancel }) => {
     try {
       const res = await dispatch(editStaff(params))
       if(res.payload.statusCode){
+        if(canReset){
+          handleResetPassword(e)
+        }
         handleOk();
         setSecondModalOpen(true)
         resetForm();
@@ -102,6 +175,65 @@ const EditStaffModal = ({ type, openModal, handleOk, handleCancel }) => {
             error={errors?.lname}
   
           />
+
+          <div className='bg-[#f4f4f4] p-4'>
+            <div className='flex justify-end'>
+              {!canReset &&
+                <>
+                  {
+                    more?  <span className='font-mont italic text-gray text-[12px]'>Didn't get a code, <AuxAuthText text={'Resend'}/></span> :
+                    <button className='italic text-primary text-[12px] p-2' onClick={()=>{handleSendOtp()}} type='button'>Reset Staff Password</button>
+                  }              
+                </>
+              }
+
+              
+            </div>
+
+            {
+              more && <>
+                  <div className=' font-mont'>
+                  {
+                    !canReset &&
+                    <div className='flex justify-center items-center gap-4 px-4 md:px-8'>
+                      <OTPInput length={4} onChange={handleOtpChange} />
+                      <button type='button' className='p-3 text-green-500 italic' onClick={handleVerifydOtp} disabled={!otp || otp.length<4}>Verify</button>                    
+                    </div>                    
+                  }
+
+
+                    {
+                      canReset &&
+                      <>
+                          <FormInput
+                            label="New Password"
+                            type="password"
+                            name="password"
+                            value={passvalue.password}
+                            onChange={passChange}
+                            placeholder="Enter email"
+                            error={passError?.password}
+                  
+                          />
+                          <FormInput
+                            label="Confirm New Password"
+                            type="password"
+                            name="c_pasword"
+                            value={passvalue.c_pasword}
+                            onChange={passChange}
+                            placeholder="Enter email"
+                            error={passError?.c_pasword}
+                  
+                          />
+                      </>
+                    }
+
+                  </div>
+              </>
+            }
+                        
+          </div>
+
           {/* <FormInput
             label="Email Address"
             type="email"

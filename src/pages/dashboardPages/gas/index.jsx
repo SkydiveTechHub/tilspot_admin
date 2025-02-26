@@ -15,7 +15,7 @@ const GasPage = () => {
   const [catId, setCatId] = useState('');
   const [catStatus, setCatStatus] = useState(false);
   const dispatch = useDispatch();
-  const { categories } = useSelector((state) => state.providers);
+  const { providers, categories } = useSelector((state) => state.providers);
   const { role } = useSelector((state) => state.auth);
     useEffect(() => {
       if (categories) {
@@ -57,7 +57,7 @@ const GasPage = () => {
             />   
         {
           hasData?
-          <InstanceView id={catId} catStatus={catStatus} data={data}/>
+          <InstanceView id={catId} catStatus={catStatus} data={providers}/>
           :
           <div className='h-screen'>
 
@@ -69,7 +69,7 @@ const GasPage = () => {
                   <GrayText style={'md:w-[40%] text-center text-[12px]'} text={'You haven’t added any Provider. Click the button below to add a provided!'}/>
 
                         {
-                          role === 'admin' &&                   <PryButton handleClick={()=>setOpen(true)} text={'Add Gas Provider'}/>
+                          role === 'admin' &&         <PryButton handleClick={()=>setOpen(true)} text={'Add Gas Provider'}/>
                         }
                         
               

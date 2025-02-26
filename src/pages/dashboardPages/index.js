@@ -165,11 +165,11 @@ const Dashboard = () => {
     
           ];
     const cardData = [
-        {
-          title:'Total Revenue Generated',
-          amount: operatorStatData?.totalAmount || 0,
-          icon:'/images/f1.svg'
-        },	
+        // {
+        //   title:'Total Revenue Generated',
+        //   amount: operatorStatData?.totalAmount || 0,
+        //   icon:'/images/f1.svg'
+        // },	
         {
           title:'Total Order Processed',
           amount:operatorStatData?.processedCount || 0,

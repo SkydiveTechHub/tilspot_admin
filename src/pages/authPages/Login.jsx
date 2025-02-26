@@ -79,9 +79,9 @@ const Login = () => {
           placeholder={"Enter your password"}
           error={errors?.password}
         />
-        <Link to={"/forgot-password"}>
+        {/* <Link to={"/forgot-password"}>
           <AuxAuthText text={"Forgot Password?"} />
-        </Link>
+        </Link> */}
         <AuthButton
           inactive={Object.keys(errors).length > 0}
           handleClick={handleSubmit}

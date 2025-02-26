@@ -48,7 +48,7 @@ const OPTpage = () => {
 
         <div className='flex flex-col justify-center items-center space-y-8 font-mont'>
 
-        <OTPInput length={6} onChange={handleOtpChange} />
+            <OTPInput length={6} onChange={handleOtpChange} />
 
 
             <AuthButton handleClick={handleSubmit} inactive={!otp || otp.length<6} value={'Continue'}/>
