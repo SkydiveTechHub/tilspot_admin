@@ -11,6 +11,7 @@ import { AuthLayout2 } from '../../components/authComponents/AuthLayout'
 import OTPInput from '../../components/shared/Modals/OTPinput'
 import { useDispatch } from 'react-redux'
 import { sendOTP } from '../../store/actions'
+import { toast } from 'react-toastify'
 
 const OPTpage = () => {
     const navigate = useNavigate()
@@ -35,10 +36,14 @@ const OPTpage = () => {
               console.log(res);
         
               if (res.payload.statusCode) {
+                toast.success('Validated Successfully')
                 navigate('/reset-password')
+              }else{
+                toast.error('Validated Unsuccessfully')
               }
             } catch (error) {
               console.error("Login error:", error);
+              toast.error('Something went wrong')
             }
     }
 
@@ -48,7 +53,7 @@ const OPTpage = () => {
 
         <div className='flex flex-col justify-center items-center space-y-8 font-mont'>
 
-            <OTPInput length={6} onChange={handleOtpChange} />
+            <OTPInput length={4} onChange={handleOtpChange} />
 
 
             <AuthButton handleClick={handleSubmit} inactive={!otp || otp.length<6} value={'Continue'}/>
