@@ -29,6 +29,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { checkAuth } from "./store/reducers/authSlice";
 import StatisticPage from "./pages/dashboardPages/statistics";
 import { SocketProvider, useSocket } from "./hooks/SocketContext";
+import TransactionsPage from "./pages/dashboardPages/transactions";
 
 
 function App() {
@@ -101,6 +102,7 @@ function App() {
 										<Route path="/dashboard/government" element={<GovernmentPage/>}/>
 										<Route path="/dashboard/housing" element={<HousingPage/>}/>
 										<Route path="/dashboard/waste" element={<WastePage/>}/>
+										<Route path="/dashboard/transactions" element={<TransactionsPage/>}/>
 							
 									</Route>
 

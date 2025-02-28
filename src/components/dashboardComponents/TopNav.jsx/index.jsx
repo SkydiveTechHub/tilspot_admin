@@ -100,7 +100,7 @@ const Content = () =>{
 
 				if (res.payload.statusCode){
 					// setDisable(true)
-					navigate(res.payload.verifyOtpURL)
+					window.location.href = res.payload.verifyOtpURL
 				}
 			} catch (error) {
 				

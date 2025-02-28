@@ -23,6 +23,12 @@ export const pageEnum = [
 		]
 	},
 	{
+		title:'Transactions',
+		pages:[
+			"/dashboard/transactions"
+		]
+	},
+	{
 		title:'Statistics',
 		pages:[
 			"/dashboard/statistics"

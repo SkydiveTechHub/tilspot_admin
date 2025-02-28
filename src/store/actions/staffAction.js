@@ -144,3 +144,33 @@ export const deleteStaff = createAsyncThunk(
         }
     }
 )
+
+
+export const getTransactionsByCategory = createAsyncThunk(
+    'staff/get_transactions_by_category',
+    async (data, {dispatch, rejectWithValue })=>{
+        dispatch(startLoad())
+        try {
+            const res = await staffService.GetTransactionsByCategory(data)
+            return res.data
+        } catch (error) {
+            return rejectWithValue(error.response.data)
+        } finally{
+            dispatch(stopLoad())
+        }
+    }
+)
+export const getTransactionsByStatus = createAsyncThunk(
+    'staff/get_transactions_by_status',
+    async (data, {dispatch, rejectWithValue })=>{
+        dispatch(startLoad())
+        try {
+            const res = await staffService.GetTransactionsByStatus(data)
+            return res.data
+        } catch (error) {
+            return rejectWithValue(error.response.data)
+        } finally{
+            dispatch(stopLoad())
+        }
+    }
+)

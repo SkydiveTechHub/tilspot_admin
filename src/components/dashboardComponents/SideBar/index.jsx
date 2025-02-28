@@ -126,6 +126,11 @@ const SideBar = ({handleClick}) => {
             },
             ]
           : []),
+        {
+          name:'Transactions',
+          icons: <ChartSquare size={16} />,
+          url: '/transactions',
+        }
   
       ],
     },

@@ -49,6 +49,19 @@ class staffService {
   }
   
 
+  static async GetAllTransactions() {
+    const res = await baseAxios.get(`/getAllBills?page=1&limit=10`);
+    return res?.data || res;
+  }
+  static async GetTransactionsByCategory() {
+    const res = await baseAxios.get(`/filterTransactionsByCategory`);
+    return res?.data || res;
+  }
+  static async GetTransactionsByStatus() {
+    const res = await baseAxios.get(`/filterTransactionsByStatus`);
+    return res?.data || res;
+  }
+
 
 
 
