@@ -1,275 +1,185 @@
-import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { getAllTransactions, getTransactionsByCategory } from '../../../../store/actions'
-import { toast } from 'react-toastify'
-import { Section } from '../../../../components/shared/container/container'
-import TransactionsTable from '../../../../components/dashboardComponents/transactions'
-import { Satellite } from '@mui/icons-material'
-import { Button, Dropdown } from 'antd'
-import { Label } from '../../../../components/shared/typograph'
-import { checkCategory } from '../../../../store/reducers/providerSlice'
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllStaffs, getAllTransactions, getProviderByCategory, getTransactionsByCategory } from "../../../../store/actions";
+import { toast } from "react-toastify";
+import { Section } from "../../../../components/shared/container/container";
+import TransactionsTable from "../../../../components/dashboardComponents/transactions";
+import { Button, Dropdown } from "antd";
+import { Label } from "../../../../components/shared/typograph";
+import { checkCategory } from "../../../../store/reducers/providerSlice";
 
 const AdminTransactions = () => {
-    const dispatch = useDispatch()
-    const {transactions} = useSelector((state)=>state.staff)
-    const [filterType, setFilterType] = useState('All')
-    const [filterOptionList, setFilterOptionList] = useState([])
-    const [filterOption, setFilterOption] = useState('All')
-    const { providers, categories } = useSelector((state) => state.providers);
-    const {staffs} = useSelector((state)=>state.staff)
+  const dispatch = useDispatch();
+  const { transactions } = useSelector((state) => state.staff);
+  const { providers, categories } = useSelector((state) => state.providers);
+  const { staffs } = useSelector((state) => state.staff);
 
-    const fetchTransaction = async()=>{
-        try {
-            const res = await dispatch(getAllTransactions())
-        } catch (error) {
-            toast.error('Something went wrong')
-        }
+  const [filterType, setFilterType] = useState({ text: "All", value: "all" });
+  const [filterOption, setFilterOption] = useState({ text: "All", value: "all" });
+  const [filterOptionList, setFilterOptionList] = useState([]);
+  const [providerOptionList, setProviderOptionList] = useState([]);
+  const [providerOption, setProviderOption] = useState({ text: "All", value: "all" });
+
+  const fetchTransaction = async () => {
+    try {
+      await dispatch(getAllTransactions());
+    } catch (error) {
+      toast.error("Something went wrong");
+    }
+  };
+
+  const fetchTransactionByFilter = async (type, value) => {
+    if (type === "all") {
+      fetchTransaction();
+      return;
     }
 
-    const fetchTransactionByFilter = async(a, b)=>{
-      const payload={
-        type:a,
-        query:b
-      }
-        try {
-          
-            const res = await dispatch(getTransactionsByCategory(payload))
-        } catch (error) {
-            toast.error('Something went wrong')
-        }
+    try {
+      await dispatch(getTransactionsByCategory({ type, query: value }));
+    } catch (error) {
+      toast.error("Something went wrong");
     }
+  };
 
-    useEffect(()=>{
-        fetchTransaction()
-    },[])
+  useEffect(() => {
+    fetchTransaction();
+  }, []);
 
+  useEffect(() => {
+    const baseOptions = [];
 
-    useEffect(() => {
-      const baseOptions = [];
-    
-      if (filterType === 'Category') {
-        if (categories && categories.length > 0) {
-          console.log(categories);
-          const categoryOptions = categories.map((i, id) => ({
-            key: `${id + 2}`, 
-            label: <button onClick={() => setFilterOption(i._id)}>{i.name}</button>,
-          }));
-    
-          setFilterOptionList([...baseOptions, ...categoryOptions]);
-        } else {
-          dispatch(checkCategory());
-        }
-      } else if(filterType === 'Status'){
-        const items = [
-          {
-            key: '1',
-            label: (
-              <button onClick={()=>(setFilterOption('Approved'))} >
-                Approved
-              </button>
-            ),
-          },
-          {
-            key: '2',
-            label: (
-              <button onClick={()=>(setFilterOption('Rejected'))} >
-                Rejected
-              </button>
-            ),
-          },
-          {
-            key: '3',
-            label: (
-              <button onClick={()=>(setFilterOption('Pending'))} >
-                Pending
-              </button>
-            ),
-          },
-        ]
+    if ((filterType.value === "category" || filterType.value === "provider") && categories) {
+      if (categories?.length > 0) {
+        const categoryOptions = categories.map((i, id) => ({
+          key: `${id + 2}`,
+          label: (
+            <div onClick={() => { 
+              setFilterOption({ text: i.name, value: i._id });
+              dispatch(getProviderByCategory(i._id)); 
+            }}>
+              {i.name}
+            </div>
+          ),
+        }));
 
-        setFilterOptionList([...baseOptions, ...items]);
-      }else {
-        setFilterOptionList(baseOptions);
+        setFilterOptionList([...baseOptions, ...categoryOptions]);
+      } else {
+        dispatch(checkCategory());
       }
-    }, [filterType, categories, dispatch]);
+    }  else if (filterType.value === "operator") {
+      if (staffs.length > 0) {
+        const staffsOptions = staffs.map((i, id) => ({
+          key: `${id + 2}`,
+          label: (
+            <div onClick={() => setFilterOption({ text: `${i.first_name} ${i.last_name}`, value: i._id })}>
+              {i.first_name} {i.last_name}
+            </div>
+          ),
+        }));
 
-    useEffect(()=>{
-      fetchTransactionByFilter(filterType, filterOption)
-    },[filterOption])
-    
-    const usable_column = [
-        ...columns,
-        // ...(role === 'admin'
-        //   ? [
-        // {
-        //   title: "ACTION",
-        //   key: "action",
-        //   render: (_, record) => {
-        //     const handleMenuClick = (e) => {
-        //       const { key } = e;
-        //       switch (key) {
-        //         case "1":
-        //           navigate(`/dashboard/parking-location/${record._id}`);
-        //           break;
-        //           case "2":
-        //             setAction('edit')
-        //             setOpen(true)
-        //             setUserData(record)
-        //             break;
-        //           case "3":
-        //             setOpenStatus(true)
-        //             setStatus(record.tags[0])
-        //             break;
-        //           case "4":
-        //               setOpenDelete(true)
-        //               setProvId(record._id)
-        //           break;
-        //         default:
-        //           break;
-        //       }
-        //     };
-    
-        //     const menu = (
-        //       <Menu onClick={handleMenuClick}>
-        //         <Menu.Item key="1">View</Menu.Item>
-        //         <Menu.Item key="2">Edit</Menu.Item>
-        //         {/* <Menu.Item key="3">Enable</Menu.Item> */}
-        //         <Menu.Item key="4">Delete</Menu.Item>
-        //       </Menu>
-        //     );
-    
-        //     return (
-        //       <Dropdown overlay={menu} trigger={['click']}>
-        //         <Space>
-        //           <CiMenuKebab />
-        //         </Space>
-        //       </Dropdown>
-        //     );
-        //   },
-        // }]:[]),
-      ];
-
-
+        setFilterOptionList([...baseOptions, ...staffsOptions]);
+      } else {
+        dispatch(getAllStaffs());
+      }
+    } else if (filterType.value === "status") {
       const items = [
-        {
-          key: '1',
-          label: (
-            <button onClick={()=>(setFilterType('All'))} >
-              All
-            </button>
-          ),
-        },
-
-        {
-          key: '2',
-          label: (
-            <button onClick={()=>(setFilterType('Category'))} >
-              Category
-            </button>
-          ),
-        },
-        {
-          key: '3',
-          label: (
-            <button onClick={()=>(setFilterType('Provider'))} >
-              Provider
-            </button>
-          ),
-        },
-        {
-          key: '4',
-          label: (
-            <button onClick={()=>(setFilterType('Operator'))} >
-              Operator
-            </button>
-          ),
-        },
-        {
-          key: '5',
-          label: (
-            <button onClick={()=>(setFilterType('Status'))} >
-              Status
-            </button>
-          ),
-        },
-
-
+        { key: "1", label: <div onClick={() => setFilterOption({ text: "Approved", value: "approved" })}>Approved</div> },
+        { key: "2", label: <div onClick={() => setFilterOption({ text: "Rejected", value: "rejected" })}>Rejected</div> },
+        { key: "3", label: <div onClick={() => setFilterOption({ text: "Pending", value: "pending" })}>Pending</div> },
       ];
+
+      setFilterOptionList([...baseOptions, ...items]);
+    } else {
+      setFilterOptionList(baseOptions);
+    }
+
+
+    if (filterType.value === "provider") {
+      console.log(providers)
+      if (providers.length > 0) {
+        const providersOptions = providers.map((i, id) => ({
+          key: `${id + 2}`,
+          label: (
+            <div onClick={() => setProviderOption({ text: i.name, value: i._id })}>
+              {i.name}
+            </div>
+          ),
+        }));
+
+        setProviderOptionList([...baseOptions, ...providersOptions]);
+      } else {
+        dispatch(checkCategory());
+      }
+    }
+  }, [filterType, categories, staffs, providers]);
+
+  useEffect(() => {
+    if (filterType.value !== "all" && filterType.value !== "provider") {
+      fetchTransactionByFilter(filterType.value, filterOption.value);
+    }
+    if (filterType.value === "provider") {
+      console.log(providerOption)
+
+      fetchTransactionByFilter(filterType.value, providerOption.value);
+    }
+  }, [filterOption, filterType, providerOption]);
+
+  const filterItems = [
+    { key: "1", label: <div onClick={() => setFilterType({ text: "All", value: "all" })}>All</div> },
+    { key: "2", label: <div onClick={() => setFilterType({ text: "Category", value: "category" })}>Category</div> },
+    { key: "3", label: <div onClick={() => { setFilterType({ text: "Provider", value: "provider" }); dispatch(checkCategory()) }}>Provider</div> },
+    { key: "4", label: <div onClick={() => setFilterType({ text: "Operator", value: "operator" })}>Operator</div> },
+    { key: "5", label: <div onClick={() => setFilterType({ text: "Status", value: "status" })}>Status</div> },
+  ];
 
   return (
     <div>
-        
-        <Section title={""}>
-          <div className='grid grid-cols-3 gap-6 mb-6'>
-            <div className='flex flex-col'>
-              <Label text={'Filter Type'}/>
-                <Dropdown
-                    menu={{
-                        items,
-                        }}
-                        placement="bottomRight"
-                    >
-                        <Button><span className="font-mont font-semibold">{filterType}</span></Button>
-                </Dropdown>              
-            </div>
-            {
-              filterType !== 'All' &&
-              <div className='flex flex-col'>
-                <Label text={'Filter Options'}/>
-                  <Dropdown
-                      menu={{
-                          items:filterOptionList,
-                          }}
-                          placement="bottomRight"
-                      >
-                          <Button><span className="font-mont font-semibold">{filterOption}</span></Button>
-                  </Dropdown>              
-              </div>
-            }
-
-
-
+      <Section title="">
+        <div className="grid grid-cols-3 gap-6 mb-6">
+          <div className="flex flex-col">
+            <Label text="Filter Type" />
+            <Dropdown menu={{ items: filterItems }} placement="bottomRight">
+              <Button>
+                <span className="font-mont font-semibold">{filterType.text}</span>
+              </Button>
+            </Dropdown>
           </div>
 
-          <TransactionsTable columns={usable_column} data={transactions}/>            
-        </Section> 
+          {filterType.value !== "all" && (
+            <div className="flex flex-col">
+              <Label text="Filter Options" />
+              <Dropdown menu={{ items: filterOptionList }} placement="bottomRight">
+                <Button>
+                  <span className="font-mont font-semibold">{filterOption.text}</span>
+                </Button>
+              </Dropdown>
+            </div>
+          )}
+
+          {filterType.value === "provider" && (
+            <div className="flex flex-col">
+              <Label text="Provider Options" />
+              <Dropdown menu={{ items: providerOptionList }} placement="bottomRight">
+                <Button>
+                  <span className="font-mont font-semibold">{providerOption.text}</span>
+                </Button>
+              </Dropdown>
+            </div>
+          )}
+        </div>
+
+        <TransactionsTable columns={columns} data={transactions} />
+      </Section>
     </div>
-  )
-}
+  );
+};
 
-export default AdminTransactions
-
+export default AdminTransactions;
 
 const columns = [
-    {
-      title: 'Category',
-      dataIndex: 'billInfo',
-      key: 'billInfo',
-      render: (record) => <p>{record?.categoryInfo?.name}</p>
-    },
-    {
-      title: 'Provider',
-      dataIndex: 'billInfo',
-      key: 'billInfo',
-      render: (record) => <p>{record?.providerInfo?.name}</p>
-    },
-    {
-      title: 'Amount',
-      dataIndex: 'amount',
-      key: 'amount',
-    },
-    {
-      title: 'Category',
-      dataIndex: 'billInfo',
-      key: 'billInfo',
-      render: (record) => <p>{record?.createdAt.split("T")[0]}</p>
-    },
-    {
-      title: 'Status',
-      dataIndex: 'status',
-      key: 'status',
-    },
-
-
-
-  ];
+  { title: "Category", dataIndex: "billInfo", key: "category", render: (record) => <p>{record?.categoryInfo?.name}</p> },
+  { title: "Provider", dataIndex: "billInfo", key: "provider", render: (record) => <p>{record?.providerInfo?.name}</p> },
+  { title: "Amount", dataIndex: "amount", key: "amount" },
+  { title: "Created Date", dataIndex: "billInfo", key: "createdDate", render: (record) => <p>{record?.createdAt?.split("T")[0]}</p> },
+  { title: "Status", dataIndex: "status", key: "status" },
+];

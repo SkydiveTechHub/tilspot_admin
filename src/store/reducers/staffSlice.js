@@ -47,12 +47,12 @@ const staffSlice = createSlice({
         builder.addCase(getAllTransactions.fulfilled, (state, {payload})=>{
             state.isLoading = false;
             console.log(payload)
-            state.transactions = payload.transactions.undefined
+            state.transactions = payload.transactions
         })
         builder.addCase(getTransactionsByCategory.fulfilled, (state, {payload})=>{
             state.isLoading = false;
             console.log(payload)
-            state.transactions = payload.transactions.undefined
+            state.transactions = payload.transactions
         })
 
     }
