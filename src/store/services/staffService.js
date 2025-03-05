@@ -50,11 +50,11 @@ class staffService {
   
 
   static async GetAllTransactions() {
-    const res = await baseAxios.get(`/getAllBills?page=1&limit=10`);
+    const res = await baseAxios.get(`/filterTransactions`);
     return res?.data || res;
   }
-  static async GetTransactionsByCategory() {
-    const res = await baseAxios.get(`/filterTransactionsByCategory`);
+  static async GetTransactionsByCategory(data) {
+    const res = await baseAxios.get(`/filterTransactions?filterType=${data.type}&query=${data.query}`);
     return res?.data || res;
   }
   static async GetTransactionsByStatus() {

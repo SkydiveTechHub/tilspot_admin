@@ -1,30 +1,102 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getTransactionsByCategory } from '../../../../store/actions'
+import { getAllTransactions, getTransactionsByCategory } from '../../../../store/actions'
 import { toast } from 'react-toastify'
 import { Section } from '../../../../components/shared/container/container'
 import TransactionsTable from '../../../../components/dashboardComponents/transactions'
 import { Satellite } from '@mui/icons-material'
+import { Button, Dropdown } from 'antd'
+import { Label } from '../../../../components/shared/typograph'
+import { checkCategory } from '../../../../store/reducers/providerSlice'
 
 const AdminTransactions = () => {
     const dispatch = useDispatch()
     const {transactions} = useSelector((state)=>state.staff)
+    const [filterType, setFilterType] = useState('All')
+    const [filterOptionList, setFilterOptionList] = useState([])
+    const [filterOption, setFilterOption] = useState('All')
+    const { providers, categories } = useSelector((state) => state.providers);
+    const {staffs} = useSelector((state)=>state.staff)
 
-    const fetchTransactionByCategory = async()=>{
+    const fetchTransaction = async()=>{
         try {
-            const res = await dispatch(getTransactionsByCategory())
-            console.log(res)
+            const res = await dispatch(getAllTransactions())
+        } catch (error) {
+            toast.error('Something went wrong')
+        }
+    }
+
+    const fetchTransactionByFilter = async(a, b)=>{
+      const payload={
+        type:a,
+        query:b
+      }
+        try {
+          
+            const res = await dispatch(getTransactionsByCategory(payload))
         } catch (error) {
             toast.error('Something went wrong')
         }
     }
 
     useEffect(()=>{
-        fetchTransactionByCategory()
+        fetchTransaction()
     },[])
 
 
+    useEffect(() => {
+      const baseOptions = [];
+    
+      if (filterType === 'Category') {
+        if (categories && categories.length > 0) {
+          console.log(categories);
+          const categoryOptions = categories.map((i, id) => ({
+            key: `${id + 2}`, 
+            label: <button onClick={() => setFilterOption(i._id)}>{i.name}</button>,
+          }));
+    
+          setFilterOptionList([...baseOptions, ...categoryOptions]);
+        } else {
+          dispatch(checkCategory());
+        }
+      } else if(filterType === 'Status'){
+        const items = [
+          {
+            key: '1',
+            label: (
+              <button onClick={()=>(setFilterOption('Approved'))} >
+                Approved
+              </button>
+            ),
+          },
+          {
+            key: '2',
+            label: (
+              <button onClick={()=>(setFilterOption('Rejected'))} >
+                Rejected
+              </button>
+            ),
+          },
+          {
+            key: '3',
+            label: (
+              <button onClick={()=>(setFilterOption('Pending'))} >
+                Pending
+              </button>
+            ),
+          },
+        ]
 
+        setFilterOptionList([...baseOptions, ...items]);
+      }else {
+        setFilterOptionList(baseOptions);
+      }
+    }, [filterType, categories, dispatch]);
+
+    useEffect(()=>{
+      fetchTransactionByFilter(filterType, filterOption)
+    },[filterOption])
+    
     const usable_column = [
         ...columns,
         // ...(role === 'admin'
@@ -76,12 +148,91 @@ const AdminTransactions = () => {
         //   },
         // }]:[]),
       ];
+
+
+      const items = [
+        {
+          key: '1',
+          label: (
+            <button onClick={()=>(setFilterType('All'))} >
+              All
+            </button>
+          ),
+        },
+
+        {
+          key: '2',
+          label: (
+            <button onClick={()=>(setFilterType('Category'))} >
+              Category
+            </button>
+          ),
+        },
+        {
+          key: '3',
+          label: (
+            <button onClick={()=>(setFilterType('Provider'))} >
+              Provider
+            </button>
+          ),
+        },
+        {
+          key: '4',
+          label: (
+            <button onClick={()=>(setFilterType('Operator'))} >
+              Operator
+            </button>
+          ),
+        },
+        {
+          key: '5',
+          label: (
+            <button onClick={()=>(setFilterType('Status'))} >
+              Status
+            </button>
+          ),
+        },
+
+
+      ];
+
   return (
     <div>
         
-        <Section title={"Available Parking Locations"}>
-                <TransactionsTable columns={usable_column} data={transactions}/>            
-            </Section> 
+        <Section title={""}>
+          <div className='grid grid-cols-3 gap-6 mb-6'>
+            <div className='flex flex-col'>
+              <Label text={'Filter Type'}/>
+                <Dropdown
+                    menu={{
+                        items,
+                        }}
+                        placement="bottomRight"
+                    >
+                        <Button><span className="font-mont font-semibold">{filterType}</span></Button>
+                </Dropdown>              
+            </div>
+            {
+              filterType !== 'All' &&
+              <div className='flex flex-col'>
+                <Label text={'Filter Options'}/>
+                  <Dropdown
+                      menu={{
+                          items:filterOptionList,
+                          }}
+                          placement="bottomRight"
+                      >
+                          <Button><span className="font-mont font-semibold">{filterOption}</span></Button>
+                  </Dropdown>              
+              </div>
+            }
+
+
+
+          </div>
+
+          <TransactionsTable columns={usable_column} data={transactions}/>            
+        </Section> 
     </div>
   )
 }
@@ -91,25 +242,32 @@ export default AdminTransactions
 
 const columns = [
     {
-      title: 'First Name',
-      dataIndex: 'first_name',
-      key: 'first_name',
+      title: 'Category',
+      dataIndex: 'billInfo',
+      key: 'billInfo',
+      render: (record) => <p>{record?.categoryInfo?.name}</p>
     },
     {
-      title: 'Last Name',
-      dataIndex: 'last_name',
-      key: 'last_name',
+      title: 'Provider',
+      dataIndex: 'billInfo',
+      key: 'billInfo',
+      render: (record) => <p>{record?.providerInfo?.name}</p>
     },
     {
-      title: 'Email',
-      dataIndex: 'email',
-      key: 'email',
-      render: (text) => <a>{text}</a>,
+      title: 'Amount',
+      dataIndex: 'amount',
+      key: 'amount',
     },
     {
-      title: 'Role',
-      dataIndex: 'role',
-      key: 'role',
+      title: 'Category',
+      dataIndex: 'billInfo',
+      key: 'billInfo',
+      render: (record) => <p>{record?.createdAt.split("T")[0]}</p>
+    },
+    {
+      title: 'Status',
+      dataIndex: 'status',
+      key: 'status',
     },
 
 

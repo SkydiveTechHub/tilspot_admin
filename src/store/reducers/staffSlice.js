@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createStaff, getAllStaffs, getOperatorRecord, getTransactionsByCategory, getUserStat } from "../actions";
+import { createStaff, getAllStaffs, getAllTransactions, getOperatorRecord, getTransactionsByCategory, getUserStat } from "../actions";
 
 const initialState = {
     staffs: null,
@@ -44,9 +44,15 @@ const staffSlice = createSlice({
         })
 
 
+        builder.addCase(getAllTransactions.fulfilled, (state, {payload})=>{
+            state.isLoading = false;
+            console.log(payload)
+            state.transactions = payload.transactions.undefined
+        })
         builder.addCase(getTransactionsByCategory.fulfilled, (state, {payload})=>{
             state.isLoading = false;
             console.log(payload)
+            state.transactions = payload.transactions.undefined
         })
 
     }

@@ -20,6 +20,7 @@ export {
   getOperatorPeriodicRecord,
   deleteStaff,
   editStaff,
+  getAllTransactions,
   getTransactionsByCategory,
   getTransactionsByStatus
 } from "./staffAction";

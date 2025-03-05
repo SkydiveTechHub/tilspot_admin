@@ -146,6 +146,20 @@ export const deleteStaff = createAsyncThunk(
 )
 
 
+export const getAllTransactions = createAsyncThunk(
+    'staff/get_all_transactions',
+    async (data, {dispatch, rejectWithValue })=>{
+        dispatch(startLoad())
+        try {
+            const res = await staffService.GetAllTransactions(data)
+            return res.data
+        } catch (error) {
+            return rejectWithValue(error.response.data)
+        } finally{
+            dispatch(stopLoad())
+        }
+    }
+)
 export const getTransactionsByCategory = createAsyncThunk(
     'staff/get_transactions_by_category',
     async (data, {dispatch, rejectWithValue })=>{
