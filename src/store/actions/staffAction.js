@@ -1,6 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { startLoad, stopLoad } from "../reducers/appSlice";
-import AuthService from "../services/authService";
 import staffService from "../services/staffService";
 
 export const getAllBills = createAsyncThunk(
@@ -160,6 +159,20 @@ export const getAllTransactions = createAsyncThunk(
         }
     }
 )
+export const getOperatorAllTransactions = createAsyncThunk(
+    'staff/get_operator_all_transactions',
+    async (data, {dispatch, rejectWithValue })=>{
+        dispatch(startLoad())
+        try {
+            const res = await staffService.GetAllOperatorTransactions(data)
+            return res.data
+        } catch (error) {
+            return rejectWithValue(error.response.data)
+        } finally{
+            dispatch(stopLoad())
+        }
+    }
+)
 export const getTransactionsByCategory = createAsyncThunk(
     'staff/get_transactions_by_category',
     async (data, {dispatch, rejectWithValue })=>{
@@ -174,12 +187,12 @@ export const getTransactionsByCategory = createAsyncThunk(
         }
     }
 )
-export const getTransactionsByStatus = createAsyncThunk(
-    'staff/get_transactions_by_status',
+export const getOperatorTransactionsByStatus = createAsyncThunk(
+    'staff/get_operator_transactions_by_status',
     async (data, {dispatch, rejectWithValue })=>{
         dispatch(startLoad())
         try {
-            const res = await staffService.GetTransactionsByStatus(data)
+            const res = await staffService.getOperatorTransactionsByStatus(data)
             return res.data
         } catch (error) {
             return rejectWithValue(error.response.data)

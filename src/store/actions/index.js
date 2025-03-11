@@ -22,7 +22,8 @@ export {
   editStaff,
   getAllTransactions,
   getTransactionsByCategory,
-  getTransactionsByStatus
+  getOperatorAllTransactions,
+  getOperatorTransactionsByStatus
 } from "./staffAction";
 export {
   getAllCategories,

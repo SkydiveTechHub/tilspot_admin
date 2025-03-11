@@ -67,7 +67,7 @@ const AdminTransactions = () => {
         dispatch(checkCategory());
       }
     }  else if (filterType.value === "operator") {
-      if (staffs.length > 0) {
+      if (staffs?.length > 0) {
         const staffsOptions = staffs.map((i, id) => ({
           key: `${id + 2}`,
           label: (
@@ -96,7 +96,7 @@ const AdminTransactions = () => {
 
     if (filterType.value === "provider") {
       console.log(providers)
-      if (providers.length > 0) {
+      if (providers?.length > 0) {
         const providersOptions = providers.map((i, id) => ({
           key: `${id + 2}`,
           label: (

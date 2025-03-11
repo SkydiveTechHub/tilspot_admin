@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllStaffs, getAllTransactions, getProviderByCategory, getTransactionsByCategory } from "../../../../store/actions";
+import { getAllStaffs, getAllTransactions, getOperatorAllTransactions, getOperatorTransactionsByStatus, getProviderByCategory, getTransactionsByCategory } from "../../../../store/actions";
 import { toast } from "react-toastify";
 import { Section } from "../../../../components/shared/container/container";
 import TransactionsTable from "../../../../components/dashboardComponents/transactions";
@@ -10,9 +10,8 @@ import { checkCategory } from "../../../../store/reducers/providerSlice";
 
 const OperatorTransactions = () => {
   const dispatch = useDispatch();
-  const { transactions } = useSelector((state) => state.staff);
+  const { operatorTransactions } = useSelector((state) => state.staff);
   const { providers, categories } = useSelector((state) => state.providers);
-  const { staffs } = useSelector((state) => state.staff);
 
   const [filterType, setFilterType] = useState({ text: "All", value: "all" });
   const [filterOption, setFilterOption] = useState({ text: "All", value: "all" });
@@ -20,101 +19,57 @@ const OperatorTransactions = () => {
   const [providerOptionList, setProviderOptionList] = useState([]);
   const [providerOption, setProviderOption] = useState({ text: "All", value: "all" });
 
+  console.log(operatorTransactions)
+
   const fetchTransaction = async () => {
     try {
-      await dispatch(getAllTransactions());
+      await dispatch(getOperatorAllTransactions(1));
     } catch (error) {
       toast.error("Something went wrong");
     }
   };
 
-  const fetchTransactionByFilter = async (type, value) => {
-    if (type === "all") {
-      fetchTransaction();
+  const fetchTransactionByFilter = async (value) => {
+    if (value === "All") {
+      getOperatorAllTransactions();
       return;
+    }else{
+      try {
+        await dispatch(getOperatorTransactionsByStatus(value));
+      } catch (error) {
+        toast.error("Something went wrong");
+      }      
     }
 
-    try {
-      await dispatch(getTransactionsByCategory({ type, query: value }));
-    } catch (error) {
-      toast.error("Something went wrong");
-    }
+
   };
 
   useEffect(() => {
     fetchTransaction();
   }, []);
 
-  useEffect(() => {
-    const baseOptions = [];
-
-    if ((filterType.value === "category" || filterType.value === "provider") && categories) {
-      if (categories?.length > 0) {
-        const categoryOptions = categories.map((i, id) => ({
-          key: `${id + 2}`,
-          label: (
-            <div onClick={() => { 
-              setFilterOption({ text: i.name, value: i._id });
-              dispatch(getProviderByCategory(i._id)); 
-            }}>
-              {i.name}
-            </div>
-          ),
-        }));
-
-        setFilterOptionList([...baseOptions, ...categoryOptions]);
-      } else {
-        dispatch(checkCategory());
-      }
-    }   else if (filterType.value === "status") {
-      const items = [
-        { key: "1", label: <div onClick={() => setFilterOption({ text: "Approved", value: "approved" })}>Approved</div> },
-        { key: "2", label: <div onClick={() => setFilterOption({ text: "Rejected", value: "rejected" })}>Rejected</div> },
-        { key: "3", label: <div onClick={() => setFilterOption({ text: "Pending", value: "pending" })}>Pending</div> },
-      ];
-
-      setFilterOptionList([...baseOptions, ...items]);
-    } else {
-      setFilterOptionList(baseOptions);
-    }
-
-
-    if (filterType.value === "provider") {
-      console.log(providers)
-      if (providers.length > 0) {
-        const providersOptions = providers.map((i, id) => ({
-          key: `${id + 2}`,
-          label: (
-            <div onClick={() => setProviderOption({ text: i.name, value: i._id })}>
-              {i.name}
-            </div>
-          ),
-        }));
-
-        setProviderOptionList([...baseOptions, ...providersOptions]);
-      } else {
-        dispatch(checkCategory());
-      }
-    }
-  }, [filterType, categories, staffs, providers]);
 
   useEffect(() => {
-    if (filterType.value !== "all" && filterType.value !== "provider") {
-      fetchTransactionByFilter(filterType.value, filterOption.value);
-    }
-    if (filterType.value === "provider") {
-      console.log(providerOption)
 
-      fetchTransactionByFilter(filterType.value, providerOption.value);
+    const performFetch =  async() =>{
+      if (filterOption.value) {
+        try {
+          await dispatch(fetchTransactionByFilter(filterOption.value));
+        } catch (error) {
+          toast.error("Something went wrong");
+        }
+      }      
     }
-  }, [filterOption, filterType, providerOption]);
+
+    performFetch()
+
+
+  }, [filterOption]);
 
   const filterItems = [
-    { key: "1", label: <div onClick={() => setFilterType({ text: "All", value: "all" })}>All</div> },
-    { key: "2", label: <div onClick={() => setFilterType({ text: "Category", value: "category" })}>Category</div> },
-    { key: "3", label: <div onClick={() => { setFilterType({ text: "Provider", value: "provider" }); dispatch(checkCategory()) }}>Provider</div> },
-    // { key: "4", label: <div onClick={() => setFilterType({ text: "Operator", value: "operator" })}>Operator</div> },
-    { key: "5", label: <div onClick={() => setFilterType({ text: "Status", value: "status" })}>Status</div> },
+    { key: "1", label: <div onClick={() => setFilterOption({ text: "Approved", value: "approved" })}>Approved</div> },
+    { key: "2", label: <div onClick={() => setFilterOption({ text: "Rejected", value: "rejected" })}>Rejected</div> },
+    { key: "3", label: <div onClick={() => setFilterOption({ text: "Pending", value: "pending" })}>Pending</div> },
   ];
 
   return (
@@ -122,38 +77,16 @@ const OperatorTransactions = () => {
       <Section title="">
         <div className="grid grid-cols-3 gap-6 mb-6">
           <div className="flex flex-col">
-            <Label text="Filter Type" />
+            <Label text="Filter By Status:" />
             <Dropdown menu={{ items: filterItems }} placement="bottomRight">
               <Button>
-                <span className="font-mont font-semibold">{filterType.text}</span>
+                <span className="font-mont font-semibold">{filterOption.text}</span>
               </Button>
             </Dropdown>
           </div>
-
-          {filterType.value !== "all" && (
-            <div className="flex flex-col">
-              <Label text="Filter Options" />
-              <Dropdown menu={{ items: filterOptionList }} placement="bottomRight">
-                <Button>
-                  <span className="font-mont font-semibold">{filterOption.text}</span>
-                </Button>
-              </Dropdown>
-            </div>
-          )}
-
-          {filterType.value === "provider" && (
-            <div className="flex flex-col">
-              <Label text="Provider Options" />
-              <Dropdown menu={{ items: providerOptionList }} placement="bottomRight">
-                <Button>
-                  <span className="font-mont font-semibold">{providerOption.text}</span>
-                </Button>
-              </Dropdown>
-            </div>
-          )}
         </div>
 
-        <TransactionsTable columns={columns} data={transactions} />
+        <TransactionsTable columns={columns} data={operatorTransactions} />
       </Section>
     </div>
   );

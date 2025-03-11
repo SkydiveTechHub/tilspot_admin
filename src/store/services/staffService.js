@@ -50,7 +50,15 @@ class staffService {
   
 
   static async GetAllTransactions() {
-    const res = await baseAxios.get(`/filterTransactions`);
+    const res = await baseAxios.get(`/AllTransactions`);
+    return res?.data || res;
+  }
+  static async GetAllOperatorTransactions(page) {
+    const res = await baseAxios.get(`/AllMyTransactions?page=${page}`);
+    return res?.data || res;
+  }
+  static async FilterAllOperatorTransactions(status) {
+    const res = await baseAxios.get(`/filterMyTransactionsByStatus?query=${status}`);
     return res?.data || res;
   }
   static async GetTransactionsByCategory(data) {

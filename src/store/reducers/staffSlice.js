@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createStaff, getAllStaffs, getAllTransactions, getOperatorRecord, getTransactionsByCategory, getUserStat } from "../actions";
+import { createStaff, getAllStaffs, getAllTransactions, getOperatorAllTransactions, getOperatorRecord, getOperatorTransactionsByStatus, getTransactionsByCategory, getUserStat } from "../actions";
 
 const initialState = {
     staffs: null,
@@ -9,7 +9,9 @@ const initialState = {
     },
     operatorstat:null,
     isLoading: false,
-    transactions:null
+    transactions:null,
+    operatorTransactions:null,
+
 }
 
 
@@ -53,6 +55,16 @@ const staffSlice = createSlice({
             state.isLoading = false;
             console.log(payload)
             state.transactions = payload.transactions
+        })
+        builder.addCase(getOperatorAllTransactions.fulfilled, (state, {payload})=>{
+            state.isLoading = false;
+            console.log(payload)
+            state.operatorTransactions = payload.transactions
+        })
+        builder.addCase(getOperatorTransactionsByStatus.fulfilled, (state, {payload})=>{
+            state.isLoading = false;
+            console.log(payload)
+            state.operatorTransactions = payload.transactions
         })
 
     }
