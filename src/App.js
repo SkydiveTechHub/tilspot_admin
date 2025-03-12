@@ -68,6 +68,7 @@ function App() {
 
 						<>
 								<Route element={<ProtectedRoute roles={['admin']} />}>
+									<Route path="/verifyPasswordResetOTP/:id" element={<OPTpage />} />
 									<Route element={<DashboardLayout />}>
 										<Route path="/dashboard/staff" element={<StaffPage />} />
 										<Route path="/dashboard/fees" element={<FeesPage/>}/>
@@ -75,6 +76,7 @@ function App() {
 										<Route path="/dashboard/preview-internet/:id" element={<PreviewInternetProvider/>}/>
 										<Route path="/dashboard/parking-location/:id" element={<PreviewParkingLocation/>}/>
 										<Route path="/dashboard/preview-football/:id" element={<PreviewFootballMatches/>}/>
+										
 									</Route>
 								</Route>
 
@@ -116,7 +118,7 @@ function App() {
 					<Route path="/register" element={<Register />} />
 					<Route path="/reset-password" element={<ResetPassword />} />
 					<Route path="/forgot-password" element={<ForgotPassword />} />
-					<Route path="/verifyPasswordResetOTP/:id" element={<OPTpage />} />
+					
 				
 
 

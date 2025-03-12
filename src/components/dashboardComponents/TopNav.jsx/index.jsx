@@ -99,8 +99,9 @@ const Content = () =>{
 				const res = await dispatch(forgotPassword({email:user?.email}))
 
 				if (res.payload.statusCode){
+					navigate(`/verifyPasswordResetOTP/${user?.id}`)
 					// setDisable(true)
-					window.location.href = res.payload.verifyOtpURL
+					// window.location.href = res.payload.verifyOtpURL
 				}
 			} catch (error) {
 				

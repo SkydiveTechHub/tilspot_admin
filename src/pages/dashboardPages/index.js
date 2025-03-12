@@ -328,7 +328,7 @@ const Dashboard = () => {
                             <Button><span className="font-mont font-semibold">Filter</span></Button>
                         </Dropdown>
                     </div>
-                    <div className="grid lg:grid-cols-4 grid-cols-2 gap-4 container -order-1">
+                    <div className="grid lg:grid-cols-3 grid-cols-2 gap-4 container -order-1">
                             {
                             cardData.map((i, id)=>{
                                 return(

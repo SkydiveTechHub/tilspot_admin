@@ -41,7 +41,6 @@ const OperatorTransactions = () => {
       }      
     }
 
-
   };
 
   useEffect(() => {
@@ -70,6 +69,7 @@ const OperatorTransactions = () => {
     { key: "1", label: <div onClick={() => setFilterOption({ text: "Approved", value: "approved" })}>Approved</div> },
     { key: "2", label: <div onClick={() => setFilterOption({ text: "Rejected", value: "rejected" })}>Rejected</div> },
     { key: "3", label: <div onClick={() => setFilterOption({ text: "Pending", value: "pending" })}>Pending</div> },
+    { key: "4", label: <div onClick={() => setFilterOption({ text: "All", value: "all" })}>All</div> },
   ];
 
   return (
