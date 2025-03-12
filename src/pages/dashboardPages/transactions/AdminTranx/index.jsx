@@ -13,7 +13,6 @@ const AdminTransactions = () => {
   const { transactions } = useSelector((state) => state.staff);
   const { providers, categories } = useSelector((state) => state.providers);
   const { staffs } = useSelector((state) => state.staff);
-
   const [filterType, setFilterType] = useState({ text: "All", value: "all" });
   const [filterOption, setFilterOption] = useState({ text: "All", value: "all" });
   const [filterOptionList, setFilterOptionList] = useState([]);
@@ -122,7 +121,7 @@ const AdminTransactions = () => {
 
       fetchTransactionByFilter(filterType.value, providerOption.value);
     }
-  }, [filterOption, filterType, providerOption]);
+  }, [filterOption, providerOption]);
 
   const filterItems = [
     { key: "1", label: <div onClick={() => setFilterType({ text: "All", value: "all" })}>All</div> },

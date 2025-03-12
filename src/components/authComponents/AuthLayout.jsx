@@ -26,7 +26,7 @@ export const AuthLayout2 = ({children, headText, headDesc}) => {
   return (
     <div className='flex justify-normal items-center min-h-[100vh] w-full relative'>
 
-        <div  className=' w-[30%] p-6 h-screen'>
+        <div  className='w-[60%] lg:w-[30%] p-6 h-screen'>
             <img src="/images/Logo.png"  className='w-[150px]' alt="" />
             
         </div>

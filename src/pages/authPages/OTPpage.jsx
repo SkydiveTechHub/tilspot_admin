@@ -17,6 +17,7 @@ const OPTpage = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const params = useParams()
+    console.log(params)
     const {id} = params
 
     const [otp, setOtp] = useState("");

@@ -19,6 +19,7 @@ class AuthService {
     return res?.data || res;
   }
   static async SendOTP(data) {
+    console.log(data)
     const res = await baseAxios.post(`/verifyPasswordResetOTP/${data.id}`, data.payload);
     return res?.data || res;
   }
