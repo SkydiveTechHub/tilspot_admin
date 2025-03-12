@@ -13,6 +13,7 @@ const AdminTransactions = () => {
   const { transactions } = useSelector((state) => state.staff);
   const { providers, categories } = useSelector((state) => state.providers);
   const { staffs } = useSelector((state) => state.staff);
+
   const [filterType, setFilterType] = useState({ text: "All", value: "all" });
   const [filterOption, setFilterOption] = useState({ text: "All", value: "all" });
   const [filterOptionList, setFilterOptionList] = useState([]);
@@ -48,6 +49,7 @@ const AdminTransactions = () => {
     const baseOptions = [];
 
     if ((filterType.value === "category" || filterType.value === "provider") && categories) {
+      console.log(categories)
       if (categories?.length > 0) {
         const categoryOptions = categories.map((i, id) => ({
           key: `${id + 2}`,
@@ -113,7 +115,7 @@ const AdminTransactions = () => {
   }, [filterType, categories, staffs, providers]);
 
   useEffect(() => {
-    if (filterType.value !== "all" && filterType.value !== "provider") {
+    if (filterType.value !== "all" && filterType.value !== "provider" ) {
       fetchTransactionByFilter(filterType.value, filterOption.value);
     }
     if (filterType.value === "provider") {
@@ -121,7 +123,7 @@ const AdminTransactions = () => {
 
       fetchTransactionByFilter(filterType.value, providerOption.value);
     }
-  }, [filterOption, providerOption]);
+  }, [filterOption, filterType, providerOption]);
 
   const filterItems = [
     { key: "1", label: <div onClick={() => setFilterType({ text: "All", value: "all" })}>All</div> },
