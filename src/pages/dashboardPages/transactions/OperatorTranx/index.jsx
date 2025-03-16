@@ -25,7 +25,7 @@ const OperatorTransactions = () => {
     try {
       await dispatch(getOperatorAllTransactions(1));
     } catch (error) {
-      toast.error("Something 1 went wrong");
+      toast.error("Something went wrong");
     }
   };
 
@@ -37,7 +37,7 @@ const OperatorTransactions = () => {
       try {
         await dispatch(getOperatorTransactionsByStatus(value));
       } catch (error) {
-        toast.error("Something 2 went wrong");
+        toast.error("Something went wrong");
       }      
     }
 
@@ -53,7 +53,7 @@ const OperatorTransactions = () => {
         try {
          fetchTransactionByFilter(option)
         } catch (error) {
-          toast.error("Something 3 went wrong");
+          toast.error("Something went wrong");
         }
       }else{
         console.log('troubleshoot')
