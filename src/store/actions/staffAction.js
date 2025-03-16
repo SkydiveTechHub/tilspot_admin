@@ -192,7 +192,7 @@ export const getOperatorTransactionsByStatus = createAsyncThunk(
     async (data, {dispatch, rejectWithValue })=>{
         dispatch(startLoad())
         try {
-            const res = await staffService.getOperatorTransactionsByStatus(data)
+            const res = await staffService.FilterAllOperatorTransactions(data)
             return res.data
         } catch (error) {
             return rejectWithValue(error.response.data)

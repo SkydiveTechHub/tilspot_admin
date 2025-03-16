@@ -25,7 +25,7 @@ const OperatorTransactions = () => {
     try {
       await dispatch(getOperatorAllTransactions(1));
     } catch (error) {
-      toast.error("Something went wrong");
+      toast.error("Something 1 went wrong");
     }
   };
 
@@ -37,7 +37,7 @@ const OperatorTransactions = () => {
       try {
         await dispatch(getOperatorTransactionsByStatus(value));
       } catch (error) {
-        toast.error("Something went wrong");
+        toast.error("Something 2 went wrong");
       }      
     }
 
@@ -47,22 +47,20 @@ const OperatorTransactions = () => {
     fetchTransaction();
   }, []);
 
+    const performFetch =  async(option) =>{
 
-  useEffect(() => {
-
-    const performFetch =  async() =>{
-      if (filterOption.value) {
+      if (option !=='all') {
         try {
-          await dispatch(fetchTransactionByFilter(filterOption.value));
+         fetchTransactionByFilter(option)
         } catch (error) {
-          toast.error("Something went wrong");
+          toast.error("Something 3 went wrong");
         }
-      }      
+      }else{
+        console.log('troubleshoot')
+      }  
     }
-
-    performFetch()
-
-
+  useEffect(() => {
+    performFetch(filterOption.value)
   }, [filterOption]);
 
   const filterItems = [
