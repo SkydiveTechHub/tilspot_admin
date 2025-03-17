@@ -17,7 +17,6 @@ const OPTpage = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const params = useParams()
-    console.log(params)
     const {id} = params
 
     const [otp, setOtp] = useState("");
@@ -39,7 +38,7 @@ const OPTpage = () => {
         
               if (res.payload.statusCode) {
                 toast.success('Validated Successfully')
-                navigate('/reset-password')
+                navigate(`/reset-password/${id}`)
               }else{
                 toast.error('Validated Unsuccessfully')
               }

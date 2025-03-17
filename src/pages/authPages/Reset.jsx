@@ -2,7 +2,7 @@ import React from 'react'
 import useForm from '../../hooks/useForm'
 import FormInput from '../../components/shared/FormInput'
 import { validator } from '../../utils/methods'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { AuthButton } from '../../components/shared/button'
 import { AuxAuthText } from '../../components/shared/typograph'
 import bg from '../../assets/img/bg1.jpg'
@@ -19,6 +19,8 @@ const initialState = {
 const ResetPassword = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
+        const params = useParams()
+        const {id} = params
 
     const {values, handleChange, resetForm, errors} = useForm(initialState)
 
@@ -26,7 +28,7 @@ const ResetPassword = () => {
 
             e.preventDefault();
             const params = {
-              id: "",
+              id: id,
               payload: {newPassword:values.password},
             };
             try {
