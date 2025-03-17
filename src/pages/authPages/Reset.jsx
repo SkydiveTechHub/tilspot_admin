@@ -10,6 +10,7 @@ import { CountdownTimer } from '../../utils/tools'
 import { AuthLayout2 } from '../../components/authComponents/AuthLayout'
 import { useDispatch } from 'react-redux'
 import { resetPassword } from '../../store/actions'
+import { toast } from 'react-toastify'
 
 const initialState = {
     password: '',
@@ -36,10 +37,14 @@ const ResetPassword = () => {
               console.log(res);
         
               if (res.payload.statusCode) {
+                toast.success('Password Changed Successfully')
                 navigate('/login')
+              }else{
+                toast.error('Password Changed Unsuccessfully')
               }
             } catch (error) {
               console.error("Login error:", error);
+              toast.error('Something went wrong')
             }
     }
 

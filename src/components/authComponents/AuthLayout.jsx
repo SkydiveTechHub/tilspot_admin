@@ -35,7 +35,7 @@ export const AuthLayout2 = ({children, headText, headDesc}) => {
 
         </div>
         <div className='absolute inset-0 flex justify-center items-center '>
-          <div className=' space-y-8 bg-white shadow-lg rounded-lg p-8 w-[50%]'>
+          <div className=' space-y-8 bg-white shadow-lg rounded-lg p-8 w-[80%] md:w-[50%]'>
               <div className='flex flex-col justify-center items-center'>
                   <h1 className='font-[700] text-[32px] text-black font-mont text-center'>{headText}</h1>
                   <p className='text-[#333333] w-[70%] font-[400] text-[14px] font-mont text-center'>{headDesc}</p>
