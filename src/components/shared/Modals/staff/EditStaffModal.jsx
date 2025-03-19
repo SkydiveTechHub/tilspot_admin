@@ -157,8 +157,8 @@ const EditStaffModal = ({ userData, openModal, handleOk, handleCancel }) => {
         className="basic-modal"
         title={'Edit Staff'}
         open={openModal}
-        onOk={handleOk}
-        onCancel={handleCancel}
+        onOk={()=>{handleOk(); setMore(false); setCanReset(false)}}
+        onCancel={()=>{handleCancel(); setMore(false); setCanReset(false)}}
       >
         <form className='mt-6 space-y-6' onSubmit={handleSubmit}>
           <FormInput

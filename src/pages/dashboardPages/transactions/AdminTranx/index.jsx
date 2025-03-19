@@ -49,7 +49,6 @@ const AdminTransactions = () => {
     const baseOptions = [];
 
     if ((filterType.value === "category" || filterType.value === "provider")) {
-      console.log(categories)
       if (categories?.length > 0) {
         const categoryOptions = categories.map((i, id) => ({
           key: `${id + 2}`,
@@ -96,7 +95,6 @@ const AdminTransactions = () => {
 
 
     if (filterType.value === "provider" && categories) {
-      console.log(providers)
       if (providers?.length > 0) {
         const providersOptions = providers.map((i, id) => ({
           key: `${id + 2}`,
@@ -116,7 +114,11 @@ const AdminTransactions = () => {
   }, [filterType, categories, staffs, providers]);
 
   useEffect(()=>{
-    setFilterOption({ text: "All", value: "all" })
+    setFilterOption({ text: "Select Options", value: "all" })
+
+    if(filterType.value === 'all'){
+      fetchTransactionByFilter('all', "");
+    }
   }, [filterType])
 
   useEffect(() => {
