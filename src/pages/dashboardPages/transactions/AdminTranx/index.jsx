@@ -48,7 +48,7 @@ const AdminTransactions = () => {
   useEffect(() => {
     const baseOptions = [];
 
-    if ((filterType.value === "category" || filterType.value === "provider") && categories) {
+    if ((filterType.value === "category" || filterType.value === "provider")) {
       console.log(categories)
       if (categories?.length > 0) {
         const categoryOptions = categories.map((i, id) => ({
@@ -95,7 +95,7 @@ const AdminTransactions = () => {
     }
 
 
-    if (filterType.value === "provider") {
+    if (filterType.value === "provider" && categories) {
       console.log(providers)
       if (providers?.length > 0) {
         const providersOptions = providers.map((i, id) => ({
@@ -110,20 +110,27 @@ const AdminTransactions = () => {
         setProviderOptionList([...baseOptions, ...providersOptions]);
       } else {
         dispatch(checkCategory());
+        dispatch(getProviderByCategory(categories[0]._id));
       }
     }
   }, [filterType, categories, staffs, providers]);
 
+  useEffect(()=>{
+    setFilterOption({ text: "All", value: "all" })
+  }, [filterType])
+
   useEffect(() => {
-    if (filterType.value !== "all" && filterType.value !== "provider" ) {
+    if (filterOption.value !== "all" && filterType.value !== "provider" ) {
+      console.log('step1')
       fetchTransactionByFilter(filterType.value, filterOption.value);
     }
-    if (filterType.value === "provider") {
-      console.log(providerOption)
+    if (filterType.value === "provider" && providerOption.value !== 'all' && filterOption.value !== "all") {
+      console.log('providerOption')
 
       fetchTransactionByFilter(filterType.value, providerOption.value);
     }
   }, [filterOption, filterType, providerOption]);
+
 
   const filterItems = [
     { key: "1", label: <div onClick={() => setFilterType({ text: "All", value: "all" })}>All</div> },
