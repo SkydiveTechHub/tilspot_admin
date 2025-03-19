@@ -15,10 +15,10 @@ const AdminTransactions = () => {
   const { staffs } = useSelector((state) => state.staff);
 
   const [filterType, setFilterType] = useState({ text: "All", value: "all" });
-  const [filterOption, setFilterOption] = useState({ text: "All", value: "all" });
+  const [filterOption, setFilterOption] = useState({ text: "Select Options", value: "all" });
   const [filterOptionList, setFilterOptionList] = useState([]);
   const [providerOptionList, setProviderOptionList] = useState([]);
-  const [providerOption, setProviderOption] = useState({ text: "All", value: "all" });
+  const [providerOption, setProviderOption] = useState({ text: "Select Options", value: "all" });
 
   const fetchTransaction = async () => {
     try {
@@ -129,7 +129,7 @@ const AdminTransactions = () => {
 
       fetchTransactionByFilter(filterType.value, providerOption.value);
     }
-  }, [filterOption, filterType, providerOption]);
+  }, [filterOption, providerOption]);
 
 
   const filterItems = [
