@@ -83,9 +83,9 @@ const AdminTransactions = () => {
       }
     } else if (filterType.value === "status") {
       const items = [
-        { key: "1", label: <div onClick={() => setFilterOption({ text: "Approved", value: "approved" })}>Approved</div> },
-        { key: "2", label: <div onClick={() => setFilterOption({ text: "Rejected", value: "rejected" })}>Rejected</div> },
-        { key: "3", label: <div onClick={() => setFilterOption({ text: "Pending", value: "pending" })}>Pending</div> },
+        { key: "1", label: <div onClick={() => setFilterOption({ text: "Approved", value: "Approved" })}>Approved</div> },
+        { key: "2", label: <div onClick={() => setFilterOption({ text: "Rejected", value: "Rejected" })}>Rejected</div> },
+        { key: "3", label: <div onClick={() => setFilterOption({ text: "Pending", value: "Pending" })}>Pending</div> },
       ];
 
       setFilterOptionList([...baseOptions, ...items]);
