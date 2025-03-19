@@ -11,13 +11,8 @@ import { checkCategory } from "../../../../store/reducers/providerSlice";
 const OperatorTransactions = () => {
   const dispatch = useDispatch();
   const { operatorTransactions } = useSelector((state) => state.staff);
-  const { providers, categories } = useSelector((state) => state.providers);
+  const [filterOption, setFilterOption] = useState({ text: "All", value: "All" });
 
-  const [filterType, setFilterType] = useState({ text: "All", value: "all" });
-  const [filterOption, setFilterOption] = useState({ text: "All", value: "all" });
-  const [filterOptionList, setFilterOptionList] = useState([]);
-  const [providerOptionList, setProviderOptionList] = useState([]);
-  const [providerOption, setProviderOption] = useState({ text: "All", value: "all" });
 
   console.log(operatorTransactions)
 
@@ -49,7 +44,7 @@ const OperatorTransactions = () => {
 
     const performFetch =  async(option) =>{
 
-      if (option !=='all') {
+      if (option !=='All') {
         try {
          fetchTransactionByFilter(option)
         } catch (error) {
@@ -64,10 +59,10 @@ const OperatorTransactions = () => {
   }, [filterOption]);
 
   const filterItems = [
-    { key: "1", label: <div onClick={() => setFilterOption({ text: "Approved", value: "approved" })}>Approved</div> },
-    { key: "2", label: <div onClick={() => setFilterOption({ text: "Rejected", value: "rejected" })}>Rejected</div> },
-    { key: "3", label: <div onClick={() => setFilterOption({ text: "Pending", value: "pending" })}>Pending</div> },
-    { key: "4", label: <div onClick={() => setFilterOption({ text: "All", value: "all" })}>All</div> },
+    { key: "1", label: <div onClick={() => setFilterOption({ text: "Approved", value: "Approved" })}>Approved</div> },
+    { key: "2", label: <div onClick={() => setFilterOption({ text: "Rejected", value: "Rejected" })}>Rejected</div> },
+    { key: "3", label: <div onClick={() => setFilterOption({ text: "Pending", value: "Pending" })}>Pending</div> },
+    { key: "4", label: <div onClick={() => setFilterOption({ text: "All", value: "All" })}>All</div> },
   ];
 
   return (

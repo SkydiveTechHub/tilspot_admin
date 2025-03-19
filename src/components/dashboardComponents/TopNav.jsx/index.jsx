@@ -114,7 +114,7 @@ const Content = () =>{
 		<div className='flex flex-col items-start gap-3'>
 			{/* <Link className='font-[500] font-mont text-[14px]' to={'/'}>Edit Profile</Link>
 			<Link className='font-[500] font-mont text-[14px]' to={'/'}>Subscription</Link> */}
-			<button onClick={()=>setOpenEdit(true)} className='font-[500] font-mont text-[14px]' to={'/forgot-password'}><img src='/images/account.png' className='inline-flex pr-2' alt='account'/>Edit Profile</button>
+			<button onClick={()=>setOpenEdit(true)} className='font-[500] font-mont text-[14px]'><img src='/images/account.png' className='inline-flex pr-2' alt='account'/>Edit Profile</button>
 			{
 				role === 'admin' && <button className='font-[500] font-mont text-[14px]' onClick={handleResetPassword}><img src='/images/account.png' className='inline-flex pr-2' alt='account'/>Reset Password</button>
 			}
@@ -126,7 +126,7 @@ const Content = () =>{
               openModal={openEdit}
               handleCancel={()=>{setOpenEdit(false)}}
               handleOk={()=>setOpenEdit(false)}
-            //   userData={userData}
+              userData={user}
 
 			  
           /> 

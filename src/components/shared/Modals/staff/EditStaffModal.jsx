@@ -21,7 +21,7 @@ const EditStaffModal = ({ userData, openModal, handleOk, handleCancel }) => {
   const [canReset, setCanReset] = useState(false);
   const [secondModalOpen, setSecondModalOpen] = useState(false);
   const user = useSelector((state) => state.auth.user);
-  console.log(user)
+  const { role } = useSelector((state) => state.auth);
   const initialState = {
     lname: userData?.last_name || "",
     fname: userData?.first_name || "",
@@ -93,23 +93,27 @@ const EditStaffModal = ({ userData, openModal, handleOk, handleCancel }) => {
                         if (res.payload.statusCode) {
                           resetPassform()
                           toast.success('Password Updated successfully')
+                          setMore(false)
                         }else{
                           toast.error('Password Updated unsuccessfully')
                         }
                       } catch (error) {
                         console.error("Login error:", error);
                         toast.error('Something went wrong')
+                        setMore(false)
                       }
               }
 
   const handleSubmit =async (e) => {
     e.preventDefault();
-    const params={
+    const payload={
+      id:userData._id || userData.id,
+      params:{
       first_name: values.fname,
       last_name: values.lname,
-    }
+    }}
     try {
-      const res = await dispatch(editStaff(params))
+      const res = await dispatch(editStaff(payload))
       if(res.payload.statusCode){
         if(canReset){
           handleResetPassword(e)
@@ -117,7 +121,9 @@ const EditStaffModal = ({ userData, openModal, handleOk, handleCancel }) => {
         handleOk();
         setSecondModalOpen(true)
         resetForm();
+        setMore(false)
         dispatch(getAllStaffs())
+        
       }else{
         toast.error(res.payload.message)
         handleCancel()
@@ -176,63 +182,69 @@ const EditStaffModal = ({ userData, openModal, handleOk, handleCancel }) => {
   
           />
 
-          <div className='bg-[#f4f4f4] p-4'>
-            <div className='flex justify-end'>
-              {!canReset &&
-                <>
-                  {
-                    more?  <span className='font-mont italic text-gray text-[12px]'>Didn't get a code, <AuxAuthText text={'Resend'}/></span> :
-                    <button className='italic text-primary text-[12px] p-2' onClick={()=>{handleSendOtp()}} type='button'>Reset Staff Password</button>
-                  }              
-                </>
-              }
-
-              
-            </div>
-
-            {
-              more && <>
-                  <div className=' font-mont'>
-                  {
-                    !canReset &&
-                    <div className='flex justify-center items-center gap-4 px-4 md:px-8'>
-                      <OTPInput length={4} onChange={handleOtpChange} />
-                      <button type='button' className='p-3 text-green-500 italic' onClick={handleVerifydOtp} disabled={!otp || otp.length<4}>Verify</button>                    
-                    </div>                    
-                  }
-
-
+          {
+            role === 'admin' &&
+            <div className='bg-[#f4f4f4] p-4'>
+              <div className='flex justify-end'>
+                {!canReset &&
+                  <>
                     {
-                      canReset &&
-                      <>
-                          <FormInput
-                            label="New Password"
-                            type="password"
-                            name="password"
-                            value={passvalue.password}
-                            onChange={passChange}
-                            placeholder="Enter email"
-                            error={passError?.password}
-                  
-                          />
-                          <FormInput
-                            label="Confirm New Password"
-                            type="password"
-                            name="c_pasword"
-                            value={passvalue.c_pasword}
-                            onChange={passChange}
-                            placeholder="Enter email"
-                            error={passError?.c_pasword}
-                  
-                          />
-                      </>
+                      more?  <span className='font-mont italic text-gray text-[12px]'>Didn't get a code, <AuxAuthText text={'Resend'}/></span> :
+                      <button className='italic text-primary text-[12px] p-2' onClick={()=>{handleSendOtp()}} type='button'>Reset Staff Password</button>
+                    }              
+                  </>
+                }
+
+                
+              </div>
+
+              {
+                more && <>
+                    <div className=' font-mont'>
+                    {
+                      !canReset &&
+                      <div className='flex justify-center items-center gap-4 px-4 md:px-8'>
+                        <OTPInput length={4} onChange={handleOtpChange} />
+                        <button type='button' className='p-3 text-green-500 italic' onClick={handleVerifydOtp} disabled={!otp || otp.length<4}>Verify</button>                    
+                      </div>                    
                     }
 
-                  </div>
-              </>
-            }
-                        
-          </div>
+
+                      {
+                        canReset &&
+                        <>
+                            <FormInput
+                              label="New Password"
+                              type="password"
+                              name="password"
+                              value={passvalue.password}
+                              onChange={passChange}
+                              placeholder="Enter email"
+                              error={passError?.password}
+                    
+                            />
+                            <FormInput
+                              label="Confirm New Password"
+                              type="password"
+                              name="c_pasword"
+                              value={passvalue.c_pasword}
+                              onChange={passChange}
+                              placeholder="Enter email"
+                              error={passError?.c_pasword}
+                    
+                            />
+                        </>
+                      }
+
+                    </div>
+                </>
+              }
+                          
+            </div>
+
+          }
+
+
 
           {/* <FormInput
             label="Email Address"

@@ -40,7 +40,7 @@ class staffService {
     return res?.data || res;
   }
   static async EditStaff(data) {
-    const res = await baseAxios.post(`/profileUdate`, data);
+    const res = await baseAxios.post(`/profileUdate/${data.id}`, data.params);
     return res?.data || res;
   }
   static async DeleteStaff(data) {
