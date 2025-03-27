@@ -77,7 +77,7 @@ const PreviewFootballMatches = () => {
           if(res.payload.statusCode){
             setDeleteATicket(false)
             navigate(0)
-            window.location.reload()
+            // window.location.reload()
           }
           
     
