@@ -75,6 +75,7 @@ const { values, handleChange, resetForm, errors } = useForm(initialState);
       toast.error('Something went wrong !')
       handleCancel()
     }
+    setUploadedImage(null)
     resetForm()
   };
 
@@ -116,7 +117,7 @@ const { values, handleChange, resetForm, errors } = useForm(initialState);
           )}
           <UserImageUpload onImageUpload={handleImageUpload} />
           {
-            uploadedImage === '' || uploadedImage === null && <span className='text-[12px] italic  text-[gray]'>Optional</span>
+            uploadedImage === '' || uploadedImage === null || action === 'edit' && <span className='text-[12px] italic  text-[gray]'>Optional</span>
           }
         </div>
         

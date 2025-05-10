@@ -12,7 +12,6 @@ import { toast } from 'react-toastify';
 
 const AddAirtimeProvider = ({catId, action, userData, openModal, handleOk, handleCancel }) => {
   const dispatch = useDispatch()
-  const refresh = useRefresh()
   const [isActive, setIsActive] = useState(false); // Controls button activation
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false); // Success modal state
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false); // Success modal state

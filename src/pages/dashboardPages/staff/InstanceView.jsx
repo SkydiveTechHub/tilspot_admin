@@ -127,7 +127,7 @@ return (
           </div>
 
             <Section title={"Registered Staffs"}>
-                <TransactionsTable handleDelete={()=>{}} columns={usable_column} data={data}/>            
+                <TransactionsTable handleDelete={()=>{}} columns={usable_column} data={data.operators}/>            
             </Section> 
 
         </div>

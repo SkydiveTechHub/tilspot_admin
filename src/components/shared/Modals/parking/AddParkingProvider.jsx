@@ -6,6 +6,7 @@ import { Modal } from 'antd';
 import SuccessModal from '../SuccessModal';
 import { createLocation, editLocation } from '../../../../store/actions';
 import { useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
 // import SelectPlanModal from '../SelectPlanModal';
 
 
@@ -39,6 +40,9 @@ const AddParkingLocation = ({ locId, userData, action, openModal, handleOk, hand
       if (res.payload.statusCode){
         setSecondModalOpen(true); 
         handleOk(); 
+      }else{
+        toast.error(res.payload.message)
+        handleCancel()
       }
     } catch (error) {
       

@@ -60,6 +60,8 @@ const AddInternetPlan = ({ id, openModal, handleOk, handleCancel }) => {
         toast.error(res.payload.message)
       }
 
+      setPlanList([{ name: '', price: '', duration: '' }])
+
     } catch (error) {
       console.error('Error submitting plans:', error);
       toast.error('Something went wrong !')
@@ -99,7 +101,7 @@ const AddInternetPlan = ({ id, openModal, handleOk, handleCancel }) => {
                   />
                   <FormInput
                     label="Plan Price"
-                    type="text"
+                    type="number"
                     name={`price-${index}`}
                     value={plan.price}
                     onChange={(e) => handlePlanChange(index, 'price', Number(e.target.value))}

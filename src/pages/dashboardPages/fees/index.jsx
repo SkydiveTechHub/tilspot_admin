@@ -82,7 +82,7 @@ const FeesPage = () => {
             />
             <FormInput
               label="Amount"
-              type="text"
+              type="number"
               name={`${fee}-amount`} // Unique name for each amount
               value={values[fee]?.amount || ''}
               onChange={handleChange}

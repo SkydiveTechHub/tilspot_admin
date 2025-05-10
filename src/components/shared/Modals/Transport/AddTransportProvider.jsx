@@ -149,7 +149,7 @@ const AddTransportProvider = ({
 
           <FormInput
             label="Amount"
-            type="text"
+            type="number"
             name="amount"
             value={values.amount}
             onChange={handleChange}

@@ -15,7 +15,7 @@ const ParkingPage = () => {
   const [catId, setCatId] = useState('');
   const [catStatus, setCatStatus] = useState(false);
   const dispatch = useDispatch();
-  const { categories } = useSelector((state) => state.providers);
+  const { categories, locations } = useSelector((state) => state.providers);
   const { role } = useSelector((state) => state.auth);
     useEffect(() => {
       if (categories) {
@@ -27,6 +27,7 @@ const ParkingPage = () => {
       }
     }, [categories]);
 
+    console.log(locations)
   
         useEffect(()=>{
           const fetchProvider = async() =>{
@@ -56,7 +57,7 @@ const ParkingPage = () => {
             />   
         {
           hasData?
-          <InstanceView id={catId} catStatus={catStatus} data={data}/>
+          <InstanceView id={catId} catStatus={catStatus} data={locations}/>
           :
           <div className='h-screen'>
 

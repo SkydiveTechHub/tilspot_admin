@@ -7,8 +7,9 @@ import ConfirmModal from '../ConfirmModal';
 import { GrayText } from '../../typograph';
 import SuccessModal from '../SuccessModal';
 import UserImageUpload from '../../UserImageUpload';
-import { createProvider, editProvider } from '../../../../store/actions';
+import { createProvider, editProvider, getProviderByCategory } from '../../../../store/actions';
 import { useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
 // import SelectPlanModal from '../SelectPlanModal';
 
 const initialState = {
@@ -52,11 +53,12 @@ const { values, handleChange, resetForm, errors } = useForm(initialState);
         })) 
       }
 
-
-      console.log(res)
       if (res.payload.statusCode){
         setSecondModalOpen(true); 
         handleOk(); 
+        dispatch(getProviderByCategory(catId))
+      }else{
+        toast.error(res.payload.message)
       }
     } catch (error) {
       
@@ -104,7 +106,7 @@ const { values, handleChange, resetForm, errors } = useForm(initialState);
           )}
           <UserImageUpload onImageUpload={handleImageUpload} />
           {
-            uploadedImage === '' || uploadedImage === null && <span className='text-[12px] italic  text-[gray]'>Optional</span>
+            uploadedImage === '' || uploadedImage === null || action==='edit' && <span className='text-[12px] italic  text-[gray]'>Optional</span>
           }
         </div>
         
@@ -121,10 +123,7 @@ const { values, handleChange, resetForm, errors } = useForm(initialState);
           />
 
 
-          <AuthButton handleClick={()=>{
-            setSecondModalOpen(true)
-            handleCancel()
-            }} inactive={!active} value={`${action === 'edit'?'Edit' :'Add'} Provider`} />
+          <AuthButton inactive={!active} value={`${action === 'edit'?'Edit' :'Add'} Provider`} />
         </form>
       </Modal>    
     </>

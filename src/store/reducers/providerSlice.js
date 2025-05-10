@@ -1,11 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createProvider, editProvider, getAllCategories, getAllJourney, getJourneyDetails, getMatch, getMyRecord, getProviderByCategory, getZonesByLocation } from "../actions";
+import { createProvider, editProvider, getAllCategories, getAllJourney, getJourneyDetails, getLocations, getMatch, getMyRecord, getProviderByCategory, getZonesByLocation } from "../actions";
 
 
 const initialState = {
     providers: null,
     matches:null,
     journeyData:null,
+    locations:null,
     locationDetals: {
         location:null,
         zoneInfo:[]
@@ -39,6 +40,10 @@ const providerSlice = createSlice({
         builder.addCase(getProviderByCategory.fulfilled, (state, {payload})=>{
             state.isLoading = false;
             state.providers = payload.providers
+        })
+        builder.addCase(getLocations.fulfilled, (state, {payload})=>{
+            state.isLoading = false;
+            state.locations = payload.locations
         })
         builder.addCase(getMatch.fulfilled, (state, {payload})=>{
             state.matches = payload;

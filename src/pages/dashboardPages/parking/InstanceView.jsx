@@ -27,6 +27,7 @@ const InstanceView = ({data, catStatus, id}) => {
   const handleDelete = async () =>{
     try {
       const res = await dispatch(deleteLocation(provId))
+      console.log(res)
       if(res.payload.statusCode) {
         dispatch(getLocations());
         toast.success('Location Deleted Successfully!')

@@ -122,6 +122,30 @@ const FormInput = ({ disabled, type, name, value, onChange, placeholder, error, 
         </div>
       );
       break;
+      case 'number':
+        inputElement = (
+          <div className='relative w-full'>
+            <Label text={label}/>
+            <input
+              type="number"
+              name={name}
+              value={value}
+              disabled={disabled}
+              onChange={(e) => {
+                const val = e.target.value;
+                if (val === '' || parseFloat(val) >= 0) {
+                  onChange(e);
+                }
+              }}
+              placeholder={placeholder}
+              onFocus={() => setShowError(true)}
+              className={`py-[12px] px-[12px] border ${error && showError ? 'border-[red]' : 'border-[#CBD5E1]'} rounded-lg outline-none font-mont placeholder:font-mont w-full`}
+            />
+            {error && showError && <small className='text-[red] font-mont absolute bottom-[-20px] left-0'>{error}</small>}
+          </div>
+        );
+        break;
+  
 
     default:
       inputElement = (
