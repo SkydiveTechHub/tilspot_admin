@@ -23,8 +23,22 @@ const InstanceView = ({data, catStatus, id, p_Id}) => {
   const [userData, setUserData] = useState([])
   const [action, setAction] = useState('create')
   const dispatch =  useDispatch()
-
-  console.log(data)
+      const [tableData, setTableData] = useState(data)
+    
+      const handleSearch = (key) => {
+        console.log(key);
+        if (key === '') {
+          setTableData(data.operators);
+        } else {
+          const lowerKey = key.toLowerCase();
+          const filterData = data?.operators.filter((i) =>
+            i.teams.toLowerCase().includes(lowerKey) ||
+            i.league.toLowerCase().includes(lowerKey) ||
+            i.stadium.toLowerCase().includes(lowerKey)
+          );
+          setTableData(filterData);
+        }
+      };
 
   const handleDelete = async () =>{
     try {
@@ -147,7 +161,7 @@ return (
 
 
             <Section title={"Available Football Matches"}>
-                <TransactionsTable  columns={usable_column} data={data}/>            
+                <TransactionsTable hasSearch={true}  handleSearch={handleSearch} columns={usable_column} data={tableData}/>         
             </Section> 
 
         </div>

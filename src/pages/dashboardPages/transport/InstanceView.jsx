@@ -24,6 +24,21 @@ const InstanceView = ({data, catStatus, id, ppId}) => {
   const [action, setAction] = useState('create')
   const navigate = useNavigate()
   const dispatch =  useDispatch()
+        const [tableData, setTableData] = useState(data)
+      
+        const handleSearch = (key) => {
+          console.log(key);
+          if (key === '') {
+            setTableData(data.operators);
+          } else {
+            const lowerKey = key.toLowerCase();
+            const filterData = data?.operators.filter((i) =>
+              i.start.toLowerCase().includes(lowerKey) ||
+              i.destination.toLowerCase().includes(lowerKey) 
+            );
+            setTableData(filterData);
+          }
+        };
 
     const handleDelete = async () =>{
       try {
@@ -141,7 +156,7 @@ return (
           </div>
 
             <Section title={"Available Transport Routes"}>
-                <TransactionsTable  columns={usable_column} data={data}/>            
+              <TransactionsTable hasSearch={true} handleDelete={()=>{}} handleSearch={handleSearch} columns={usable_column} data={tableData}/>                     
             </Section> 
 
         </div>

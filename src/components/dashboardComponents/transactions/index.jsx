@@ -6,23 +6,36 @@ import Filter from '../../common/Filter';
 
 
 
-const TransactionsTable = ({ columns, data, hasFilter, hasSearch, handleSearch, handleFilter, handleView }) => {
+const TransactionsTable = ({
+  columns,
+  data,
+  hasFilter,
+  hasSearch,
+  handleSearch = () => {},
+  handleFilter = () => {},
+  handleView = () => {}
+}) => {
   const { Search } = Input;
 
-  const onSearch = (value, _e, info) =>
-    console.log(info === null || info === void 0 ? void 0 : info.source, value);
+  const onSearch = (value, _e, info) =>{
+    console.log(info === null || info === void 0 ? void 0 : info.source, value)
+    handleSearch(value)
+  }
+    ;
 
   return (
-    <div className='overflow-x-scroll lg:overflow-x-hidden'>
-      <div className='w-full justify-between items-center'>
-        {
-          hasSearch && <Search placeholder="input search text" onSearch={handleSearch} style={{ width: 200 }} />
-        }
-        {
-          hasFilter && <Filter onFilter={handleFilter}/>
-        }
-        
+    <div className='overflow-x-scroll lg:overflow-x-hidden p-3 rounded-lg bg-white border'>
+      <div className="w-full flex justify-between items-center mb-4">
+        {hasSearch && (
+          <Search
+            placeholder="Search Result"
+            onSearch={onSearch}
+            style={{ width: 200 }}
+          />
+        )}
+        {hasFilter && <Filter onFilter={handleFilter} />}
       </div>
+
       <Table columns={ columns } dataSource={data} />
     </div>
   );

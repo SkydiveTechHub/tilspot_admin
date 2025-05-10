@@ -23,7 +23,18 @@ const InstanceView = ({data, catStatus, id}) => {
   const [action, setAction] = useState('create')
   const navigate = useNavigate()
   const dispatch =  useDispatch()
+  const [tableData, setTableData] = useState(data)
 
+  const handleSearch = (key)=>{
+    console.log(key)
+    if(key === ''){
+      setTableData(data)
+    }else{
+      const filterData = data.filter((i)=>(i.name.toLowerCase()).includes(key.toLowerCase())
+    )
+      setTableData(filterData)
+    }
+  }
 
   const handleDelete = async () =>{
     try {
@@ -146,7 +157,7 @@ return (
           </div>
 
             <Section title={"Available Cable Providers"}>
-            <TransactionsTable handleDelete={()=>{}} columns={usable_column} data={data}/>            
+                <TransactionsTable hasSearch={true} handleDelete={()=>{}} handleSearch={handleSearch} columns={usable_column} data={tableData}/>            
             </Section> 
 
         </div>

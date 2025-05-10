@@ -26,6 +26,8 @@ const InstanceView = ({data, catStatus, id}) => {
   const [action, setAction] = useState('create')
   const navigate = useNavigate()
   const dispatch =  useDispatch()
+  const [tableData, setTableData] = useState(data)
+
 
   const handleDelete = async () =>{
     try {
@@ -65,6 +67,17 @@ const InstanceView = ({data, catStatus, id}) => {
       toast.error('Something went wrong')
     }
   };
+
+  const handleSearch = (key)=>{
+    console.log(key)
+    if(key === ''){
+      setTableData(data)
+    }else{
+      const filterData = data.filter((i)=>(i.name.toLowerCase()).includes(key.toLowerCase())
+    )
+      setTableData(filterData)
+    }
+  }
 
 
   const usable_column = [
@@ -161,7 +174,7 @@ return (
 
 
             <Section title={"Available Airtime Providers"}>
-                <TransactionsTable handleDelete={()=>{}} columns={usable_column} data={data}/>            
+                <TransactionsTable hasSearch={true} handleDelete={()=>{}} handleSearch={handleSearch} columns={usable_column} data={tableData}/>            
             </Section> 
 
         </div>

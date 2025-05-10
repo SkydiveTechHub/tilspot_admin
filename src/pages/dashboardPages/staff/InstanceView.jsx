@@ -25,7 +25,23 @@ const InstanceView = ({data}) => {
   const [action, setAction] = useState('create')
   const navigate = useNavigate()
   const [openStat, setOpenStat] = useState(false)
-
+      const [tableData, setTableData] = useState(data.operators)
+    
+      const handleSearch = (key) => {
+        console.log(key);
+        if (key === '') {
+          setTableData(data.operators);
+        } else {
+          const lowerKey = key.toLowerCase();
+          const filterData = data?.operators.filter((i) =>
+            i.first_name.toLowerCase().includes(lowerKey) ||
+            i.last_name.toLowerCase().includes(lowerKey) ||
+            i.email.toLowerCase().includes(lowerKey)
+          );
+          setTableData(filterData);
+        }
+      };
+      
   const usable_column = [
     ...columns,
     {
@@ -127,7 +143,7 @@ return (
           </div>
 
             <Section title={"Registered Staffs"}>
-                <TransactionsTable handleDelete={()=>{}} columns={usable_column} data={data.operators}/>            
+              <TransactionsTable hasSearch={true} handleDelete={()=>{}} handleSearch={handleSearch} columns={usable_column} data={tableData}/>            
             </Section> 
 
         </div>
