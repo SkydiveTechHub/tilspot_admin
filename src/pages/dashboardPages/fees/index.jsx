@@ -4,12 +4,12 @@ import FormInput from '../../../components/shared/FormInput';
 import { PryButton } from '../../../components/shared/button';
 import { useDispatch, useSelector } from 'react-redux';
 import { checkCategory } from '../../../store/reducers/providerSlice';
-import { setFees } from '../../../store/actions';
+import { getAllCategories, setFees } from '../../../store/actions';
 import { toast } from 'react-toastify';
 
 const FeesPage = () => {
   const dispatch = useDispatch();
-  const feesData = ['Airtime', 'Internet', 'Government', 'Gas', 'Waste', 'Transport', 'Football', 'Cable', 'Parking', 'Housing', 'Electricity'];
+  const feesData = ['Airtime', 'Internet', 'Government', 'Gas', 'Waste', 'Transport', 'Football Tickets', 'Cable TV', 'Parking', 'Housing', 'Electricity'];
   const { categories } = useSelector((state) => state.providers);
   const [initialState, setInitialState] = useState({});
 
@@ -47,8 +47,8 @@ const FeesPage = () => {
 
     try {
       const res = await dispatch(setFees(params));
-      if(res.payload.stateCode){
-        dispatch(checkCategory())
+      if(res.payload.message === 'Successfully set processing fees for multiple categories.'){
+        dispatch(getAllCategories())
         toast.success('Successfully set processing fees')
       }else{
         toast.error('Processing Fees cannot be set successfully')
