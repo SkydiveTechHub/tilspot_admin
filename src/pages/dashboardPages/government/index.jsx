@@ -14,8 +14,9 @@ const GovernmentPage = () => {
   const [catId, setCatId] = useState('');
   const [catStatus, setCatStatus] = useState(false);
   const dispatch = useDispatch();
-  const { categories } = useSelector((state) => state.providers);
+  const { services, categories } = useSelector((state) => state.providers);
   const { role } = useSelector((state) => state.auth);
+
     useEffect(() => {
       if (categories) {
         const cat = categories.find((i) => i.name === 'Government');
@@ -57,7 +58,7 @@ const GovernmentPage = () => {
             />   
         {
           hasData?
-          <InstanceView id={catId} catStatus={catStatus} data={data}/>
+          <InstanceView id={catId} catStatus={catStatus} data={services}/>
           :
           <div className='h-screen'>
 

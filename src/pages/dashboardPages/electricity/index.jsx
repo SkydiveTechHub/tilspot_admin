@@ -17,6 +17,8 @@ const ElectricityPage = () => {
     const dispatch = useDispatch();
     const { providers, categories } = useSelector((state) => state.providers);
   const { role } = useSelector((state) => state.auth);
+
+  
     
       useEffect(() => {
         if (categories) {

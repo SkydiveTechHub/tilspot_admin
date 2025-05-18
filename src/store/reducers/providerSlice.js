@@ -1,9 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createProvider, editProvider, getAllCategories, getAllJourney, getJourneyDetails, getLocations, getMatch, getMyRecord, getProviderByCategory, getZonesByLocation } from "../actions";
+import { createProvider, editProvider, getAllCategories, getAllJourney, getJourneyDetails, getLocations, getMatch, getMyRecord, getPlansByProvider, getProviderByCategory, getServiceByCategory, getZonesByLocation } from "../actions";
 
 
 const initialState = {
     providers: null,
+    services:null,
     matches:null,
     journeyData:null,
     locations:null,
@@ -11,6 +12,7 @@ const initialState = {
         location:null,
         zoneInfo:[]
     },
+    internetPlans:null,
     operatorStatData:null,
     categories: null,
     isLoading: false
@@ -37,6 +39,10 @@ const providerSlice = createSlice({
             // console.log(payload)
             localStorage.setItem('categories', JSON.stringify(payload))
         })
+        builder.addCase(getPlansByProvider.fulfilled, (state, {payload})=>{
+            state.isLoading = false;
+            state.internetPlans = payload.data.options[0].options
+        })
         builder.addCase(getProviderByCategory.fulfilled, (state, {payload})=>{
             state.isLoading = false;
             state.providers = payload.providers
@@ -51,6 +57,10 @@ const providerSlice = createSlice({
         builder.addCase(getAllJourney.fulfilled, (state, {payload})=>{
             console.log(payload)
             state.journeyData = payload.data;
+        })
+        builder.addCase(getServiceByCategory.fulfilled, (state, {payload})=>{
+            console.log(payload)
+            state.services = payload.data;
         })
         builder.addCase(createProvider.fulfilled, (state, {payload})=>{
             state.isLoading = false;

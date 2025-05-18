@@ -75,6 +75,7 @@ const FeesPage = () => {
               onChange={handleChange}
               placeholder="Select Type"
               options={[
+                { name: 'Select Type', value: '' },
                 { name: 'Fixed Amount', value: 'fixedAmount' },
                 { name: 'Percent', value: 'percentage' },
               ]}

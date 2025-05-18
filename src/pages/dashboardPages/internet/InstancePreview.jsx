@@ -23,7 +23,7 @@ const PreviewInternetProvider = () => {
   const [open, setOpen] = useState(false)
   const [upgradeModal, setUpgradeModal] = useState(false)
   const [deleteZone, setDeleteZone] = useState(false)
-  const { categories } = useSelector((state) => state.providers);
+  const { categories, internetPlans } = useSelector((state) => state.providers);
   const usable_column = [
     ...columns,
     {
@@ -55,7 +55,6 @@ const PreviewInternetProvider = () => {
   const fetchProviderPlans = async ()=>{
     try {
       const res = await dispatch(getPlansByProvider(id))
-      console.log(res)
       setData(res.payload.data)
     } catch (error) {
       
@@ -128,7 +127,7 @@ const PreviewInternetProvider = () => {
         </div>
 
         <Section title={"Available Plans"}>
-          <TransactionsTable columns={usable_column} data={data?.options[0]?.options}/>            
+          <TransactionsTable columns={usable_column} data={internetPlans}/>            
         </Section> 
       </div>    
     </>

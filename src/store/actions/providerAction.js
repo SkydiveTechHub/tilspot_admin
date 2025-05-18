@@ -269,6 +269,20 @@ export const editLocation = createAsyncThunk(
         }
     }
 )
+export const editService = createAsyncThunk(
+    'provider/edit_Service',
+    async (data, {dispatch, rejectWithValue })=>{
+        dispatch(startLoad())
+        try {
+            const res = await providerService.EditService(data)
+            return res
+        } catch (error) {
+            return rejectWithValue(error.response.data)
+        }finally{
+            dispatch(stopLoad())
+        }
+    }
+)
 export const editJourney = createAsyncThunk(
     'provider/edit_Journey',
     async (data, {dispatch, rejectWithValue })=>{
@@ -331,6 +345,20 @@ export const deleteService = createAsyncThunk(
         dispatch(startLoad())
         try {
             const res = await providerService.DeleteService(data)
+            return res
+        } catch (error) {
+            return rejectWithValue(error.response.data)
+        }finally{
+            dispatch(stopLoad())
+        }
+    }
+)
+export const deleteJourney = createAsyncThunk(
+    'provider/delete_journey',
+    async (data, {dispatch, rejectWithValue })=>{
+        dispatch(startLoad())
+        try {
+            const res = await providerService.DeleteJourney(data)
             return res
         } catch (error) {
             return rejectWithValue(error.response.data)

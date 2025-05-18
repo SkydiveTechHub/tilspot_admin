@@ -9,6 +9,7 @@ const initialState = {
     },
     operatorstat:null,
     isLoading: false,
+    totalAmount:0,
     transactions:null,
     operatorTransactions:null,
 
@@ -48,22 +49,22 @@ const staffSlice = createSlice({
 
         builder.addCase(getAllTransactions.fulfilled, (state, {payload})=>{
             state.isLoading = false;
-            console.log(payload)
+            state.totalAmount = payload.totalAmount
             state.transactions = payload.transactions
         })
         builder.addCase(getTransactionsByCategory.fulfilled, (state, {payload})=>{
             state.isLoading = false;
-            console.log(payload)
+            state.totalAmount = payload.totalAmount
             state.transactions = payload.transactions
         })
         builder.addCase(getOperatorAllTransactions.fulfilled, (state, {payload})=>{
             state.isLoading = false;
-            console.log(payload)
+            state.totalAmount = payload.totalAmount
             state.operatorTransactions = payload.transactions
         })
         builder.addCase(getOperatorTransactionsByStatus.fulfilled, (state, {payload})=>{
             state.isLoading = false;
-            console.log(payload)
+            state.totalAmount = payload.totalAmount
             state.operatorTransactions = payload.transactions
         })
 

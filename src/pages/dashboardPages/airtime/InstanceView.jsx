@@ -28,6 +28,9 @@ const InstanceView = ({data, catStatus, id}) => {
   const dispatch =  useDispatch()
   const [tableData, setTableData] = useState(data)
 
+    useEffect(()=>{
+      setTableData(data)
+    },[data])
 
   const handleDelete = async () =>{
     try {

@@ -4,7 +4,7 @@ import { AuthButton } from '../../button';
 import useForm from '../../../../hooks/useForm';
 import { Modal } from 'antd';
 import SuccessModal from '../SuccessModal';
-import { createLocation, editLocation } from '../../../../store/actions';
+import { createLocation, editLocation, getLocations } from '../../../../store/actions';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 // import SelectPlanModal from '../SelectPlanModal';
@@ -18,6 +18,10 @@ const AddParkingLocation = ({ locId, userData, action, openModal, handleOk, hand
   const initialState = action === 'edit' ? { name: userData?.name || '' } : { name: '' };
   const { values, handleChange, resetForm, errors } = useForm(initialState);
 
+  console.log(userData)
+    useEffect(() => {
+      resetForm(initialState);
+    }, [userData]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -38,6 +42,7 @@ const AddParkingLocation = ({ locId, userData, action, openModal, handleOk, hand
       }
 
       if (res.payload.statusCode){
+        dispatch(getLocations());
         setSecondModalOpen(true); 
         handleOk(); 
       }else{

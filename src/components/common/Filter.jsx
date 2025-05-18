@@ -3,13 +3,14 @@ import React, { useState, useRef } from "react";
 import FilterModal from "./FilterModal";
 import { PryButton } from "../shared/button";
 import { Button } from "antd";
+import { IoFilterOutline } from "react-icons/io5";
 
 function Filter({ onFilter, title, icon, compTitle, comp, rangeValue, isYear, isMonth }) {
   const ref = useRef();
   const [modalOpen, setModalOpen] = useState(false);
 
   return (
-    <div ref={ref} className="h-10 float-right mr-4">
+    <div ref={ref} className="h-10 float-right mr-4 flex items-center gap-2">
       <Button
         // buttonStyle="btn--gray--outline"
         // buttonSize="btn--small"
@@ -21,11 +22,7 @@ function Filter({ onFilter, title, icon, compTitle, comp, rangeValue, isYear, is
         {icon ? (
           <span className="absolute right-1">{icon}</span>
         ) : (
-          <img
-            src="/assets/images/sliders.svg"
-            alt="filter-icon"
-            className="inline-block ml-2.5"
-          />
+          null
         )}
       </Button>
 

@@ -9,11 +9,20 @@ import { Label } from "../../../../components/shared/typograph";
 import { checkCategory } from "../../../../store/reducers/providerSlice";
 
 const AdminTransactions = () => {
+    const d = new Date();
+  d.setDate(d.getDate());
+  const payload = {
+    start: "2010-01-01",
+    end: d,
+  };
   const dispatch = useDispatch();
-  const { transactions } = useSelector((state) => state.staff);
+  const { transactions, totalAmount } = useSelector((state) => state.staff);
   const { providers, categories } = useSelector((state) => state.providers);
   const { staffs } = useSelector((state) => state.staff);
-
+  const [filterDate, setFilterDate] = useState({
+    start: "2010-01-01",
+    end: d,
+  })
   const [filterType, setFilterType] = useState({ text: "All", value: "all" });
   const [filterOption, setFilterOption] = useState({ text: "Select Options", value: "all" });
   const [filterOptionList, setFilterOptionList] = useState([]);
@@ -28,14 +37,14 @@ const AdminTransactions = () => {
     }
   };
 
-  const fetchTransactionByFilter = async (type, value) => {
+  const fetchTransactionByFilter = async (type, value, date) => {
     if (type === "all") {
       fetchTransaction();
       return;
     }
 
     try {
-      await dispatch(getTransactionsByCategory({ type, query: value }));
+      await dispatch(getTransactionsByCategory({ type, query: value, ...date }));
     } catch (error) {
       toast.error("Something went wrong");
     }
@@ -67,8 +76,9 @@ const AdminTransactions = () => {
         dispatch(checkCategory());
       }
     }  else if (filterType.value === "operator") {
-      if (staffs?.length > 0) {
-        const staffsOptions = staffs.map((i, id) => ({
+      console.log(staffs)
+      if (staffs?.operators?.length > 0) {
+        const staffsOptions = staffs?.operators?.map((i, id) => ({
           key: `${id + 2}`,
           label: (
             <div onClick={() => setFilterOption({ text: `${i.first_name} ${i.last_name}`, value: i._id })}>
@@ -122,16 +132,14 @@ const AdminTransactions = () => {
   }, [filterType])
 
   useEffect(() => {
+    console.log(filterDate)
     if (filterOption.value !== "all" && filterType.value !== "provider" ) {
-      console.log('step1')
-      fetchTransactionByFilter(filterType.value, filterOption.value);
+      fetchTransactionByFilter(filterType.value, filterOption.value, filterDate);
     }
     if (filterType.value === "provider" && providerOption.value !== 'all' && filterOption.value !== "all") {
-      console.log('providerOption')
-
-      fetchTransactionByFilter(filterType.value, providerOption.value);
+      fetchTransactionByFilter(filterType.value, providerOption.value, filterDate);
     }
-  }, [filterOption, providerOption]);
+  }, [filterOption, providerOption, filterDate]);
 
 
   const filterItems = [
@@ -141,6 +149,11 @@ const AdminTransactions = () => {
     { key: "4", label: <div onClick={() => setFilterType({ text: "Operator", value: "operator" })}>Operator</div> },
     { key: "5", label: <div onClick={() => setFilterType({ text: "Status", value: "status" })}>Status</div> },
   ];
+
+
+  const handleFilter =(date)=>{
+    setFilterDate(date)
+  }
 
   return (
     <div>
@@ -178,7 +191,9 @@ const AdminTransactions = () => {
           )}
         </div>
 
-        <TransactionsTable columns={columns} data={transactions} />
+        <p>Total Amount: <span className="font-bold">N {totalAmount}</span></p>
+
+        <TransactionsTable columns={columns} data={transactions} hasFilter={true} handleFilter={handleFilter}/>
       </Section>
     </div>
   );

@@ -145,7 +145,7 @@ const AddInternetPlan = ({ id, openModal, handleOk, handleCancel }) => {
           <AuthButton
             handleClick={handleSubmit}
             inactive={!validatePlans()}
-            value="Add Provider"
+            value="Add Plan"
           />
         </form>
       </Modal>

@@ -57,6 +57,8 @@ export {
   deleteTicket,
   setFees,
   approveBill,
-  rejectdPaymentBill
+  rejectdPaymentBill,
+  editService,
+  deleteJourney
   
 } from "./providerAction";

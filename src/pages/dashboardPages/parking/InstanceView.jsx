@@ -25,8 +25,11 @@ const InstanceView = ({data, catStatus, id}) => {
   const dispatch =  useDispatch()
   const [tableData, setTableData] = useState(data)
 
+    useEffect(()=>{
+      setTableData(data)
+    },[data])
+    
   const handleSearch = (key)=>{
-    console.log(key)
     if(key === ''){
       setTableData(data)
     }else{
@@ -39,7 +42,6 @@ const InstanceView = ({data, catStatus, id}) => {
   const handleDelete = async () =>{
     try {
       const res = await dispatch(deleteLocation(provId))
-      console.log(res)
       if(res.payload.statusCode) {
         dispatch(getLocations());
         toast.success('Location Deleted Successfully!')

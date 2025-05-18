@@ -27,6 +27,10 @@ const InstanceView = ({data}) => {
   const [openStat, setOpenStat] = useState(false)
       const [tableData, setTableData] = useState(data.operators)
     
+        useEffect(()=>{
+          setTableData(data.operators)
+        },[data])
+
       const handleSearch = (key) => {
         console.log(key);
         if (key === '') {

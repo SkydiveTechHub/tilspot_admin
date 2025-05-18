@@ -9,6 +9,7 @@ import useForm from '../../../../hooks/useForm';
 import ConfirmModal from '../ConfirmModal';
 import SuccessModal from '../SuccessModal';
 import { createJorney, editJourney, getAllJourney } from '../../../../store/actions';
+import { toast } from 'react-toastify';
 
 const { RangePicker } = TimePicker;
 
@@ -66,7 +67,7 @@ const AddTransportProvider = ({
     );
   }, [values, range]);
 
-  console.log(provId)
+  console.log(userData)
   // Form submission handler
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -78,21 +79,23 @@ const AddTransportProvider = ({
       arrivalTime: range ? range[1].format(format) : '',
       price: values.amount,
     };
-
+    let res;
     try {
-      let res;
+      
       if (action === 'edit') {
-        res = await dispatch(editJourney({ journeyId:userData._id, provId:userData._providerId, payload: params }));
+        res = await dispatch(editJourney({ journeyId:userData._id, provId:userData.providerId, payload: params }));
       } else {
         res = await dispatch(createJorney({ provId, payload: params }));
       }
 
       if (res.payload.statusCode) {
+        toast.success(res.payload.message)
         handleOk(); 
         dispatch(getAllJourney(provId))
         setSuccessModalOpen(true); // Open success modal
       }
     } catch (error) {
+      toast.error(res.payload.message)
       console.error(error);
       alert('An error occurred. Please try again.');
     }

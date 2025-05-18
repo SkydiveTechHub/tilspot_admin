@@ -62,7 +62,7 @@ class staffService {
     return res?.data || res;
   }
   static async GetTransactionsByCategory(data) {
-    const res = await baseAxios.get(`/filterTransactions?filterType=${data.type}&query=${data.query}`);
+    const res = await baseAxios.get(`/filterTransactions?filterType=${data.type}&query=${data.query}&startDate=${data.start}&endDate=${data.end}`);
     return res?.data || res;
   }
   static async GetTransactionsByStatus() {

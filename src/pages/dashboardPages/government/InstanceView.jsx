@@ -23,6 +23,11 @@ const InstanceView = ({data, catStatus, id}) => {
   const [action, setAction] = useState('create')
   const navigate = useNavigate()
   const dispatch =  useDispatch()
+
+  useEffect(()=>{
+    setTableData(data)
+  },[data])
+
       const [tableData, setTableData] = useState(data)
     
       const handleSearch = (key)=>{
@@ -42,9 +47,10 @@ const InstanceView = ({data, catStatus, id}) => {
         catId :id,
         providerId:provId
       }))
-      if(res.statusCode){
+
+      if(res.payload.statusCode){
         dispatch(getServiceByCategory(id))
-        toast.success('Service Deleted Successfully!')
+        toast.success(res.payload.message)
         setOpenDelete(false)
       }else{
         toast.error(res.payload.message)

@@ -7,7 +7,7 @@ import ConfirmModal from '../ConfirmModal';
 import { GrayText } from '../../typograph';
 import SuccessModal from '../SuccessModal';
 import UserImageUpload from '../../UserImageUpload';
-import { createProvider, createService, editProvider, getProviderByCategory, getServiceByCategory } from '../../../../store/actions';
+import { createProvider, createService, editProvider, editService, getProviderByCategory, getServiceByCategory } from '../../../../store/actions';
 import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
 // import SelectPlanModal from '../SelectPlanModal';
@@ -39,15 +39,15 @@ const { values, handleChange, resetForm, errors } = useForm(initialState);
     try {
       let res 
       if(action ==='edit'){
-        res =  await dispatch(editProvider({
+        res =  await dispatch(editService({
         catId:catId,
-        // provId:userData._id,
+        serviceId:userData._id,
         payload:params
       })) 
             if (res.payload.statusCode){
               setSecondModalOpen(true); 
               handleOk(); 
-              dispatch(getProviderByCategory(catId))
+              dispatch(getServiceByCategory(catId))
             }else{
               toast.error(res.payload.message)
               handleCancel()

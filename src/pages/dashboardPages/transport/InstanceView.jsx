@@ -10,7 +10,7 @@ import { CiMenuKebab } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
 import DeleteInstanceModal from "../../../components/shared/Modals/DeleteInstanceModal";
 import { useDispatch, useSelector } from "react-redux";
-import { enableOrDisableCategory, getAllCategories } from "../../../store/actions";
+import { deleteJourney, enableOrDisableCategory, getAllCategories, getAllJourney } from "../../../store/actions";
 import { toast } from "react-toastify";
 
 const InstanceView = ({data, catStatus, id, ppId}) => {
@@ -26,6 +26,10 @@ const InstanceView = ({data, catStatus, id, ppId}) => {
   const dispatch =  useDispatch()
         const [tableData, setTableData] = useState(data)
       
+          useEffect(()=>{
+            setTableData(data)
+          },[data])
+          
         const handleSearch = (key) => {
           console.log(key);
           if (key === '') {
@@ -42,11 +46,19 @@ const InstanceView = ({data, catStatus, id, ppId}) => {
 
     const handleDelete = async () =>{
       try {
-        // const res = await dispatch(deleteProvider({
-        //   catId :id,
-        //   providerId:provId
-        // }))
-        
+        const res = await dispatch(deleteJourney({
+          journeyId :userData?._id,
+          providerId:provId
+        }))
+
+          if(res.payload.statusCode) {
+            dispatch(getAllJourney({provId:provId}));
+            toast.success('Journey Deleted Successfully!')
+            setOpenDelete(false)
+          }else{
+            toast.error(res.payload.message)
+            setOpenDelete(false)
+          }
   
       } catch (error) {
         console.log(error)
@@ -94,6 +106,7 @@ const InstanceView = ({data, catStatus, id, ppId}) => {
                   setStatus(record.tags[0])
                   break;
                 case "4":
+                    setUserData(record)
                     setOpenDelete(true)
                   break;
                 default:

@@ -51,6 +51,10 @@ class providerService {
     const res = await baseAxios.post(`/createAndUpdateService/${data.catId}`, data.payload);
     return res?.data || res;
   }
+  static async EditService(data) {
+    const res = await baseAxios.post(`/createAndUpdateService?categoryId=${data.catId}&serviceId=${data.serviceId}`, data.payload);
+    return res?.data || res;
+  }
 
 
 
@@ -97,22 +101,27 @@ class providerService {
   }
   static async EditLocation(data) {
     console.log(data)
-    const res = await baseAxios.post(`/createAndUpdateLocationAndZoneDetails?locationId=${data.LocId}`, data.payload);
+    const res = await baseAxios.post(`/createAndUpdateLocationAndZoneDetails?locationId=${data.locId}`, data.payload);
     return res?.data || res;
   }
   static async EditJourney(data) {
     console.log(data)
-    const res = await baseAxios.post(`/createAndUpdateJourney/${data.journeyId}`, data.payload);
+    const res = await baseAxios.post(`/createAndUpdateJourney/${data.provId}`, data.payload);
     return res?.data || res;
   }
   static async EditZone(data) {
-    const res = await baseAxios.post(`/createAndUpdateLocationAndZoneDetails?locationId=${data.LocId}&zoneId=${data.zoneId}`, data.payload);
+    const res = await baseAxios.post(`/createAndUpdateLocationAndZoneDetails?locationId=${data.locId}&zoneId=${data.zoneId}`, data.payload);
     return res?.data || res;
   }
 
 
   static async DeleteProvider(data) {
     const res = await baseAxios.post(`/deleteProvider/${data.catId}/${data.providerId}`);
+    return res?.data || res;
+  }
+
+  static async DeleteJourney(data) {
+    const res = await baseAxios.post(`/deleteJourney/${data.providerId}/${data.journeyId}`);
     return res?.data || res;
   }
   static async DeleteService(data) {
