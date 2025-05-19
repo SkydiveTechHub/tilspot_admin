@@ -245,8 +245,15 @@ const Dashboard = () => {
                             handleCancel={()=>setOpen(false)}
                             handleOk={()=>setOpen(false)}
                             billId={currentBillData?.billId}
-                            d_location={'MTN'}
-                            phone={currentBillData?.bill?.providerData?.phoneNumber}
+                            date={currentBillData?.bill?.providerData?.outbound?.departureDate}
+                            d_time={currentBillData?.bill?.providerData?.outbound?.departureTime}
+                            d_location={currentBillData?.bill?.providerData?.outbound?.departure}
+                            a_location={currentBillData?.bill?.providerData?.outbound?.arrival}
+                            f_name={currentBillData?.bill?.providerData?.leadPassengerDetails?.first_name}
+                            l_name={currentBillData?.bill?.providerData?.leadPassengerDetails?.last_name}
+                            email={currentBillData?.bill?.providerData?.leadPassengerDetails?.email}
+                            ticket={currentBillData?.bill?.providerData?.numberOfTickets}
+                            phone={currentBillData?.bill?.providerData?.leadPassengerDetails?.phoneNumber}
                             amount={currentBillData?.bill?.amount}
                         />,
             parking:   <PreviewParkingOrderModal
@@ -268,10 +275,14 @@ const Dashboard = () => {
                             handleCancel={()=>setOpen(false)}
                             handleOk={()=>setOpen(false)}
                             billId={currentBillData?.billId}
-                            provider={currentBillData?.bill?.providerName}
-                            reg ={'8882288c'}
-                            phone={currentBillData?.bill?.providerData?.phoneNumber}
+                            no_tickets={currentBillData?.bill?.providerData?.matchDetails?.numberOfTickets}
+                            seating_area={currentBillData?.bill?.providerData?.matchDetails?.seatingArea}
+                            fixture={`${currentBillData?.bill?.providerData?.matchDetails?.homeTeam} - ${currentBillData?.bill?.providerData?.matchDetails?.awayTeam}`}
+                            name={`${currentBillData?.bill?.providerData?.firstName} ${currentBillData?.bill?.providerData?.firstName}`}
+                            email={currentBillData?.bill?.providerData?.email}
+                            address={currentBillData?.bill?.providerData?.deliveryAddress}
                             amount={currentBillData?.bill?.amount}
+                            processing_fee={currentBillData?.bill?.charges}
                         />,
             waste:   <PreviewWasteOrderModal
                             openModal={open}
@@ -458,14 +469,14 @@ const serviceEnum =[
     },
     {
         service_type: 'transportation',
-        service_name: 'Transportation',
+        service_name: 'Transport',
         serviceBG: 'rgba(34, 34, 34, 0.2)',
         serviceTC: '#000',
         service_icon: '/images/message.png',
     },
     {
         service_type: 'football',
-        service_name: 'Football',
+        service_name: 'Football Tickets',
         serviceBG: 'rgba(192, 34, 201, 0.2)',
         serviceTC: '#000',
         service_icon: '/images/message.png',

@@ -146,7 +146,7 @@ const PreviewFootballOrderModal = ({ billId, openModal, handleOk, handleCancel, 
             <span  className='text-[14px]'>Processing Fee:</span>
             <span  className='font-semibold text-[16px]'>{processing_fee}</span>
             <span  className='text-[14px]'>Total:</span>
-            <span  className='font-semibold text-[16px]'>{total}</span>
+            <span  className='font-semibold text-[16px]'>{Number(amount) + Number(processing_fee)}</span>
           </div>
 
 
