@@ -119,6 +119,10 @@ class providerService {
     const res = await baseAxios.post(`/deleteProvider/${data.catId}/${data.providerId}`);
     return res?.data || res;
   }
+  static async DeleteProviderPlan(data) {
+    const res = await baseAxios.post(`/deleteAProviderOption/${data.providerId}/${data.planId}`);
+    return res?.data || res;
+  }
 
   static async DeleteJourney(data) {
     const res = await baseAxios.post(`/deleteJourney/${data.providerId}/${data.journeyId}`);

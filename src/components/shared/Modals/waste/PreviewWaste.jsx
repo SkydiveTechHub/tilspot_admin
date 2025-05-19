@@ -17,6 +17,7 @@ const PreviewWasteOrderModal = ({
   returnText = 'Failed',
   imgUrl,
   provider,
+  phone,
   acctNo,
   amount,
 }) => {
@@ -140,6 +141,8 @@ const PreviewWasteOrderModal = ({
           <div className="w-full grid grid-cols-2 gap-3">
             <span className="text-[14px]">Provider:</span>
             <span className="font-semibold text-[16px]">{provider}</span>
+            <span className="text-[14px]">Phone Number:</span>
+            <span className="font-semibold text-[16px]">{phone}</span>
             <span className="text-[14px]">Account Number:</span>
             <span className="font-semibold text-[16px]">{acctNo}</span>
             <span className="text-[14px]">Amount:</span>

@@ -10,9 +10,11 @@ import { useNavigate, useParams } from 'react-router-dom'
 import AddParkingZone from '../../../components/shared/Modals/parking/AddParkingZone'
 import { useDispatch, useSelector } from 'react-redux'
 import { deleteLocation, deleteZone, getZonesByLocation } from '../../../store/actions'
+import { toast } from 'react-toastify'
 
 const PreviewParkingLocation = () => {
   const params = useParams()
+  const navigate = useNavigate()
   const {id} = params
   const dispatch = useDispatch()
   const [open, setOpen] = useState(false)
@@ -54,17 +56,32 @@ const PreviewParkingLocation = () => {
     const handleDelete = async () =>{
       try {
         const res = await dispatch(deleteLocation(id))
+            if(res.payload.statusCode) {
+              toast.success('Parking Deleted Successfully!')
+              navigate('/dashboard/parking')
+              setOpen(false)
+            }else{
+              toast.error(res.payload.message)
+              setOpen(false)
+            }
         
   
       } catch (error) {
         console.log(error)
+            toast.error('Something went wrong')
+            setOpen(false)
       }
     }
 
   const handleDeleteZone = async () =>{
     try {
       const res = await dispatch(deleteZone(zoneId))
-      
+      if(res.payload.statusCode) {
+        fetchLocationZones()
+        toast.success('Zone Deleted Successfully!')
+      }else{
+        toast.error(res.payload.message)
+      }
       setDeleteZoneModal(false)
     } catch (error) {
       console.log(error)

@@ -17,6 +17,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAllBills, getMyRecord, getOperatorRecord } from "../../store/actions";
 import { io } from "socket.io-client";
 import { useSocket } from "../../hooks/SocketContext";
+import PreviewElectricityOrderModal from "../../components/shared/Modals/electricity/PreviewElectricity";
 
 const userData = JSON.parse(localStorage.getItem('userData'))
 const url = process.env.REACT_APP_SOCKET_URL;
@@ -226,7 +227,16 @@ const Dashboard = () => {
                             handleOk={()=>setOpen(false)}
                             billId={currentBillData?.billId}
                             provider={currentBillData?.bill?.providerName}
-                            acctNo={currentBillData?.bill?.providerData?.phoneNumber}
+                            acctNo={currentBillData?.bill?.providerData?.accountNumber}
+                            amount={currentBillData?.bill?.amount}
+                        />,
+            electricity:   <PreviewElectricityOrderModal
+                            openModal={open}
+                            handleCancel={()=>setOpen(false)}
+                            handleOk={()=>setOpen(false)}
+                            billId={currentBillData?.billId}
+                            provider={currentBillData?.bill?.providerName}
+                            acctNo={currentBillData?.bill?.providerData?.accountNumber}
                             amount={currentBillData?.bill?.amount}
                         />,
 
@@ -270,6 +280,7 @@ const Dashboard = () => {
                             billId={currentBillData?.billId}
                             provider={currentBillData?.bill?.providerName}
                             reg ={'8882288c'}
+                            acctNo={currentBillData?.bill?.providerData?.accountNumber}
                             phone={currentBillData?.bill?.providerData?.phoneNumber}
                             amount={currentBillData?.bill?.amount}
                         />,
@@ -290,6 +301,7 @@ const Dashboard = () => {
                             billId={currentBillData?.billId}
                             provider={currentBillData?.bill?.providerName}
                             reg ={'8882288c'}
+                            acctNo={currentBillData?.bill?.providerData?.accountNumber}
                             phone={currentBillData?.bill?.providerData?.phoneNumber}
                             amount={currentBillData?.bill?.amount}
                         />,
@@ -305,6 +317,8 @@ const Dashboard = () => {
                 console.error(`No modal found for service: ${service}`);
             }
         };
+
+        console.log(billData)
     
         return (
             <>

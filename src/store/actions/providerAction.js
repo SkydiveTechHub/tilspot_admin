@@ -339,6 +339,20 @@ export const deleteProvider = createAsyncThunk(
         }
     }
 )
+export const deleteProviderPlan = createAsyncThunk(
+    'provider/delete_provider',
+    async (data, {dispatch, rejectWithValue })=>{
+        dispatch(startLoad())
+        try {
+            const res = await providerService.DeleteProviderPlan(data)
+            return res
+        } catch (error) {
+            return rejectWithValue(error.response.data)
+        }finally{
+            dispatch(stopLoad())
+        }
+    }
+)
 export const deleteService = createAsyncThunk(
     'provider/delete_service',
     async (data, {dispatch, rejectWithValue })=>{

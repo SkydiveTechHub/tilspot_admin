@@ -6,7 +6,7 @@ import { Modal } from 'antd';
 import { BlackText, GrayText } from '../../typograph';
 import SuccessModal from '../SuccessModal';
 import { useDispatch } from 'react-redux';
-import { createZone, editZone } from '../../../../store/actions';
+import { createZone, editZone, getZonesByLocation } from '../../../../store/actions';
 
 
 const AddParkingZone = ({ id, data, action,  openModal, handleOk, handleCancel }) => {
@@ -69,16 +69,15 @@ const [planList, setPlanList] = useState(timePlan.map((duration) => ({ duration,
     try {
       if (action === 'edit'){
         const res = await dispatch(editZone(params));
-        setSecondModalOpen(true);
-        handleOk();
-        resetForm();
       } else {
-      const res = await dispatch(createZone(params));
-      console.log('Zone created:', res);
+        const res = await dispatch(createZone(params));
+        console.log('Zone created:', res);
+      }
+
+      dispatch(getZonesByLocation(id))
       setSecondModalOpen(true);
       handleOk();
       resetForm();
-      }
     } catch (error) {
       console.error('Error creating zone:', error);
     }

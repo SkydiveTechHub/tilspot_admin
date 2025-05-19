@@ -6,6 +6,7 @@ import FormInput from '../../FormInput';
 import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
 import { approveBill, getMyRecord, rejectdPaymentBill } from '../../../../store/actions';
+
 const PreviewGasOrderModal = ({billId, children, title, openModal, handleOk, handleCancel,  imgUrl, provider, acctNo, amount }) => {
   const [secondModalOpen, setSecondModalOpen] = useState(false)
   const [openFailed, setOpenedFailed] = useState(false)

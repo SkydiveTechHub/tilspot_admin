@@ -4,11 +4,13 @@ import SuccessModal from '../SuccessModal';
 import useForm from '../../../../hooks/useForm';
 import FormInput from '../../FormInput';
 import { toast } from 'react-toastify';
-import { getMyRecord } from '../../../../store/actions';
+import { approveBill, getMyRecord, rejectdPaymentBill } from '../../../../store/actions';
+import { useDispatch } from 'react-redux';
 
 const PreviewElectricityOrderModal = ({billId, children, title, openModal, handleOk, handleCancel, provider,acctNo,email,amount, imgUrl }) => {
   const [secondModalOpen, setSecondModalOpen] = useState(false)
   const [openFailed, setOpenedFailed] = useState(false)
+  const dispatch = useDispatch('')
 
   const initialState = {
     desc: '',
@@ -127,8 +129,8 @@ const PreviewElectricityOrderModal = ({billId, children, title, openModal, handl
             <span className='font-bold text-[16px]'>{provider}</span>
             <span className='text-[14px]'>Email Address:</span>
             <span className='font-bold text-[16px]'>{email}</span>
+            <span className='font-bold text-[16px]'>Account Number:</span>
             <span className='text-[14px]'>{acctNo}</span>
-            <span className='font-bold text-[16px]'>Amount:</span>
             <span className='text-[14px]'>Amount:</span>
             <span className='font-bold text-[16px]'>{amount}</span>
           </div>

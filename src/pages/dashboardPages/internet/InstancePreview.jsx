@@ -10,8 +10,9 @@ import { useNavigate, useParams } from 'react-router-dom'
 import AddParkingZone from '../../../components/shared/Modals/parking/AddParkingZone'
 import AddInternetPlan from '../../../components/shared/Modals/Internet/AddInternetPlan'
 import { useDispatch, useSelector } from 'react-redux'
-import { createInternetPlans, deleteProvider, getPlansByProvider } from '../../../store/actions'
+import { createInternetPlans, deleteProvider, deleteProviderPlan, getPlansByProvider } from '../../../store/actions'
 import { checkCategory } from '../../../store/reducers/providerSlice'
+import { toast } from 'react-toastify'
 
 const PreviewInternetProvider = () => {
   const params = useParams()
@@ -19,10 +20,11 @@ const PreviewInternetProvider = () => {
   const {id} = params
   const dispatch = useDispatch()
   const [catId, setCatId] = useState('')
+  const [planId, setPlanId] = useState('')
   const navigate = useNavigate()
   const [open, setOpen] = useState(false)
   const [upgradeModal, setUpgradeModal] = useState(false)
-  const [deleteZone, setDeleteZone] = useState(false)
+  const [deletePlan, setDeletePlan] = useState(false)
   const { categories, internetPlans } = useSelector((state) => state.providers);
   const usable_column = [
     ...columns,
@@ -35,7 +37,7 @@ const PreviewInternetProvider = () => {
         return (
           <div className='flex items-center gap-4'>
             <button onClick={()=>setUpgradeModal(true)}><img src="/images/edit.svg" alt="" /></button>
-            <button onClick={()=>setDeleteZone(true)}><img src="/images/bin.png" alt="" /></button>
+            <button onClick={()=>{setDeletePlan(true); setPlanId(record?._id)}}><img src="/images/bin.png" alt="" /></button>
           </div>
         );
       },
@@ -67,22 +69,42 @@ const PreviewInternetProvider = () => {
           catId :catId,
           providerId:id
         }))
+            if(res.payload.statusCode) {
+              toast.success('Provider Deleted Successfully!')
+              navigate('/dashboard/internet')
+              setOpen(false)
+            }else{
+              toast.error(res.payload.message)
+              setOpen(false)
+            }
         
   
       } catch (error) {
         console.log(error)
+            toast.error('Something went wrong')
+            setOpen(false)
       }
     }
     const handleDeletePlan = async () =>{
       try {
-        const res = await dispatch(deleteProvider({
-          catId :catId,
+        const res = await dispatch(deleteProviderPlan({
+          planId,
           providerId:id
         }))
+            if(res.payload.statusCode) {
+              fetchProviderPlans()
+              toast.success('Provider Plan Deleted Successfully!')
+              setDeletePlan(false)
+            }else{
+              toast.error(res.payload.message)
+              setDeletePlan(false)
+            }
         
   
       } catch (error) {
         console.log(error)
+            toast.error('Something went wrong')
+            setDeletePlan(false)
       }
     }
 
@@ -104,10 +126,10 @@ const PreviewInternetProvider = () => {
         handleOk={handleDelete}
 
     />
-          <DeleteInstanceModal
-        openModal={deleteZone}
+        <DeleteInstanceModal
+        openModal={deletePlan}
         char={'Internet Plan'}
-        handleCancel={()=>setDeleteZone(false)}
+        handleCancel={()=>setDeletePlan(false)}
         handleOk={handleDeletePlan}
 
     />
