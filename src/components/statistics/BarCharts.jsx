@@ -137,7 +137,7 @@ console.log(Cdata[0]?.approvedCount)
       useEffect(()=>{
         if(duration === 'daily'){
             setData(weeklyData)
-        }else if(duration === 'month'){
+        }else if(duration === 'weekly'){
             setData(monthlyData)
         }else{
             setData(yearlyData)

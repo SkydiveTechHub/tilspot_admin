@@ -117,6 +117,7 @@ const PreviewInternetProvider = () => {
         openModal={upgradeModal}
         handleCancel={()=>setUpgradeModal(false)}
         handleOk={()=>setUpgradeModal(false)}
+        userData={data}
         id={id}
       />
       <DeleteInstanceModal

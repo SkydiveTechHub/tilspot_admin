@@ -34,8 +34,6 @@ const StatisticPage = () => {
       
     }
 
-    console.log(chartData)
-
     useEffect(()=>{
       fetchGlobalRecord()
     },[filterDuration])

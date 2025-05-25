@@ -49,8 +49,8 @@ class staffService {
   }
   
 
-  static async GetAllTransactions() {
-    const res = await baseAxios.get(`/AllTransactions`);
+  static async GetAllTransactions(data) {
+    const res = await baseAxios.get(`/AllTransactions?startDate=${data.start}&endDate=${data.end}`);
     return res?.data || res;
   }
   static async GetAllOperatorTransactions(page) {

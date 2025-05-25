@@ -31,7 +31,7 @@ const AdminTransactions = () => {
 
   const fetchTransaction = async () => {
     try {
-      await dispatch(getAllTransactions());
+      await dispatch(getAllTransactions(payload));
     } catch (error) {
       toast.error("Something went wrong");
     }

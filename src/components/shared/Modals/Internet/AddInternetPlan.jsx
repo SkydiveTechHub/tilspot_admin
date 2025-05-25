@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux';
 import { createInternetPlans, getPlansByProvider } from '../../../../store/actions';
 import { toast } from 'react-toastify';
 
-const AddInternetPlan = ({ id, openModal, handleOk, handleCancel }) => {
+const AddInternetPlan = ({ id, userData, action, openModal, handleOk, handleCancel }) => {
   const [planList, setPlanList] = useState([{ name: '', price: '', duration: '' }]);
   const [secondModalOpen, setSecondModalOpen] = useState(false);
   const dispatch = useDispatch();
