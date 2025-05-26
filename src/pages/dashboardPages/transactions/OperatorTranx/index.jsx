@@ -9,16 +9,25 @@ import { Label } from "../../../../components/shared/typograph";
 import { checkCategory } from "../../../../store/reducers/providerSlice";
 
 const OperatorTransactions = () => {
+  const d = new Date();
+  d.setDate(d.getDate());
+  const payload = {
+    start: "2010-01-01",
+    end: d,
+  };
   const dispatch = useDispatch();
   const { operatorTransactions } = useSelector((state) => state.staff);
   const [filterOption, setFilterOption] = useState({ text: "All", value: "All" });
+  const [filterDate, setFilterDate] = useState(payload)
 
-
-  console.log(operatorTransactions)
+  const handleFilter =(date)=>{
+    console.log(date)
+    setFilterDate(date)
+  }
 
   const fetchTransaction = async () => {
     try {
-      await dispatch(getOperatorAllTransactions(1));
+      await dispatch(getOperatorAllTransactions({...payload, page:1}));
     } catch (error) {
       toast.error("Something went wrong");
     }
@@ -26,11 +35,11 @@ const OperatorTransactions = () => {
 
   const fetchTransactionByFilter = async (value) => {
     if (value === "All") {
-      getOperatorAllTransactions();
+      await dispatch(getOperatorAllTransactions({...filterDate, page:1}));
       return;
     }else{
       try {
-        await dispatch(getOperatorTransactionsByStatus(value));
+        await dispatch(getOperatorTransactionsByStatus({...filterDate, payload:value}));
       } catch (error) {
         toast.error("Something went wrong");
       }      
@@ -43,20 +52,20 @@ const OperatorTransactions = () => {
   }, []);
 
     const performFetch =  async(option) =>{
-
-      if (option !=='All') {
-        try {
+      console.log(option)
+      // if (option !=='All') {
+        // try {
          fetchTransactionByFilter(option)
-        } catch (error) {
-          toast.error("Something went wrong");
-        }
-      }else{
-        console.log('troubleshoot')
-      }  
+        // } catch (error) {
+        //   toast.error("Something went wrong");
+        // }
+      // }else{
+      //   console.log('troubleshoot')
+      // }  
     }
   useEffect(() => {
     performFetch(filterOption.value)
-  }, [filterOption]);
+  }, [filterOption, filterDate]);
 
   const filterItems = [
     { key: "1", label: <div onClick={() => setFilterOption({ text: "Approved", value: "Approved" })}>Approved</div> },
@@ -79,7 +88,7 @@ const OperatorTransactions = () => {
           </div>
         </div>
 
-        <TransactionsTable columns={columns} data={operatorTransactions} />
+        <TransactionsTable columns={columns} data={operatorTransactions}  hasFilter={true} handleFilter={handleFilter}/>
       </Section>
     </div>
   );

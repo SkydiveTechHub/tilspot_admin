@@ -132,7 +132,6 @@ const AdminTransactions = () => {
   }, [filterType])
 
   useEffect(() => {
-    console.log(filterDate)
     if (filterOption.value !== "all" && filterType.value !== "provider" ) {
       fetchTransactionByFilter(filterType.value, filterOption.value, filterDate);
     }

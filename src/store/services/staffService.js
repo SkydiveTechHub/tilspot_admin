@@ -53,12 +53,12 @@ class staffService {
     const res = await baseAxios.get(`/AllTransactions?startDate=${data.start}&endDate=${data.end}`);
     return res?.data || res;
   }
-  static async GetAllOperatorTransactions(page) {
-    const res = await baseAxios.get(`/AllMyTransactions?page=${page}`);
+  static async GetAllOperatorTransactions(data) {
+    const res = await baseAxios.get(`/AllMyTransactions?page=${data.page}&startDate=${data.start}&endDate=${data.end}`);
     return res?.data || res;
   }
-  static async FilterAllOperatorTransactions(status) {
-    const res = await baseAxios.get(`/filterMyTransactionsByStatus?query=${status}`);
+  static async FilterAllOperatorTransactions(data) {
+    const res = await baseAxios.get(`/filterMyTransactionsByStatus?query=${data.payload}?startDate=${data.start}&endDate=${data.end}`);
     return res?.data || res;
   }
   static async GetTransactionsByCategory(data) {
