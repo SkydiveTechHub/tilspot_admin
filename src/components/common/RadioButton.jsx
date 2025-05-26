@@ -39,7 +39,7 @@ const FilterOptions = {
   },
 };
 
-const RadioButton = ({ onFilter, rangeValue, isYear, isMonth }) => {
+const RadioButton = ({ onFilter, rangeValue, isYear, isMonth, setModalOpen }) => {
   const now = new Date();
   const currentYear = now.getFullYear();
   const currentMonth = now.getMonth();
@@ -76,6 +76,7 @@ const RadioButton = ({ onFilter, rangeValue, isYear, isMonth }) => {
 
     if (selectedValue !== "dateRange") {
       onFilter(date);
+      setModalOpen(false)
     }
   };
 
@@ -87,6 +88,7 @@ const RadioButton = ({ onFilter, rangeValue, isYear, isMonth }) => {
         ? Number(dateString.split("-")[1]) 
         : Number(dateString);
       onFilter(val);
+      setModalOpen(false)
     } else {
       if (type === "start") setFrom(formattedDate);
       if (type === "end") setTo(formattedDate);
@@ -96,6 +98,7 @@ const RadioButton = ({ onFilter, rangeValue, isYear, isMonth }) => {
   useEffect(() => {
     if (from && to && value === "dateRange" && !isYear && !isMonth) {
       onFilter({ start: from, end: to });
+      setModalOpen(false)
     }
   }, [from, to]);
 

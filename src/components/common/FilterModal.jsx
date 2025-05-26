@@ -3,6 +3,7 @@ import RadioButton from "./RadioButton";
 import { IoFilterOutline } from "react-icons/io5";
 
 function FilterModal({ setModalOpen, onFilter, comp, title, rangeValue, isYear, isMonth }) {
+
   return (
     <div className="relative z-[999]">
       <div className="w-[255px] bg-white rounded-[10px] shadow-[0_5px_16px_rgba(0,0,0,0.2)] mt-2 pb-2 relative">
@@ -16,6 +17,7 @@ function FilterModal({ setModalOpen, onFilter, comp, title, rangeValue, isYear, 
         ) : (
           <div className="z-[99999]">
             <RadioButton
+             setModalOpen={setModalOpen}
               onFilter={onFilter}
               rangeValue={rangeValue}
               isYear={isYear}
