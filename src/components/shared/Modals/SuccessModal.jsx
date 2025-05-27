@@ -14,7 +14,7 @@ const SuccessModal = ({children, title, openModal, handleOk, handleCancel, handl
         <div  className='flex justify-center items-center flex-col gap-6 px-[2rem]'>
           <img src="/images/Good Luck.png" alt="good-luck" />
           {children}
-          <PryButton className="font-mont btn-primary text-white" text={'Continue'} onClick={() => {
+          <PryButton className="font-mont btn-primary text-white" text={'Continue'} handleClick={() => {
             handleContinue()
             handleCancel()
             }}/>

@@ -71,6 +71,7 @@ const { values, handleChange, resetForm, errors } = useForm(initialState);
         toast.error(res.payload.message)
         handleCancel()
       }
+      setUploadedImage(null)
     } catch (error) {
       toast.error('Something went wrong !')
       handleCancel()

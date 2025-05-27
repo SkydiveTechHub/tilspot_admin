@@ -25,7 +25,7 @@ const TransactionsTable = ({
 
   return (
     <div className='overflow-x-scroll lg:overflow-x-hidden p-3 rounded-lg bg-white border'>
-      <div className="w-full flex justify-end items-center mb-4">
+      <div className="w-full flex justify-betweem items-center mb-4">
         {hasSearch && (
           <Search
             placeholder="Search Result"

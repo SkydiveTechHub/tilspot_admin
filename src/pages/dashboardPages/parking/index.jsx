@@ -6,6 +6,7 @@ import AddInternetProvider from '../../../components/shared/Modals/Internet/AddI
 import { useDispatch, useSelector } from 'react-redux'
 import { checkCategory } from '../../../store/reducers/providerSlice'
 import { getLocations, getProviderByCategory } from '../../../store/actions'
+import AddParkingLocation from '../../../components/shared/Modals/parking/AddParkingProvider'
 
 
 const ParkingPage = () => {
@@ -49,7 +50,7 @@ const ParkingPage = () => {
         },[catId])
   return (
     <>
-            <AddInternetProvider
+            <AddParkingLocation
                 catId={catId}
                 openModal={open}
                 handleCancel={()=>setOpen(false)}

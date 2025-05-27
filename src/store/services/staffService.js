@@ -58,7 +58,7 @@ class staffService {
     return res?.data || res;
   }
   static async FilterAllOperatorTransactions(data) {
-    const res = await baseAxios.get(`/filterMyTransactionsByStatus?query=${data.payload}?startDate=${data.start}&endDate=${data.end}`);
+    const res = await baseAxios.get(`/filterMyTransactionsByStatus?query=${data.payload}&startDate=${data.start}&endDate=${data.end}`);
     return res?.data || res;
   }
   static async GetTransactionsByCategory(data) {

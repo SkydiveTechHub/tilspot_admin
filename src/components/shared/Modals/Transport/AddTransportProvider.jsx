@@ -67,7 +67,6 @@ const AddTransportProvider = ({
     );
   }, [values, range]);
 
-  console.log(userData)
   // Form submission handler
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -93,7 +92,10 @@ const AddTransportProvider = ({
         handleOk(); 
         dispatch(getAllJourney(provId))
         setSuccessModalOpen(true); // Open success modal
+      }else{
+        toast.error(res.payload.message)
       }
+      
     } catch (error) {
       toast.error(res.payload.message)
       console.error(error);

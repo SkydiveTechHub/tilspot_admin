@@ -9,7 +9,7 @@ import { CiMenuKebab } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
 import DeleteInstanceModal from "../../../components/shared/Modals/DeleteInstanceModal";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteProvider, enableOrDisableCategory, getAllCategories } from "../../../store/actions";
+import { deleteProvider, enableOrDisableCategory, getAllCategories, getProviderByCategory } from "../../../store/actions";
 import { toast } from "react-toastify";
 
 const InstanceView = ({data, catStatus, id}) => {
@@ -46,7 +46,14 @@ const InstanceView = ({data, catStatus, id}) => {
         catId :id,
         providerId:provId
       }))
-      
+            if(res.payload.statusCode) {
+              dispatch(getProviderByCategory(id));
+              toast.success('Provider Deleted Successfully!')
+              setOpenDelete(false)
+            }else{
+              toast.error(res.payload.message)
+              setOpenDelete(false)
+            }
 
     } catch (error) {
       console.log(error)

@@ -142,7 +142,7 @@ return (
           /> 
           <DeleteInstanceModal
               openModal={openDelete}
-              char={'Airtime Provider'}
+              char={'Parking Location'}
               handleCancel={()=>setOpenDelete(false)}
               handleOk={handleDelete}
 

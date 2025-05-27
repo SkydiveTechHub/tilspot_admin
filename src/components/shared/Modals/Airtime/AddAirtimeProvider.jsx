@@ -70,6 +70,8 @@ const AddAirtimeProvider = ({catId, action, userData, openModal, handleOk, handl
         toast.error(res.payload.message)
         handleCancel()
       }
+
+      setUploadedImage(null)
     } catch (error) {
       toast.error('Something went wrong')
         handleCancel()

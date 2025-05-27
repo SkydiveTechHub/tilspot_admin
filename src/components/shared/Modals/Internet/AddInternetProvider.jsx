@@ -70,7 +70,7 @@ const AddInternetProvider = ({catId, action, userData, openModal, handleOk, hand
         toast.error(res.payload.message)
         handleCancel()
       }
-
+      setUploadedImage(null)
     } catch (error) {
       toast.error('Something went wrong !')
     }

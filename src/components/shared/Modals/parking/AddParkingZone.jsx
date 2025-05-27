@@ -9,7 +9,7 @@ import { useDispatch } from 'react-redux';
 import { createZone, editZone, getZonesByLocation } from '../../../../store/actions';
 
 
-const AddParkingZone = ({ id, data, action,  openModal, handleOk, handleCancel }) => {
+const AddParkingZone = ({ id, data, location, action,  openModal, handleOk, handleCancel }) => {
   const dispatch = useDispatch();
   const [active, setActive] = useState(false);
   const [secondModalOpen, setSecondModalOpen] = useState(false);
@@ -23,6 +23,8 @@ const AddParkingZone = ({ id, data, action,  openModal, handleOk, handleCancel }
   // const [planList, setPlanList] = useState(
   //   timePlan.map((duration) => ({ duration, price: '' }))
   // );
+
+  console.log(data)
 
 const [planList, setPlanList] = useState(timePlan.map((duration) => ({ duration, price: '' })));
 
@@ -112,7 +114,7 @@ const [planList, setPlanList] = useState(timePlan.map((duration) => ({ duration,
       >
         <li>
           <GrayText style="text-[16px]" text="Location Name: " />
-          <BlackText style="font-bold text-[14px] capitalize" text="New York" />
+          <BlackText style="font-bold text-[14px] capitalize" text={location} />
         </li>
         <form className="mt-6 space-y-6" onSubmit={handleSubmit}>
           <FormInput

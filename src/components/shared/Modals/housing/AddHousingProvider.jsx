@@ -47,12 +47,12 @@ const AddHousingProvider = ({catId, provId, action, userData, openModal, handleO
         })) 
       }
 
-
-      console.log(res)
       if (res.payload.statusCode){
         setSecondModalOpen(true); 
         handleOk(); 
       }
+
+      setUploadedImage(null)
     } catch (error) {
       
     }

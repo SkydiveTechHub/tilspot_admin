@@ -100,6 +100,7 @@ const PreviewParkingLocation = () => {
         handleCancel={()=>{setUpgradeModal(false); setAction('create')}}
         handleOk={()=>{setUpgradeModal(false); setAction('create')}}
         data={zoneData}
+        location={location}
         action={action}
       />
       <DeleteInstanceModal

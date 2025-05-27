@@ -47,9 +47,13 @@ const PreviewWasteOrderModal = ({
       if (res.payload.statusCode){
         dispatch(getMyRecord('today'))
         handleProceed();
+      }else{
+        toast.error(res.payload.message)
+        handleCancel()
       }
     } catch (error) {
-      
+      toast.error('Something went wrong')
+      handleCancel()
     }
     resetForm();
   };
@@ -151,7 +155,7 @@ const PreviewWasteOrderModal = ({
 
           <div className="flex items-center justify-between w-full">
             <button
-              onClick={handleProceed}
+              onClick={handleSubmit}
               className="bg-[#219653] rounded-[8px] text-white py-[10px] px-11 text-[14px] md:text-[16px] font-[500] leading-[24px]"
             >
               {proceedText}
