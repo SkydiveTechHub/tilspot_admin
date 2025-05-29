@@ -22,6 +22,8 @@ const AddTransportProvider = ({
   handleOk,
   handleCancel,
 }) => {
+
+  console.log(provId)
   const dispatch = useDispatch();
   const [range, setRange] = useState(null); // For time range
   const [active, setActive] = useState(false); // For button activation
@@ -108,7 +110,7 @@ const AddTransportProvider = ({
   return (
     <>
       <SuccessModal
-        title={'Transport Transport Route has been added successfully'}
+        title={'Transport Route has been added successfully'}
         openModal={successModalOpen}
         handleContinue={() => setSuccessModalOpen(false)}
         handleCancel={() => setSuccessModalOpen(false)}

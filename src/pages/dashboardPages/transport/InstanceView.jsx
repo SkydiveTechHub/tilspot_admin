@@ -33,10 +33,10 @@ const InstanceView = ({data, catStatus, id, ppId}) => {
         const handleSearch = (key) => {
           console.log(key);
           if (key === '') {
-            setTableData(data.operators);
+            setTableData(data);
           } else {
             const lowerKey = key.toLowerCase();
-            const filterData = data?.operators.filter((i) =>
+            const filterData = data?.filter((i) =>
               i.start.toLowerCase().includes(lowerKey) ||
               i.destination.toLowerCase().includes(lowerKey) 
             );
@@ -137,6 +137,7 @@ const InstanceView = ({data, catStatus, id, ppId}) => {
 
   ];
 
+  console.log(provId)
 
 return (
 

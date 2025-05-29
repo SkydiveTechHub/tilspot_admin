@@ -48,7 +48,7 @@ class providerService {
   }
 
   static async CreateService(data) {
-    const res = await baseAxios.post(`/createAndUpdateService/${data.catId}`, data.payload);
+    const res = await baseAxios.post(`/createAndUpdateService?categoryId=${data.catId}`, data.payload);
     return res?.data || res;
   }
   static async EditService(data) {
@@ -75,7 +75,7 @@ class providerService {
     return res?.data || res;
   }
   static async CreateJourney(data) {
-    const res = await baseAxios.post(`/createAndUpdateJourney/${data.provId}`, data.payload);
+    const res = await baseAxios.post(`/createAndUpdateJourney?providerId=${data.provId}`, data.payload);
     return res?.data || res;
   }
   static async CreateZone(data) {
@@ -106,7 +106,7 @@ class providerService {
   }
   static async EditJourney(data) {
     console.log(data)
-    const res = await baseAxios.post(`/createAndUpdateJourney/${data.provId}`, data.payload);
+    const res = await baseAxios.post(`/createAndUpdateJourney?providerId=${data.provId}&journeyId=${data.journeyId}`, data.payload);
     return res?.data || res;
   }
   static async EditZone(data) {

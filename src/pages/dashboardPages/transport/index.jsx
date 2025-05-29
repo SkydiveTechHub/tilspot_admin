@@ -59,10 +59,13 @@ const TransportPage = () => {
           };
           fetchProvider()
         },[catId])
+
+
+        console.log(provId)
   return (
     <>
             <AddTransportProvider
-                // provId={provId}
+                provId={provId}
                 catId={catId}
                 openModal={open}
                 handleCancel={()=>setOpen(false)}
