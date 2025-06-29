@@ -88,8 +88,11 @@ class providerService {
   }
 
 
-
-
+  static async UpdateInternetPlan(data) {
+    console.log(data)
+    const res = await baseAxios.post(`/updateAnInternetPlan/${data.provId}/${data.planId}`, data.payload);
+    return res?.data || res;
+  }
 
   static async EditProvider(data) {
     const res = await baseAxios.post(`/createAndUpdateProvider?categoryId=${data.catId}&providerId=${data.provId}`, data.payload);

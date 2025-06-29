@@ -115,9 +115,9 @@ const AddAirtimeProvider = ({catId, action, userData, openModal, handleOk, handl
             </div>
           )}
           <UserImageUpload onImageUpload={handleImageUpload} />
-          {(!uploadedImage || uploadedImage === '') && (
+          {/* {(!uploadedImage || uploadedImage === '') && (
             <span className="text-[12px] italic text-[gray]">Optional</span>
-          )}
+          )} */}
         </div>
 
         {/* Form Section */}

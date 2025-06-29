@@ -6,32 +6,34 @@ import SuccessModal from '../SuccessModal';
 import { useDispatch } from 'react-redux';
 import { createInternetPlans, getPlansByProvider } from '../../../../store/actions';
 import { toast } from 'react-toastify';
+import { updateInternetPlan } from '../../../../store/actions/providerAction';
 
-const AddInternetPlan = ({ id, userData, action, openModal, handleOk, handleCancel }) => {
-  const [planList, setPlanList] = useState([{ name: '', price: '', duration: '' }]);
+const UpdateInternetPlan = ({ id, userData, action, openModal, handleOk, handleCancel }) => {
+  const [plan, setPlan] = useState({ name: '', price: '', duration: '' });
   const [secondModalOpen, setSecondModalOpen] = useState(false);
   const dispatch = useDispatch();
 
-  // Add a new empty plan
-  const increasePlanCount = () => {
-    setPlanList([...planList, { name: '', price: '', duration: '' }]);
-  };
+  console.log(userData)
 
-  // Remove a specific plan by index
-  const decreasePlanCount = (index) => {
-    setPlanList((prevPlans) => prevPlans.filter((_, i) => i !== index));
-  };
+  useEffect(()=>{
+    if (userData) {
+      setPlan({
+        name: userData.name || '',
+        price: userData.price || '',
+        duration: userData.duration || '',
+      });
+    }
+  },[userData])
 
-  // Handle input changes for specific plan fields
-  const handlePlanChange = (index, field, value) => {
-    const updatedPlans = [...planList];
-    updatedPlans[index][field] = value;
-    setPlanList(updatedPlans);
+  const handlePlanChange = (field, value) => {
+    setPlan((prevPlan) => ({ ...prevPlan, [field]: value }));
   };
 
   const validatePlans = () => {
-    return planList.every((plan) => plan.name && plan.price && plan.duration);
+    return plan.name && plan.price && plan.duration;
   };
+
+  console.log(plan.name)
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -40,15 +42,13 @@ const AddInternetPlan = ({ id, userData, action, openModal, handleOk, handleCanc
       return;
     }
 
-    const params = {
-      // optionType: 'plan',
-      planOptions: JSON.stringify(planList),
-    };
-
+    const params = plan;
+    console.log(params)
     try {
       const res = await dispatch(
-        createInternetPlans({
+        updateInternetPlan({
           provId: id,
+          planId: userData._id,
           payload: params,
         })
       );
@@ -60,18 +60,21 @@ const AddInternetPlan = ({ id, userData, action, openModal, handleOk, handleCanc
         toast.error(res.payload.message)
       }
 
-      setPlanList([{ name: '', price: '', duration: '' }])
+      setPlan({ name: '', price: '', duration: '' })
+
 
     } catch (error) {
       console.error('Error submitting plans:', error);
       toast.error('Something went wrong !')
     }
+
+    handleOk()
   };
 
   return (
     <>
       <SuccessModal
-        title="Internet Plan has been added Successfully"
+        title="Internet Plan has been updated"
         openModal={secondModalOpen}
         handleContinue={() => setSecondModalOpen(false)}
         handleCancel={() => setSecondModalOpen(false)}
@@ -80,7 +83,7 @@ const AddInternetPlan = ({ id, userData, action, openModal, handleOk, handleCanc
 
       <Modal
         className="basic-modal"
-        title="Add Internet Plan"
+        title="Update Internet Plan"
         open={openModal}
         onOk={handleOk}
         onCancel={handleCancel}
@@ -88,64 +91,41 @@ const AddInternetPlan = ({ id, userData, action, openModal, handleOk, handleCanc
       >
         <form className="mt-6 space-y-6" onSubmit={handleSubmit}>
           <div className="space-y-4">
-            {planList.map((plan, index) => (
-              <div key={index} className="space-y-2">
+              <div className="space-y-2">
                 <div className="grid gap-3 grid-cols-3">
                   <FormInput
                     label="Plan Name"
                     type="text"
-                    name={`name-${index}`}
+                    name={`planName`}
                     value={plan.name}
-                    onChange={(e) => handlePlanChange(index, 'name', e.target.value)}
+                    onChange={(e) => handlePlanChange('name', e.target.value)}
                     placeholder="Enter plan name"
                   />
                   <FormInput
                     label="Plan Price"
                     type="number"
-                    name={`price-${index}`}
+                    name={`planPrice`}
                     value={plan.price}
-                    onChange={(e) => handlePlanChange(index, 'price', Number(e.target.value))}
+                    onChange={(e) => handlePlanChange('price', Number(e.target.value))}
                     placeholder="Enter plan price"
                   />
                   <FormInput
                     label="Duration (days)"
                     type="number"
-                    name={`duration-${index}`}
+                    name={`duration`}
                     value={plan.duration}
-                    onChange={(e) => handlePlanChange(index, 'duration', String(e.target.value))}
+                    onChange={(e) => handlePlanChange('duration', String(e.target.value))}
                     placeholder="Enter plan duration"
                   />
                 </div>
 
-                {planList.length > 1 && (
-                  <div className="flex justify-end w-full mt-[-20px]">
-                    <button
-                      type="button"
-                      className="text-red-500 text-sm"
-                      onClick={() => decreasePlanCount(index)}
-                    >
-                      Remove
-                    </button>
-                  </div>
-                )}
               </div>
-            ))}
-          </div>
-
-          <div className="flex justify-end w-full py-4">
-            <button
-              type="button"
-              className="text-green-500 text-sm"
-              onClick={increasePlanCount}
-            >
-              Add More Plans
-            </button>
           </div>
 
           <AuthButton
             handleClick={handleSubmit}
             inactive={!validatePlans()}
-            value="Add Plan"
+            value="Update Plan"
           />
         </form>
       </Modal>
@@ -153,4 +133,4 @@ const AddInternetPlan = ({ id, userData, action, openModal, handleOk, handleCanc
   );
 };
 
-export default AddInternetPlan;
+export default UpdateInternetPlan;

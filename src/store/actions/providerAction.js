@@ -241,6 +241,20 @@ export const createInternetPlans = createAsyncThunk(
         }
     }
 )
+export const updateInternetPlan = createAsyncThunk(
+    'provider/update_plans',
+    async (data, {dispatch, rejectWithValue })=>{
+        dispatch(startLoad())
+        try {
+            const res = await providerService.UpdateInternetPlan(data)
+            return res
+        } catch (error) {
+            return rejectWithValue(error.response.data)
+        }finally{
+            dispatch(stopLoad())
+        }
+    }
+)
 export const editProvider = createAsyncThunk(
     'provider/edit_provider',
     async (data, {dispatch, rejectWithValue })=>{

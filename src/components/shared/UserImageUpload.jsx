@@ -13,15 +13,14 @@ const UserImageUpload = ({ onImageUpload }) => {
     const file = e.target.files[0];
 
     if (file) {
-      const maxSize = 2 * 1024 * 1024;
+      const maxSize = 10 * 1024 * 1024;
 
       if (file.size > maxSize) {
-        setError("File size exceeds 2MB");
+        setError("File size exceeds 10MB");
         return;
       }
 
       setError("");
-      console.log(file)
       const reader = new FileReader();
       reader.onloadend = () => {
         setImagePreview(reader.result);

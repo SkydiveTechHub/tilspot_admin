@@ -116,9 +116,9 @@ const AddInternetProvider = ({catId, action, userData, openModal, handleOk, hand
             </div>
           )}
           <UserImageUpload onImageUpload={handleImageUpload} />
-          {
+          {/* {
             uploadedImage === '' || uploadedImage === null && <span className='text-[12px] italic  text-[gray]'>Optional</span>
-          }
+          } */}
         </div>
         <form className='mt-6 space-y-6' onSubmit={handleSubmit}>
           <FormInput

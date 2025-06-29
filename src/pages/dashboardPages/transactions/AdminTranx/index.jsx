@@ -192,7 +192,7 @@ const AdminTransactions = () => {
 
         <p>Total Amount: <span className="font-bold">N {totalAmount}</span></p>
 
-        <TransactionsTable columns={columns} data={transactions} hasFilter={true} handleFilter={handleFilter}/>
+        <TransactionsTable columns={columns}  data={transactions} hasFilter={true} handleFilter={handleFilter}/>
       </Section>
     </div>
   );

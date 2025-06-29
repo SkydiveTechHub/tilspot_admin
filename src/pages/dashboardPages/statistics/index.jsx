@@ -1,9 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import Piecharts from '../../../components/statistics/Piecharts'
 import BarCharts from '../../../components/statistics/BarCharts'
-import { Button, Dropdown } from 'antd';
+import { Button, DatePicker, Dropdown } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAdminGlobalRecord, getUserStat } from '../../../store/actions/staffAction';
+import moment from 'moment';
+import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
+import utc from "dayjs/plugin/utc";
+dayjs.extend(utc);
+dayjs.extend(isSameOrBefore);
+dayjs.extend(customParseFormat);
+const { RangePicker } = DatePicker;
+const dateFormat = 'YYYY-MM-DD';
 
 const StatisticPage = () => {
   const dispatch = useDispatch()
@@ -12,8 +22,42 @@ const StatisticPage = () => {
     const serviceData = ['Airtime', 'Internet', 'Government', 'Gas', 'Waste', 'Transport', 'Football', 'Cable', 'Parking', 'Housing', 'Electricity'];
     const [activeTab, setActiveTab] = useState('Airtime')
     const [summaryData, setSummaryData] = useState()
+    const [startDate, setStartDate] = useState()
+    const [endDate, setEndDate] = useState()
     const [chartData, setChartData] = useState([])
     const [filterDuration, setFilterDuration] = useState('daily')
+    const dateFormat = 'YYYY-MM-DD';
+    const today = dayjs();
+    const defaultStart = today.subtract(6, 'day');
+    const defaultEnd = today;
+
+    const [dates, setDates] = useState([defaultStart, defaultEnd]);
+
+    const getDayNamesInRange = (start, end) => {
+      const startDate = dayjs.utc(start);
+      const endDate = dayjs.utc(end);
+      const days = [];
+
+      let current = startDate;
+
+      while (current.isSameOrBefore(endDate, 'day')) {
+        days.push(current.format('dddd'));
+        current = current.add(1, 'day');
+      }
+
+      return days;
+    };
+
+    const handleChange = (selectedDates) => {
+      if (selectedDates && selectedDates[0]) {
+        const startDate = selectedDates[0];
+        const tentativeEnd = startDate.add(6, 'day');
+        const endDate = tentativeEnd.isAfter(today) ? today : tentativeEnd;
+        setDates([startDate, endDate]);
+      } else {
+        setDates([]);
+      }
+    };
 
     const fetchUserStat = async() =>{
       try {
@@ -26,7 +70,16 @@ const StatisticPage = () => {
     const fetchGlobalRecord = async() =>{
       try {
         const res = await dispatch(getAdminGlobalRecord(filterDuration))
-        console.log(res)
+        setChartData(res.payload.responseData)
+        setSummaryData(res.payload.totals)
+      } catch (error) {
+        
+      }
+      
+    }
+    const fetchCustomGlobalRecord = async() =>{
+      try {
+        const res = await dispatch(getAdminGlobalRecord(dates))
         setChartData(res.payload.responseData)
       } catch (error) {
         
@@ -35,8 +88,13 @@ const StatisticPage = () => {
     }
 
     useEffect(()=>{
-      fetchGlobalRecord()
-    },[filterDuration])
+      if(filterDuration !== 'custom'){
+        fetchGlobalRecord()
+      }else{
+        fetchCustomGlobalRecord()
+      }
+      
+    },[filterDuration, dates])
 
     useEffect(()=>{
       fetchGlobalRecord()
@@ -65,22 +123,22 @@ const StatisticPage = () => {
     const cardData = [
         {
           title:'Total Revenue Generated',
-          amount: bills?.totalRevenue || 0,
+          amount: summaryData?.totalRevenue || 0,
           icon:'/images/f1.svg'
         },	
         {
           title:'Total Order Processed',
-          amount:bills?.processed || 0,
+          amount:summaryData?.totalOrders || 0,
           icon:'/images/f2.svg'
         },	
         {
           title:'Total Completed Orders',
-          amount:bills?.completed || 0,
+          amount:summaryData?.totalApprovedOrder || 0,
           icon:'/images/f3.svg'
         },	
         {
           title:'Total Failed Orders',
-          amount:bills?.rejected || 0, 
+          amount:summaryData?.totalRejectedOrder || 0, 
           icon:'/images/f4.svg'
           
         },	
@@ -112,6 +170,31 @@ const StatisticPage = () => {
             </button>
           ),
         },
+        {
+          key: '4',
+          label: (
+            <div
+              onClick={(e) => {e.stopPropagation(); setFilterDuration('custom')}} // Prevent dropdown from closing
+            >
+              <span className='font-semibold'>Custom Date Range</span>
+              <div className='flex gap-1 items-center'>
+              <RangePicker
+                value={dates}
+                format={dateFormat}
+                onChange={handleChange}
+                disabled={[false, true]} // Disable second picker
+              />
+                {/* <DatePicker
+                  onChange={(_, dateString) => setStartDate(moment(dateString))}
+                />
+                -
+                <DatePicker
+                  onChange={(_, dateString) => setEndDate(moment(dateString))}
+                /> */}
+              </div>
+            </div>
+          ),
+        }
 
       ];
   return (
@@ -156,7 +239,8 @@ const StatisticPage = () => {
             })
              }
         </div>
-              <BarCharts Cdata={chartData} duration={filterDuration}/>
+              <BarCharts Cdata={chartData} duration={filterDuration} customDays={getDayNamesInRange(dates[0], dates[1])
+}/>
                          
       </div>
 

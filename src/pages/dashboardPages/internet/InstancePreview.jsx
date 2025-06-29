@@ -13,19 +13,23 @@ import { useDispatch, useSelector } from 'react-redux'
 import { createInternetPlans, deleteProvider, deleteProviderPlan, getPlansByProvider } from '../../../store/actions'
 import { checkCategory } from '../../../store/reducers/providerSlice'
 import { toast } from 'react-toastify'
+import UpdateInternetPlan from '../../../components/shared/Modals/Internet/UpdateInternetPlan'
 
 const PreviewInternetProvider = () => {
   const params = useParams()
   const [data, setData] = useState()
+  const [rowData, setRowData] = useState()
   const {id} = params
   const dispatch = useDispatch()
   const [catId, setCatId] = useState('')
   const [planId, setPlanId] = useState('')
   const navigate = useNavigate()
   const [open, setOpen] = useState(false)
+  const [addModal, setAddModal] = useState(false)
   const [upgradeModal, setUpgradeModal] = useState(false)
   const [deletePlan, setDeletePlan] = useState(false)
   const { categories, internetPlans } = useSelector((state) => state.providers);
+  console.log(data)
   const usable_column = [
     ...columns,
     {
@@ -36,7 +40,7 @@ const PreviewInternetProvider = () => {
 
         return (
           <div className='flex items-center gap-4'>
-            <button onClick={()=>setUpgradeModal(true)}><img src="/images/edit.svg" alt="" /></button>
+            <button onClick={()=>{setUpgradeModal(true); setRowData(record)}}><img src="/images/edit.svg" alt="" /></button>
             <button onClick={()=>{setDeletePlan(true); setPlanId(record?._id)}}><img src="/images/bin.png" alt="" /></button>
           </div>
         );
@@ -114,12 +118,20 @@ const PreviewInternetProvider = () => {
   return (
     <>
       <AddInternetPlan
-        openModal={upgradeModal}
-        handleCancel={()=>setUpgradeModal(false)}
-        handleOk={()=>setUpgradeModal(false)}
+        openModal={addModal}
+        handleCancel={()=>setAddModal(false)}
+        handleOk={()=>setAddModal(false)}
         userData={data}
         id={id}
       />
+      <UpdateInternetPlan
+        openModal={upgradeModal}
+        handleCancel={()=>setUpgradeModal(false)}
+        handleOk={()=>setUpgradeModal(false)}
+        userData={rowData}
+        id={id}
+      />
+
       <DeleteInstanceModal
         openModal={open}
         char={'Internet Provider'}
@@ -141,7 +153,7 @@ const PreviewInternetProvider = () => {
                   <li><BlackText style={'font-bold text-[14px] capitalize'} text={'Provider Name: '}/><GrayText style={'text-[16px]'} text={data?.provider?.name}/></li>
               </ul>
               <div className='flex flex-col md:flex-row items-center  gap-4'>
-                <button onClick={()=>{setUpgradeModal(true)}} className='bg-[#219653] text-sm md:text-lg rounded-[8px] font-mont text-white py-[6px] px-11 text-[16px] font-[500] leading-[24px]'><img src='/images/add-icon.png' className='inline-flex pr-2' alt='account'/>Add Plan</button>
+                <button onClick={()=>{setAddModal(true)}} className='bg-[#219653] text-sm md:text-lg rounded-[8px] font-mont text-white py-[6px] px-11 text-[16px] font-[500] leading-[24px]'><img src='/images/add-icon.png' className='inline-flex pr-2' alt='account'/>Add Plan</button>
                 <button onClick={()=>{setOpen(true)}} className='bg-[#FF0000] rounded-[8px] font-mont text-white py-[6px] px-11 text-[16px] font-[500] leading-[24px]'><img src='/images/bin-icon.png' className='inline-flex pr-2' alt='account'/>Delete Provider</button>
               </div>   
           </div>

@@ -24,8 +24,8 @@ const TransactionsTable = ({
     ;
 
   return (
-    <div className='overflow-x-scroll lg:overflow-x-hidden p-3 rounded-lg bg-white border'>
-      <div className="w-full flex justify-betweem items-center mb-4">
+    <div className='overflow-x-scroll lg:overflow-x-hidden p-3 rounded-lg bg-white border w-full'>
+      <div className="w-full flex justify-between items-center mb-4">
         {hasSearch && (
           <Search
             placeholder="Search Result"
@@ -33,6 +33,7 @@ const TransactionsTable = ({
             style={{ width: 200 }}
           />
         )}
+        <div></div>
         {hasFilter && <Filter onFilter={handleFilter} />}
       </div>
 
