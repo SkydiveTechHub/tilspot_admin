@@ -81,6 +81,7 @@ const StatisticPage = () => {
       try {
         const res = await dispatch(getAdminGlobalRecord(dates))
         setChartData(res.payload.responseData)
+        setSummaryData(res.payload.totals)
       } catch (error) {
         
       }
