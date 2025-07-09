@@ -18,6 +18,7 @@ import UpdateInternetPlan from '../../../components/shared/Modals/Internet/Updat
 const PreviewInternetProvider = () => {
   const params = useParams()
   const [data, setData] = useState()
+  const [tableData, setTableData] = useState([])
   const [rowData, setRowData] = useState()
   const {id} = params
   const dispatch = useDispatch()
@@ -29,7 +30,13 @@ const PreviewInternetProvider = () => {
   const [upgradeModal, setUpgradeModal] = useState(false)
   const [deletePlan, setDeletePlan] = useState(false)
   const { categories, internetPlans } = useSelector((state) => state.providers);
-  console.log(data)
+  useEffect(() => {
+    if (internetPlans) {
+      setTableData(internetPlans);
+    }
+  }, [internetPlans]);
+
+
   const usable_column = [
     ...columns,
     {
@@ -57,6 +64,15 @@ const PreviewInternetProvider = () => {
         }
       }, [categories]);
 
+    const handleSearch = (key) => {
+      console.log(key, data.options[0].options);
+      if (key === '') {
+        fetchProviderPlans()
+      } else {
+        const filterData = data.options[0].options.filter((i) => (i.name.toLowerCase()).includes(key.toLowerCase()));
+        setTableData(filterData);
+      }
+    };
 
   const fetchProviderPlans = async ()=>{
     try {
@@ -162,7 +178,7 @@ const PreviewInternetProvider = () => {
         </div>
 
         <Section title={"Available Plans"}>
-          <TransactionsTable columns={usable_column} data={internetPlans}/>            
+          <TransactionsTable hasSearch={true} handleSearch={handleSearch} columns={usable_column} data={tableData}/>            
         </Section> 
       </div>    
     </>

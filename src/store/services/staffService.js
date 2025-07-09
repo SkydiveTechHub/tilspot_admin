@@ -3,6 +3,18 @@ import baseAxios from "../../api/baseAxios"
 
 class staffService {
 
+  static async GetAllUsers() {
+    const res = await baseAxios.get(`/getUsers`);
+    return res?.data || res;
+  }
+  static async GetAllVerifiedUsers() {
+    const res = await baseAxios.get(`/getUsers?status=verified`);
+    return res?.data || res;
+  }
+  static async GetAllUnverifiedUsers() {
+    const res = await baseAxios.get(`/getUsers?status=unverified`);
+    return res?.data || res;
+  }
   static async GetAllStaff() {
     const res = await baseAxios.get(`/getOperators`);
     return res?.data || res;

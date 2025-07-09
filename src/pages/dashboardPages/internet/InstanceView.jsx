@@ -34,7 +34,7 @@ const InstanceView = ({data, catStatus, id}) => {
           if(key === ''){
             setTableData(data)
           }else{
-            const filterData = data.filter((i)=>(i.name.toLowerCase()).includes(key.toLowerCase())
+            const filterData = data.filter((i)=>(i.first_name.toLowerCase()).includes(key.toLowerCase())
           )
             setTableData(filterData)
           }

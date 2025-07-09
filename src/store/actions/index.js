@@ -23,7 +23,10 @@ export {
   getAllTransactions,
   getTransactionsByCategory,
   getOperatorAllTransactions,
-  getOperatorTransactionsByStatus
+  getOperatorTransactionsByStatus,
+  GetAllUnverifiedUsers,
+  getAllVerifiedUsers,
+  getAllUsers,
 } from "./staffAction";
 export {
   getAllCategories,

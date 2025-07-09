@@ -30,6 +30,7 @@ import { checkAuth } from "./store/reducers/authSlice";
 import StatisticPage from "./pages/dashboardPages/statistics";
 import { SocketProvider, useSocket } from "./hooks/SocketContext";
 import TransactionsPage from "./pages/dashboardPages/transactions";
+import UsersView from "./pages/dashboardPages/users";
 
 
 function App() {
@@ -70,7 +71,9 @@ function App() {
 								<Route element={<ProtectedRoute roles={['admin']} />}>
 									<Route path="/verifyPasswordResetOTP/:id" element={<OPTpage />} />
 									<Route path="/reset-password/:id" element={<ResetPassword />} />
+									
 									<Route element={<DashboardLayout />}>
+										<Route path="/dashboard/users" element={<UsersView />} />
 										<Route path="/dashboard/staff" element={<StaffPage />} />
 										<Route path="/dashboard/fees" element={<FeesPage/>}/>
 										<Route path="/dashboard/statistics" element={<StatisticPage/>}/>

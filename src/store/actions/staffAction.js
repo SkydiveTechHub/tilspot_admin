@@ -16,6 +16,48 @@ export const getAllBills = createAsyncThunk(
         }
     }
 )
+export const getAllUsers = createAsyncThunk(
+    'staff/get_all_users',
+    async (_, {dispatch, rejectWithValue })=>{
+        dispatch(startLoad())
+        try {
+            const res = await staffService.GetAllUsers()
+            return res.data
+        } catch (error) {
+            return rejectWithValue(error.response.data)
+        } finally{
+            dispatch(stopLoad())
+        }
+    }
+)
+export const getAllVerifiedUsers = createAsyncThunk(
+    'staff/get_all_verified_users',
+    async (_, {dispatch, rejectWithValue })=>{
+        dispatch(startLoad())
+        try {
+            const res = await staffService.GetAllVerifiedUsers()
+            return res.data
+        } catch (error) {
+            return rejectWithValue(error.response.data)
+        } finally{
+            dispatch(stopLoad())
+        }
+    }
+)
+export const GetAllUnverifiedUsers = createAsyncThunk(
+    'staff/get_all_unverified_users',
+    async (_, {dispatch, rejectWithValue })=>{
+        dispatch(startLoad())
+        try {
+            const res = await staffService.GetAllUnverifiedUsers()
+            return res.data
+        } catch (error) {
+            return rejectWithValue(error.response.data)
+        } finally{
+            dispatch(stopLoad())
+        }
+    }
+)
 export const getAllStaffs = createAsyncThunk(
     'staff/get_all_staff',
     async (_, {dispatch, rejectWithValue })=>{

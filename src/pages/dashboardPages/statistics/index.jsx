@@ -9,6 +9,7 @@ import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 import utc from "dayjs/plugin/utc";
+import { Link } from 'react-router-dom';
 dayjs.extend(utc);
 dayjs.extend(isSameOrBefore);
 dayjs.extend(customParseFormat);
@@ -258,6 +259,7 @@ export const PointCard = ({title, amount , icon}) =>{
 			<div>
 				<p className="font-[400] font-mont text-[#475367] font-Int text-[12px]">{title}</p>
 				<h1 className="font-[600] font-mont text-[#344054] font-Int text-[18px] ">{amount}</h1>
+        {title === 'Total Number of Users' && <Link className='underline font-mont text-[12px] text-primary' to='/dashboard/users'>View Users</Link>}
 			</div>
 			<img className="w-40px] h-[40px]" src={icon} alt="icon" />
 		</div>

@@ -205,5 +205,5 @@ const columns = [
   { title: "Provider", dataIndex: "billInfo", key: "provider", render: (record) => <p>{record?.providerInfo?.name}</p> },
   { title: "Amount", dataIndex: "amount", key: "amount" },
   { title: "Created Date", dataIndex: "billInfo", key: "createdDate", render: (record) => <p>{record?.createdAt?.split("T")[0]}</p> },
-  { title: "Status", dataIndex: "status", key: "status" },
+  { title: "Status", dataIndex: "billInfo", key: "status", render: (record) => <p>{record?.status}</p> },
 ];

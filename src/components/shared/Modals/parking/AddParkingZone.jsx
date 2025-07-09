@@ -107,7 +107,7 @@ const [planList, setPlanList] = useState(timePlan.map((duration) => ({ duration,
       />
       <Modal
         className="basic-modal"
-        title="Add Zone"
+        title={`${action === 'edit'? 'Edit': 'Add'} Zone`}
         open={openModal}
         onOk={handleOk}
         onCancel={handleCancel}
@@ -131,7 +131,7 @@ const [planList, setPlanList] = useState(timePlan.map((duration) => ({ duration,
               <div key={index}>
                 <FormInput
                   label={plan.duration}
-                  type="text"
+                  type="number"
                   name={`price_${index}`}
                   value={plan.price}
                   onChange={(e) =>
@@ -146,7 +146,7 @@ const [planList, setPlanList] = useState(timePlan.map((duration) => ({ duration,
           <AuthButton
             handleClick={handleSubmit}
             inactive={!active}
-            value="Add Zone"
+            value={`${action === 'edit'? 'Edit': 'Add'} Zone`}
           />
         </form>
       </Modal>

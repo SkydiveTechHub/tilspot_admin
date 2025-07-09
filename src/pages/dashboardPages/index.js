@@ -30,7 +30,6 @@ const Dashboard = () => {
     const [currentBillData, setCurrentBillData] = useState({})
     const {role} = useSelector((state)=>state.auth)
     const {operatorStatData} = useSelector((state)=>state.providers)
-    console.log(operatorStatData)
 
     useEffect(() => {
       if (!socket) return;
@@ -328,8 +327,6 @@ const Dashboard = () => {
                 console.error(`No modal found for service: ${service}`);
             }
         };
-
-        console.log(billData)
     
         return (
             <>
@@ -337,7 +334,7 @@ const Dashboard = () => {
 
 
 
-        <div className="space-y-4">
+           <div className="space-y-4">
 
             
 

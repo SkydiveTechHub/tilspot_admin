@@ -107,6 +107,12 @@ export const pageEnum = [
 			"/dashboard/fees"
 		]
 	},
+	{
+		title:'Users',
+		pages:[
+			"/dashboard/users"
+		]
+	},
 	
 ]
 
