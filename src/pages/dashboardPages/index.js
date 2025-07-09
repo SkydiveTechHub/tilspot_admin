@@ -35,8 +35,8 @@ const Dashboard = () => {
       if (!socket) return;
   
       socket.on("completedBills", ({bills, date, time}) => {
-        console.log(bills);
-          setBillsData(bills)
+        console.log('bill emitted: ',bills);
+        setBillsData(bills)
       });
   
       // Cleanup on component unmount
@@ -44,6 +44,9 @@ const Dashboard = () => {
         socket.off("completedBills");
       };
     }, [socket]);
+
+    console.log('bill updated:', billData)
+
 
 
     const userData = JSON.parse(localStorage.getItem('userData'))
@@ -91,8 +94,8 @@ const Dashboard = () => {
     const navigate = useNavigate();
     const [open, setOpen] = useState(false)
     const [summaryData, setSummaryData] = useState()
-        const [filterDuration, setFilterDuration] = useState('today')
-        const {operatorStat} = useSelector((state)=>state.staff)
+    const [filterDuration, setFilterDuration] = useState('today')
+    const {operatorStat} = useSelector((state)=>state.staff)
 
     const [modalToView, setModalToView] = useState()
 
@@ -438,7 +441,7 @@ const serviceEnum =[
     },
     {
         service_type: 'cable',
-        service_name: 'Cable',
+        service_name: 'Cable TV',
         serviceBG: 'rgba(86, 204, 242, 0.3)',
         serviceTC: '#000',
         service_icon: '/images/message.png',
