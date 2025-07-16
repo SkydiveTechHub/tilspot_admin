@@ -113,7 +113,7 @@ class providerService {
     return res?.data || res;
   }
   static async EditZone(data) {
-    const res = await baseAxios.post(`/createAndUpdateLocationAndZoneDetails?locationId=${data.locId}&zoneId=${data.zoneId}`, data.payload);
+    const res = await baseAxios.post(`/createAndUpdateLocationAndZoneDetails?locationId=${data.LocId}&zoneId=${data.zoneId}`, data.payload);
     return res?.data || res;
   }
 

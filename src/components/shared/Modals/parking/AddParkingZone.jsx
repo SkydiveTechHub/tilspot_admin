@@ -24,7 +24,6 @@ const AddParkingZone = ({ id, data, location, action,  openModal, handleOk, hand
   //   timePlan.map((duration) => ({ duration, price: '' }))
   // );
 
-  console.log(data)
 
 const [planList, setPlanList] = useState(timePlan.map((duration) => ({ duration, price: '' })));
 
@@ -69,15 +68,19 @@ const [planList, setPlanList] = useState(timePlan.map((duration) => ({ duration,
     };
 
     try {
+      let res;
       if (action === 'edit'){
-        const res = await dispatch(editZone(params));
+        res = await dispatch(editZone(params));
       } else {
-        const res = await dispatch(createZone(params));
+        res = await dispatch(createZone(params));
         console.log('Zone created:', res);
       }
 
-      dispatch(getZonesByLocation(id))
-      setSecondModalOpen(true);
+      if(res.payload.statusCode){
+        dispatch(getZonesByLocation(id))
+        setSecondModalOpen(true);        
+      }
+
       handleOk();
       resetForm();
     } catch (error) {
