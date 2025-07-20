@@ -70,7 +70,7 @@ const PreviewParkingOrderModal = ({billId, title, openModal, handleOk, handleCan
       handleCancel()
     }
 
-    console.log('Form submitted:', values);
+     
     // setOpenedFailed(false);
     handleCancel?.(); 
     resetForm();

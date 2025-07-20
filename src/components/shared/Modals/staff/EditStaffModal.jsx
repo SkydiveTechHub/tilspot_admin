@@ -88,7 +88,7 @@ const EditStaffModal = ({ userData, openModal, handleOk, handleCancel }) => {
                       };
                       try {
                         const res = await dispatch(resetPassword(params));
-                        console.log(res);
+                         ;
                   
                         if (res.payload.statusCode) {
                           resetPassform()

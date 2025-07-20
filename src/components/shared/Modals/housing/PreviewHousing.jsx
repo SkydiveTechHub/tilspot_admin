@@ -30,7 +30,7 @@ const PreviewHousingOrderModal = ({billId, children, title, openModal, handleOk,
 
     try {
       const res = await dispatch(approveBill(billId));
-      console.log(res)
+       
       if (res.payload.statusCode){
         handleProceed();
       }else{
@@ -70,7 +70,7 @@ const PreviewHousingOrderModal = ({billId, children, title, openModal, handleOk,
       handleCancel()
     }
 
-    console.log('Form submitted:', values);
+     
     // setOpenedFailed(false);
     handleCancel?.(); 
     resetForm();

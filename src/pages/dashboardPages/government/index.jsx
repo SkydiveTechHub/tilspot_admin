@@ -35,7 +35,6 @@ const GovernmentPage = () => {
               const res = await dispatch(getServiceByCategory(catId))
               
               if(res.payload.statusCode){
-                console.log(res.payload)
                 setData(res.payload.data)
                 setHasData(true)
               }                

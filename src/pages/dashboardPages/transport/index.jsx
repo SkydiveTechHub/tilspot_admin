@@ -31,7 +31,7 @@ const TransportPage = () => {
     const fetchJourneyDetails = async (id)=>{
       try {
         const res = await dispatch(getAllJourney({provId:id}))
-              console.log(res)
+               
               if(res.payload.statusCode){
                 setData(res.payload.data)
                 setProvId(id)
@@ -60,8 +60,6 @@ const TransportPage = () => {
           fetchProvider()
         },[catId])
 
-
-        console.log(provId)
   return (
     <>
             <AddTransportProvider

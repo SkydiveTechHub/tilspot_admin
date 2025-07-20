@@ -23,8 +23,7 @@ const StatisticsModal = ({totalRevenue, totalOrder, totalCompleted, totalFailed,
          setSummary(res?.payload?.responseData[0])
         }else{
           setHasRecord(false)
-        }
-        console.log(res)        
+        }    
       }
 
 

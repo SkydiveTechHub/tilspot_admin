@@ -18,7 +18,6 @@ const AddParkingLocation = ({ locId, userData, action, openModal, handleOk, hand
   const initialState = action === 'edit' ? { name: userData?.name || '' } : { name: '' };
   const { values, handleChange, resetForm, errors } = useForm(initialState);
 
-  console.log(userData)
     useEffect(() => {
       resetForm(initialState);
     }, [userData]);

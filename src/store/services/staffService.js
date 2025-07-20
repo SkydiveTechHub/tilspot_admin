@@ -28,7 +28,6 @@ class staffService {
     return res?.data || res;
   }
   static async GetGlobalRecord(data) {
-    console.log(data)
     let url
     if(data !== 'daily' && data !== 'weekly' && data !== 'monthly'){
       url = `/getGlobalPeriodicRecord?startDate=${data[0]}&endDate=${data[1]}`
@@ -36,7 +35,7 @@ class staffService {
       url = `/getGlobalPeriodicRecord?period=${data}`
     }
     const res = await baseAxios.get(url);
-    console.log(res)
+     
     return res?.data || res;
   }
   static async GetMyRecord(data) {

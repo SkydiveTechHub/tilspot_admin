@@ -5,7 +5,7 @@ class providerService {
 
   static async GetAllCategories() {
     const res = await baseAxios.get(`/getAllCategories`);
-    console.log(res)
+     
     return res?.data || res;
   }
   static async GetProviderbyCategory(data) {
@@ -37,12 +37,10 @@ class providerService {
     return res?.data || res;
   }
   static async GetAllJourney(data) {
-    console.log(data)
     const res = await baseAxios.get(`/getAllJourneys`);
     return res?.data || res;
   }
   static async GetJourneyDetials(data) {
-    console.log(data)
     const res = await baseAxios.get(`/getJourneyDetails/${data.provId}`);
     return res?.data || res;
   }
@@ -89,7 +87,6 @@ class providerService {
 
 
   static async UpdateInternetPlan(data) {
-    console.log(data)
     const res = await baseAxios.post(`/updateAnInternetPlan/${data.provId}/${data.planId}`, data.payload);
     return res?.data || res;
   }
@@ -103,12 +100,10 @@ class providerService {
     return res?.data || res;
   }
   static async EditLocation(data) {
-    console.log(data)
     const res = await baseAxios.post(`/createAndUpdateLocationAndZoneDetails?locationId=${data.locId}`, data.payload);
     return res?.data || res;
   }
   static async EditJourney(data) {
-    console.log(data)
     const res = await baseAxios.post(`/createAndUpdateJourney?providerId=${data.provId}&journeyId=${data.journeyId}`, data.payload);
     return res?.data || res;
   }
@@ -144,7 +139,6 @@ class providerService {
     return res?.data || res;
   }
   static async DeleteTicket(data) {
-    console.log(data)
     const res = await baseAxios.post(`/deleteATicket/${data.ticket}`);
     return res?.data || res;
   }
@@ -163,12 +157,10 @@ class providerService {
     return res?.data || res;
   }
   static async ApproveBill(data) {
-    console.log(data)
     const res = await baseAxios.post(`/approvePayment/${data}`, data);
     return res?.data || res;
   }
   static async RejectBill(data) {
-    console.log(data)
     const res = await baseAxios.post(`/rejectPayment/${data.billId}`, data.payload);
     return res?.data || res;
   }

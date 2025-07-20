@@ -34,7 +34,7 @@ const ResetPassword = () => {
             };
             try {
               const res = await dispatch(resetPassword(params));
-              console.log(res);
+               ;
         
               if (res.payload.statusCode) {
                 toast.success('Password Changed Successfully')

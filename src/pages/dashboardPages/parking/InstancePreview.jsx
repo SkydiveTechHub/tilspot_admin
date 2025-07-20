@@ -47,7 +47,7 @@ const PreviewParkingLocation = () => {
     const fetchLocationZones = async ()=>{
       try {
         const res = dispatch(getZonesByLocation(id))
-        console.log(res)
+         
       } catch (error) {
         
       }

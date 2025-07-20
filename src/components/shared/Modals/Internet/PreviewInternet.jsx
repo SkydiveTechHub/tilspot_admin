@@ -30,7 +30,7 @@ const PreviewInternetOrderModal = ({billId, title, openModal, handleOk, handleCa
 
     try {
       const res = await dispatch(approveBill(billId));
-      console.log(res)
+       
       if (res.payload.statusCode){
         dispatch(getMyRecord('today'))
         handleProceed();
@@ -67,7 +67,7 @@ const PreviewInternetOrderModal = ({billId, title, openModal, handleOk, handleCa
       handleCancel()
     }
 
-    console.log('Form submitted:', values);
+     
     // setOpenedFailed(false);
     handleCancel?.(); 
     resetForm();

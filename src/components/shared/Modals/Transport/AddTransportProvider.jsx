@@ -23,7 +23,6 @@ const AddTransportProvider = ({
   handleCancel,
 }) => {
 
-  console.log(provId)
   const dispatch = useDispatch();
   const [range, setRange] = useState(null); // For time range
   const [active, setActive] = useState(false); // For button activation

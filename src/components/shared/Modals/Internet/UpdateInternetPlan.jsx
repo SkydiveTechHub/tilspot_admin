@@ -13,7 +13,6 @@ const UpdateInternetPlan = ({ id, userData, action, openModal, handleOk, handleC
   const [secondModalOpen, setSecondModalOpen] = useState(false);
   const dispatch = useDispatch();
 
-  console.log(userData)
 
   useEffect(()=>{
     if (userData) {
@@ -33,7 +32,6 @@ const UpdateInternetPlan = ({ id, userData, action, openModal, handleOk, handleC
     return plan.name && plan.price && plan.duration;
   };
 
-  console.log(plan.name)
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -43,7 +41,6 @@ const UpdateInternetPlan = ({ id, userData, action, openModal, handleOk, handleC
     }
 
     const params = plan;
-    console.log(params)
     try {
       const res = await dispatch(
         updateInternetPlan({

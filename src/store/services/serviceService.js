@@ -25,7 +25,6 @@ class serviceService {
     return res?.data || res;
   }
   static async EditLocation(data) {
-    console.log(data)
     const res = await baseAxios.post(`/createAndUpdateLocationAndZoneDetails?locationId=${data.LocId}`, data.payload);
     return res?.data || res;
   }

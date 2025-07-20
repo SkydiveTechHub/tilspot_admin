@@ -21,7 +21,6 @@ const OperatorTransactions = () => {
   const [filterDate, setFilterDate] = useState(payload)
 
   const handleFilter =(date)=>{
-    console.log(date)
     setFilterDate(date)
   }
 
@@ -52,7 +51,6 @@ const OperatorTransactions = () => {
   }, []);
 
     const performFetch =  async(option) =>{
-      console.log(option)
       // if (option !=='All') {
         // try {
          fetchTransactionByFilter(option)

@@ -30,7 +30,7 @@ const PreviewAirtimeOrderModal = ({ openModal, handleOk, handleCancel, returnTex
 
     try {
       const res = await dispatch(approveBill(billId));
-      console.log(res)
+
       if (res.payload.statusCode){
         dispatch(getMyRecord('today'))
         handleProceed();
@@ -71,7 +71,6 @@ const PreviewAirtimeOrderModal = ({ openModal, handleOk, handleCancel, returnTex
       handleCancel()
     }
 
-    console.log('Form submitted:', values);
     // setOpenedFailed(false);
     handleCancel?.(); 
     resetForm();

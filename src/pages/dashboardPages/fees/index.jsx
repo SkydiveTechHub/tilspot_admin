@@ -37,7 +37,6 @@ const FeesPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(values); 
 
     const params ={
       processing_fees: Object.values(values).map(item => Number(item.amount)),

@@ -30,7 +30,7 @@ const PreviewCableOrderModal = ({ openModal, handleOk, handleCancel, provider, a
 
     try {
       const res = await dispatch(approveBill(billId));
-      console.log(res)
+       
       if (res.payload.statusCode){
         dispatch(getMyRecord('today'))
         handleProceed();
@@ -71,7 +71,6 @@ const PreviewCableOrderModal = ({ openModal, handleOk, handleCancel, provider, a
       handleCancel()
     }
 
-    console.log('Form submitted:', values);
     // setOpenedFailed(false);
     handleCancel?.(); 
     resetForm();

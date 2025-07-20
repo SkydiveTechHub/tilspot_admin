@@ -5,7 +5,6 @@ import { Bar, BarChart, CartesianGrid, Legend, XAxis, YAxis } from 'recharts'
 const BarCharts = ({ duration, Cdata, customDays }) => {
   const [data, setData] = useState([])
 
-  console.log(Cdata)
 
   useEffect(() => {
     if (duration === 'daily') {
@@ -41,7 +40,6 @@ const BarCharts = ({ duration, Cdata, customDays }) => {
         { name: "Dec", approveCount: Cdata[11]?.approvedCount || 0, rejectCount: Cdata[11]?.rejectedCount || 0 }
       ])
     } else if (duration === 'custom') {
-      console.log('is custom date range')
       const customData = customDays.map((dayName, index) => ({
         name: dayName,
         approveCount: Cdata[index]?.approvedCount || 0,
@@ -51,7 +49,6 @@ const BarCharts = ({ duration, Cdata, customDays }) => {
     }
   }, [duration, Cdata, customDays])
 
-  console.log(data)
 
   return (
     <div>

@@ -32,7 +32,7 @@ const InstanceView = ({data}) => {
         },[data])
 
       const handleSearch = (key) => {
-        console.log(key);
+         ;
         if (key === '') {
           setTableData(data.operators);
         } else {

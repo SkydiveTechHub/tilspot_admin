@@ -17,8 +17,7 @@ const AirtimePage = () => {
     const { providers, categories } = useSelector((state) => state.providers);
     const { role } = useSelector((state) => state.auth);
 
-    console.log(categories)
-    
+
       useEffect(() => {
         if (categories) {
           const cat = categories.find((i) => i.name === 'Airtime');

@@ -73,7 +73,6 @@ const [planList, setPlanList] = useState(timePlan.map((duration) => ({ duration,
         res = await dispatch(editZone(params));
       } else {
         res = await dispatch(createZone(params));
-        console.log('Zone created:', res);
       }
 
       if(res.payload.statusCode){

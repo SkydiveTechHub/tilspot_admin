@@ -31,7 +31,7 @@ const PreviewFootballOrderModal = ({ billId, openModal, handleOk, handleCancel, 
 
     try {
       const res = await dispatch(approveBill(billId));
-      console.log(res)
+       
       if (res.payload.statusCode){
         dispatch(getMyRecord('today'))
         handleProceed();
@@ -72,7 +72,7 @@ const PreviewFootballOrderModal = ({ billId, openModal, handleOk, handleCancel, 
       handleCancel()
     }
 
-    console.log('Form submitted:', values);
+     
     // setOpenedFailed(false);
     handleCancel?.(); 
     resetForm();

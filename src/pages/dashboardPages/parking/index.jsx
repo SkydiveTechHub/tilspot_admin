@@ -27,9 +27,7 @@ const ParkingPage = () => {
         dispatch(checkCategory())
       }
     }, [categories]);
-
-    console.log(locations)
-  
+    
         useEffect(()=>{
           const fetchProvider = async() =>{
             if (catId){

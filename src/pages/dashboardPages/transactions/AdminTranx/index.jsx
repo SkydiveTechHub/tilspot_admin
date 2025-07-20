@@ -76,7 +76,6 @@ const AdminTransactions = () => {
         dispatch(checkCategory());
       }
     }  else if (filterType.value === "operator") {
-      console.log(staffs)
       if (staffs?.operators?.length > 0) {
         const staffsOptions = staffs?.operators?.map((i, id) => ({
           key: `${id + 2}`,

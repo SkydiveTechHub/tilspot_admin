@@ -30,7 +30,7 @@ const PreviewTransportOrderModal = ({billId, title, openModal, handleOk, handleC
 
     try {
       const res = await dispatch(approveBill(billId));
-      console.log(res)
+       
       if (res.payload.statusCode){
         dispatch(getMyRecord('today'))
         handleProceed();
@@ -67,7 +67,7 @@ const PreviewTransportOrderModal = ({billId, title, openModal, handleOk, handleC
       handleCancel()
     }
 
-    console.log('Form submitted:', values);
+     
     // setOpenedFailed(false);
     handleCancel?.(); 
     resetForm();

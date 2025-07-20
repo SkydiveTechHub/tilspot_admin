@@ -5,7 +5,7 @@ class AuthService {
 
   static async Register() {
     const res = await baseAxios.post(``);
-    console.log(res)
+     
     // localStorage.setItem('current_user', JSON.stringify(res.data))
     return res?.data || res;
   }
@@ -19,7 +19,6 @@ class AuthService {
     return res?.data || res;
   }
   static async SendOTP(data) {
-    console.log(data)
     const res = await baseAxios.post(`/verifyPasswordResetOTP/${data.id}`, data.payload);
     return res?.data || res;
   }

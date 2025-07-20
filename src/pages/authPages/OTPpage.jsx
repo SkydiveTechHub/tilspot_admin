@@ -34,7 +34,7 @@ const OPTpage = () => {
             };
             try {
               const res = await dispatch(sendOTP(params));
-              console.log(res);
+               ;
         
               if (res.payload.statusCode) {
                 toast.success('Validated Successfully')

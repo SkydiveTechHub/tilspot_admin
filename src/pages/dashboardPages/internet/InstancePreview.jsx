@@ -65,7 +65,6 @@ const PreviewInternetProvider = () => {
       }, [categories]);
 
     const handleSearch = (key) => {
-      console.log(key, data.options[0].options);
       if (key === '') {
         fetchProviderPlans()
       } else {

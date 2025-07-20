@@ -48,7 +48,6 @@ const InstanceView = ({data, catStatus, id}) => {
       }
 
     } catch (error) {
-      console.log(error)
       toast.error('Something went wrong')
       setOpenDelete(false)
     }
@@ -66,13 +65,12 @@ const InstanceView = ({data, catStatus, id}) => {
     }
 
     } catch (error) {
-      console.log(error)
       toast.error('Something went wrong')
     }
   };
 
   const handleSearch = (key)=>{
-    console.log(key)
+
     if(key === ''){
       setTableData(data)
     }else{

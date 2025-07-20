@@ -21,7 +21,6 @@ const { role } = useSelector((state) => state.auth);
   
     useEffect(() => {
       if (categories) {
-        console.log(categories)
         const cat = categories.find((i) => i.name === 'Football Tickets');
         setCatStatus(cat.isEnabled)
         setCatId(cat?._id);
@@ -32,10 +31,10 @@ const { role } = useSelector((state) => state.auth);
 
 
             const fetchMatchData = async (id)=>{
-              console.log(id)
+
               try {
                 const res = await dispatch(getMatch())
-                      console.log(res)
+                       
                       if(res.payload.statusCode){
                         setData(res.payload.data)
                         setProvId(id)
@@ -64,7 +63,6 @@ const { role } = useSelector((state) => state.auth);
           fetchProvider()
         },[catId])
 
-        console.log(provId, catId)
   return (
     <>
             <AddFootballTicketProvider

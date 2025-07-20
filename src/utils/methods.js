@@ -21,7 +21,6 @@ export const validator = (values) => {
           } else if (!/\S+@\S+\.\S+/.test(values.email)) {
             
           errors.email = 'Email address is invalid';
-          console.log(errors.email)
           }        
       }
       if('instance_name' in values){
@@ -33,7 +32,7 @@ export const validator = (values) => {
           } else if (!isValidName(values.instance_name)) {
               
             errors.email = 'Instance name is invalid';
-            console.log(errors.instance_name)
+    
           }        
       }
       // Password validation

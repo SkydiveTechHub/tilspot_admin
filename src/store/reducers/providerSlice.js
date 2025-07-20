@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createProvider, editProvider, getAllCategories, getAllJourney, getJourneyDetails, getLocations, getMatch, getMyRecord, getPlansByProvider, getProviderByCategory, getServiceByCategory, getZonesByLocation } from "../actions";
+import { createProvider, editProvider, getAllCategories, getAllJourney, getLocations, getMatch, getMyRecord, getPlansByProvider, getProviderByCategory, getServiceByCategory, getZonesByLocation } from "../actions";
 
 
 const initialState = {
@@ -36,7 +36,7 @@ const providerSlice = createSlice({
         builder.addCase(getAllCategories.fulfilled, (state, {payload})=>{
             state.isLoading = false;
             state.categories = payload.data
-            // console.log(payload)
+            // 
             localStorage.setItem('categories', JSON.stringify(payload))
         })
         builder.addCase(getPlansByProvider.fulfilled, (state, {payload})=>{
@@ -55,11 +55,11 @@ const providerSlice = createSlice({
             state.matches = payload;
         })
         builder.addCase(getAllJourney.fulfilled, (state, {payload})=>{
-            console.log(payload)
+            
             state.journeyData = payload.data;
         })
         builder.addCase(getServiceByCategory.fulfilled, (state, {payload})=>{
-            console.log(payload)
+            
             state.services = payload.data;
         })
         builder.addCase(createProvider.fulfilled, (state, {payload})=>{
@@ -71,12 +71,12 @@ const providerSlice = createSlice({
 
         builder.addCase(getZonesByLocation.fulfilled, (state, {payload})=>{
             state.isLoading = false;
-            console.log(payload)
+            
             state.locationDetals = payload.data
         })
         builder.addCase(getMyRecord.fulfilled, (state, {payload})=>{
             state.isLoading = false;
-            console.log(payload)
+            
             state.operatorStatData = payload.responseData[0]
         })
 

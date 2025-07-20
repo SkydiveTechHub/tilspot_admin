@@ -5,7 +5,6 @@ import {DeactivateModal} from '../dashboardComponents/shared';
 import StaffEditModal from './StaffEditModal';
 
 export const BasicDrawer = ({openDrawer, onClose}) => {
-  console.log(openDrawer)
 
   return (
     <>
@@ -60,7 +59,6 @@ export const StaffDrawer = ({openDrawer, onClose}) => {
   const [isDeactivaeModal, setDeactivateModal] = useState(false);
   const [isOpen, setOpen] = useState(false)
 
-  console.log('condition', openDrawer)
   useEffect(()=>{
     setOpen(openDrawer)
   },[openDrawer])

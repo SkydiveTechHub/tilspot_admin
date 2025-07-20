@@ -33,7 +33,7 @@ const { role } = useSelector((state) => state.auth);
             if (catId){
               try {
               const res = await dispatch(getProviderByCategory(catId))
-              console.log(res)
+               
               if(res.payload.statusCode){
                 setData(res.payload.providers)
                 setHasData(true)

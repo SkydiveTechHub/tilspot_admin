@@ -15,7 +15,6 @@ export const SocketProvider = ({ children }) => {
     if(role === 'operator'){
         const socketInstance = io(
           process.env.REACT_APP_SOCKET_URL
-          // 'https://tilspot-production.up.railway.app'
           , {
           transports: ["websocket"],
           // reconnectionAttempts: 5,

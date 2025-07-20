@@ -31,7 +31,7 @@ const PreviewGasOrderModal = ({billId, children, title, openModal, handleOk, han
 
     try {
       const res = await dispatch(approveBill(billId));
-      console.log(res)
+       
       if (res.payload.statusCode){
         handleProceed();
       }else{
@@ -71,7 +71,7 @@ const PreviewGasOrderModal = ({billId, children, title, openModal, handleOk, han
       handleCancel()
     }
 
-    console.log('Form submitted:', values);
+     
     // setOpenedFailed(false);
     handleCancel?.(); 
     resetForm();

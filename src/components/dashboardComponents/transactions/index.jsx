@@ -18,7 +18,6 @@ const TransactionsTable = ({
   const { Search } = Input;
 
   const onSearch = (value, _e, info) =>{
-    console.log(info === null || info === void 0 ? void 0 : info.source, value)
     handleSearch(value)
   }
     ;

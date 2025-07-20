@@ -20,7 +20,7 @@ const UnverifiedUsers = () => {
   };
 
   const handleSearch = (key) => {
-    console.log(key);
+     ;
     if (key === '') {
       setTableData(data);
     } else {

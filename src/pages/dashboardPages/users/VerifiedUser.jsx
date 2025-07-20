@@ -19,10 +19,9 @@ const VerifiedUsers = () => {
   };
 
 
-  console.log('All Users Page Rendered', tableData);
 
   const handleSearch = (key) => {
-    console.log(key);
+     ;
     if (key === '') {
       setTableData(data);
     } else {

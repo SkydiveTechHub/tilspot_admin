@@ -31,7 +31,7 @@ const InstanceView = ({data, catStatus, id, ppId}) => {
           },[data])
           
         const handleSearch = (key) => {
-          console.log(key);
+           ;
           if (key === '') {
             setTableData(data);
           } else {
@@ -137,7 +137,6 @@ const InstanceView = ({data, catStatus, id, ppId}) => {
 
   ];
 
-  console.log(provId)
 
 return (
 

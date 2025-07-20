@@ -34,7 +34,6 @@ const Register = () => {
         navigate('/dashboard')
     }
 
-    console.log(errors)
 
     const rule = ['Must contain more than 8 characters', 'Must contain a letter', 'Must contain a number']
 

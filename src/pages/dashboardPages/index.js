@@ -35,7 +35,6 @@ const Dashboard = () => {
       if (!socket) return;
   
       socket.on("completedBills", ({bills, date, time}) => {
-        console.log('bill emitted: ',bills);
         setBillsData(bills)
       });
   
@@ -45,7 +44,6 @@ const Dashboard = () => {
       };
     }, [socket]);
 
-    console.log('bill updated:', billData)
 
 
 
@@ -60,7 +58,6 @@ const Dashboard = () => {
         if (userId) {
 
           socket.emit("identify", { userId, userType });
-          console.log("Emitting 'identify' event with:", { userId, userType });
         } else {
           console.error("Missing userId or userType");
         }
@@ -106,7 +103,7 @@ const Dashboard = () => {
             }
           try {
             const res = await dispatch(getOperatorRecord(params))
-            console.log(res)
+             
           } catch (error) {
             
           }
@@ -115,7 +112,7 @@ const Dashboard = () => {
         const fetchMyRecord = async() =>{
           try {
             const res = await dispatch(getMyRecord(filterDuration))
-            console.log(res)
+             
             setSummaryData(res.payload.responseData[0])
           } catch (error) {
             
@@ -125,7 +122,7 @@ const Dashboard = () => {
         // const fetchBills = async() =>{
         //   try {
         //     const res = await dispatch(getAllBills())
-        //     console.log(res)
+        //      
         //   } catch (error) {
             
         //   }

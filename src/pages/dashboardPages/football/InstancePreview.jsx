@@ -50,7 +50,7 @@ const PreviewFootballMatches = () => {
     try {
       const res = await dispatch(getMatchTickets(params))
       if (res.payload.statusCode){
-        console.log(res)
+         
         setUserData(res.payload.data)
         setMatch(res.payload.data.match)
         setTickets(res.payload.data.tickets)

@@ -30,7 +30,7 @@ const InstanceView = ({data, catStatus, id, p_Id}) => {
         },[data])
         
       const handleSearch = (key) => {
-        console.log(key);
+         ;
         if (key === '') {
           setTableData(data.operators);
         } else {
@@ -47,7 +47,7 @@ const InstanceView = ({data, catStatus, id, p_Id}) => {
   const handleDelete = async () =>{
     try {
       const res = await dispatch(deleteMatch(provId))
-      console.log(res)
+       
       if(res.payload.statusCode){
         setOpenDelete('false')
         dispatch(getMatch())

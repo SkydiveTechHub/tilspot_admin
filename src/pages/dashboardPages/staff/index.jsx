@@ -21,9 +21,6 @@ const StaffPage = () => {
       }
     },[staffs])
 
-    console.log(staffs)
-
-
   return (
     <>
             <AddStaffModal
