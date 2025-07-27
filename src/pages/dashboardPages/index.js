@@ -77,8 +77,6 @@ const Dashboard = () => {
 
     }, []);
 
-    console.log(billData)
-
 
     // const availableBills = JSON.parse(localStorage.getItem('bills'))
     // useEffect(() => {
