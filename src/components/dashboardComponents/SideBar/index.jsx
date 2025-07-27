@@ -120,7 +120,7 @@ const SideBar = ({handleClick}) => {
               url: '/fees',
             },
             {
-              name: 'Statistics',
+              name: 'Users & Statistics',
               icons: <ChartSquare size={16} />,
               url: '/statistics',
             },

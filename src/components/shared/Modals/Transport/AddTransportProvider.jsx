@@ -92,10 +92,13 @@ const AddTransportProvider = ({
         toast.success(res.payload.message)
         handleOk(); 
         dispatch(getAllJourney(provId))
-        setSuccessModalOpen(true); // Open success modal
+        setRange(null); 
+        setSuccessModalOpen(true); 
       }else{
         toast.error(res.payload.message)
       }
+
+
       
     } catch (error) {
       toast.error(res.payload.message)

@@ -77,6 +77,8 @@ const Dashboard = () => {
 
     }, []);
 
+    console.log(billData)
+
 
     // const availableBills = JSON.parse(localStorage.getItem('bills'))
     // useEffect(() => {
@@ -380,9 +382,9 @@ const Dashboard = () => {
                         tag={matchedService.service_name}
                         TColor={matchedService.serviceTC}
                         iconUrl={matchedService.service_icon}
-                        date={bill.bill.createdAt.split('T')[0] || "N/A"} // Assuming `bill` contains a `date` key, replace "N/A" with a fallback value.
-                        time={bill.bill.createdAt.split('T')[1].split('.')[0] || "N/A"} // Assuming `bill` contains a `time` key, replace "N/A" with a fallback value.
-                        title={bill.bill.title || "Pending Order"} // Assuming `bill` contains a `title` key.
+                        date={bill.bill.date || "N/A"} 
+                        time={bill.bill.time || "N/A"} 
+                        title={bill.bill.title || "Pending Order"} 
                         bgColor={matchedService.serviceBG}
                         handleClick={() => {handleFindModal(matchedService.service_type); setCurrentBillData(bill)}}
                       />
