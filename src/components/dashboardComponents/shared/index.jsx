@@ -55,7 +55,7 @@ export const LogoutModal = ({children, title, openModal, handleOk, handleCancel 
             <h2 className="font-mont text-[24px] font-[500]">Logout</h2>
             <p className="font-mont text-[14px] font-[400] text-[gray]">Are you sure you want to logout?</p>
             <div className="space-x-6">
-                <button className="font-mont text-[16px] w-[150px] font-[400] bg-[#F9F9F9] rounded-lg p-[10px]">Cancel</button>
+                <button onClick={handleCancel} className="font-mont text-[16px] w-[150px] font-[400] bg-[#F9F9F9] rounded-lg p-[10px]">Cancel</button>
                 <button onClick={()=>{handleLogout()}} className="font-mont text-[16px] w-[150px] font-[400] text-[white] bg-primary rounded-lg p-[10px]">Log Out</button>
             </div>            
         </div>
