@@ -19,10 +19,6 @@ import { io } from "socket.io-client";
 import { useSocket } from "../../hooks/SocketContext";
 import PreviewElectricityOrderModal from "../../components/shared/Modals/electricity/PreviewElectricity";
 
-const userData = JSON.parse(localStorage.getItem('userData'))
-const url = process.env.REACT_APP_SOCKET_URL;
-
-
 const Dashboard = () => {
 
     const socket = useSocket();
@@ -45,7 +41,7 @@ const Dashboard = () => {
     }, [socket]);
 
 
-
+    console.log(billData)
 
     const userData = JSON.parse(localStorage.getItem('userData'))
     // const socket = useSocket();
@@ -301,6 +297,7 @@ const Dashboard = () => {
                             billId={currentBillData?.billId}
                             provider={currentBillData?.bill?.providerName}
                             reg ={'8882288c'}
+                            acctNo={currentBillData?.bill?.providerData?.accountNumber}
                             phone={currentBillData?.bill?.providerData?.phoneNumber}
                             amount={currentBillData?.bill?.amount}
                         />,

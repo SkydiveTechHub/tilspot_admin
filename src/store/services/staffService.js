@@ -72,7 +72,7 @@ class staffService {
     return res?.data || res;
   }
   static async GetAllOperatorTransactions(data) {
-    const res = await baseAxios.get(`/AllMyTransactions?page=${data.page}&startDate=${data.start}&endDate=${data.end}`);
+    const res = await baseAxios.get(`/AllMyTransactions?page=${data.page}&startDate=${data.start}&endDate=${data.end}&limit=50`);
     return res?.data || res;
   }
   static async FilterAllOperatorTransactions(data) {

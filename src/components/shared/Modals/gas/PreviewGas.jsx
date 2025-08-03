@@ -55,6 +55,8 @@ const PreviewGasOrderModal = ({billId, children, title, openModal, handleOk, han
       
     }
 
+    console.log(params)
+
     try {
       const res = await dispatch(rejectdPaymentBill(params));
  

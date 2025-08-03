@@ -161,7 +161,8 @@ class providerService {
     return res?.data || res;
   }
   static async RejectBill(data) {
-    const res = await baseAxios.post(`/rejectPayment/${data.billId}`, data.payload);
+    console.log(data)
+    const res = await baseAxios.post(`/rejectPayment/${data.billId}`, data.paylaod);
     return res?.data || res;
   }
 

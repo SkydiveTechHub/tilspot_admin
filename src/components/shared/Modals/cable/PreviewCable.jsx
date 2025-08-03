@@ -55,6 +55,7 @@ const PreviewCableOrderModal = ({ openModal, handleOk, handleCancel, provider, a
       
     }
 
+    console.log(params)
     try {
       const res = await dispatch(rejectdPaymentBill(params));
  
