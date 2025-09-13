@@ -68,24 +68,24 @@ class staffService {
   
 
   static async GetAllTransactions(data) {
-    const res = await baseAxios.get(`/AllTransactions?startDate=${data.start}&endDate=${data.end}`);
-    return res?.data || res;
+    const res = await baseAxios.get(`/AllTransactions?startDate=${data.start}&endDate=${data.end}&limit=20&page=${data.page}`);
+    return res;
   }
   static async GetAllOperatorTransactions(data) {
-    const res = await baseAxios.get(`/AllMyTransactions?page=${data.page}&startDate=${data.start}&endDate=${data.end}&limit=50`);
-    return res?.data || res;
+    const res = await baseAxios.get(`/AllMyTransactions?page=${data.page}&startDate=${data.start}&endDate=${data.end}&limit=20`);
+    return res;
   }
   static async FilterAllOperatorTransactions(data) {
-    const res = await baseAxios.get(`/filterMyTransactionsByStatus?query=${data.payload}&startDate=${data.start}&endDate=${data.end}`);
-    return res?.data || res;
+    const res = await baseAxios.get(`/filterMyTransactionsByStatus?query=${data.payload}&startDate=${data.start}&endDate=${data.end}&limit=20&page=${data.page}`);
+    return res;
   }
   static async GetTransactionsByCategory(data) {
-    const res = await baseAxios.get(`/filterTransactions?filterType=${data.type}&query=${data.query}&startDate=${data.start}&endDate=${data.end}`);
-    return res?.data || res;
+    const res = await baseAxios.get(`/filterTransactions?filterType=${data.type}&query=${data.query}&startDate=${data.start}&endDate=${data.end}&limit=20&page=${data.page}`);
+    return res;
   }
-  static async GetTransactionsByStatus() {
-    const res = await baseAxios.get(`/filterTransactionsByStatus`);
-    return res?.data || res;
+  static async GetTransactionsByStatus(data) {
+    const res = await baseAxios.get(`/filterTransactionsByStatus?&limit=20&page=${data.page}`);
+    return res;
   }
 
 

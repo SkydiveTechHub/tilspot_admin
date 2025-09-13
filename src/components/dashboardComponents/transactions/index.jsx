@@ -11,12 +11,13 @@ const TransactionsTable = ({
   data,
   hasFilter,
   hasSearch,
+  totalData = 0,
   handleSearch = () => {},
   handleFilter = () => {},
-  handleView = () => {}
+  handleView = () => {},
+  handlePaginationChange = (page) => {},
 }) => {
   const { Search } = Input;
-
   const onSearch = (value, _e, info) =>{
     handleSearch(value)
   }
@@ -36,7 +37,7 @@ const TransactionsTable = ({
         {hasFilter && <Filter onFilter={handleFilter} />}
       </div>
 
-      <Table columns={ columns } dataSource={data} />
+      <Table columns={ columns } dataSource={data} pagination={{ pageSize: 20, total: totalData, onChange: (page) => { handlePaginationChange(page) } }} />
     </div>
   );
 };

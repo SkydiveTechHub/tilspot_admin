@@ -10,6 +10,12 @@ const initialState = {
     operatorstat:null,
     isLoading: false,
     totalAmount:0,
+    pagination:{
+        currentPage: 1,
+        pageSize: 20,
+        totalPages: 0,
+        totalTransactions: 0,
+    },
     transactions:null,
     operatorTransactions:null,
 
@@ -49,23 +55,27 @@ const staffSlice = createSlice({
 
         builder.addCase(getAllTransactions.fulfilled, (state, {payload})=>{
             state.isLoading = false;
-            state.totalAmount = payload.totalAmount
-            state.transactions = payload.transactions
+            state.pagination = payload.pagination
+            state.totalAmount = payload.data.totalAmount
+            state.transactions = payload.data.transactions
         })
         builder.addCase(getTransactionsByCategory.fulfilled, (state, {payload})=>{
             state.isLoading = false;
-            state.totalAmount = payload.totalAmount
-            state.transactions = payload.transactions
+            state.pagination = payload.pagination
+            state.totalAmount = payload.data.totalAmount
+            state.transactions = payload.data.transactions
         })
         builder.addCase(getOperatorAllTransactions.fulfilled, (state, {payload})=>{
             state.isLoading = false;
-            state.totalAmount = payload.totalAmount
-            state.operatorTransactions = payload.transactions
+            state.pagination = payload.pagination
+            state.totalAmount = payload.data.totalAmount
+            state.operatorTransactions = payload.data.transactions
         })
         builder.addCase(getOperatorTransactionsByStatus.fulfilled, (state, {payload})=>{
             state.isLoading = false;
-            state.totalAmount = payload.totalAmount
-            state.operatorTransactions = payload.transactions
+            state.pagination = payload.pagination
+            state.totalAmount = payload.data.totalAmount
+            state.operatorTransactions = payload.data.transactions
         })
 
     }

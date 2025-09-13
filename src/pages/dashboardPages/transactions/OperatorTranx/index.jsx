@@ -16,25 +16,27 @@ const OperatorTransactions = () => {
     end: d,
   };
   const dispatch = useDispatch();
-  const { operatorTransactions } = useSelector((state) => state.staff);
+  const { pagination, operatorTransactions } = useSelector((state) => state.staff);
   const [filterOption, setFilterOption] = useState({ text: "All", value: "All" });
   const [filterDate, setFilterDate] = useState(payload)
+
+
 
   const handleFilter =(date)=>{
     setFilterDate(date)
   }
 
-  const fetchTransaction = async () => {
+  const fetchTransaction = async (page) => {
     try {
-      await dispatch(getOperatorAllTransactions({...payload, page:1}));
+      await dispatch(getOperatorAllTransactions({...payload, page}));
     } catch (error) {
       toast.error("Something went wrong");
     }
   };
 
-  const fetchTransactionByFilter = async (value) => {
+  const fetchTransactionByFilter = async (value, page) => {
     if (value === "All") {
-      await dispatch(getOperatorAllTransactions({...filterDate, page:1}));
+      await dispatch(getOperatorAllTransactions({...filterDate, page}));
       return;
     }else{
       try {
@@ -47,13 +49,13 @@ const OperatorTransactions = () => {
   };
 
   useEffect(() => {
-    fetchTransaction();
+    fetchTransaction(pagination.currentPage);
   }, []);
 
-    const performFetch =  async(option) =>{
+    const performFetch =  async(option, page) =>{
       // if (option !=='All') {
         // try {
-         fetchTransactionByFilter(option)
+         fetchTransactionByFilter(option, page);
         // } catch (error) {
         //   toast.error("Something went wrong");
         // }
@@ -62,8 +64,18 @@ const OperatorTransactions = () => {
       // }  
     }
   useEffect(() => {
-    performFetch(filterOption.value)
+    performFetch(filterOption.value, pagination.currentPage);
   }, [filterOption, filterDate]);
+
+  
+  const handlePaginationChange = (page) => {
+    console.log(page, 'page')
+    if (filterOption.value !== "All") {
+      fetchTransactionByFilter(filterOption.value, page);
+    } else {
+      fetchTransaction(page);
+    }
+  }
 
   const filterItems = [
     { key: "1", label: <div onClick={() => setFilterOption({ text: "Approved", value: "Approved" })}>Approved</div> },
@@ -86,7 +98,7 @@ const OperatorTransactions = () => {
           </div>
         </div>
 
-        <TransactionsTable columns={columns} data={operatorTransactions}  hasFilter={true} handleFilter={handleFilter}/>
+        <TransactionsTable columns={columns} data={operatorTransactions} totalData={pagination.totalTransactions}  hasFilter={true} handleFilter={handleFilter} handlePaginationChange={handlePaginationChange} />
       </Section>
     </div>
   );
