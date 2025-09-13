@@ -69,7 +69,6 @@ const OperatorTransactions = () => {
 
   
   const handlePaginationChange = (page) => {
-    console.log(page, 'page')
     if (filterOption.value !== "All") {
       fetchTransactionByFilter(filterOption.value, page);
     } else {

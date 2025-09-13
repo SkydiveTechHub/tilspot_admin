@@ -16,7 +16,7 @@ const AdminTransactions = () => {
     end: d,
   };
   const dispatch = useDispatch();
-  const { transactions, totalAmount } = useSelector((state) => state.staff);
+  const { transactions, totalAmount, pagination } = useSelector((state) => state.staff);
   const { providers, categories } = useSelector((state) => state.providers);
   const { staffs } = useSelector((state) => state.staff);
   const [filterDate, setFilterDate] = useState({
@@ -29,29 +29,29 @@ const AdminTransactions = () => {
   const [providerOptionList, setProviderOptionList] = useState([]);
   const [providerOption, setProviderOption] = useState({ text: "Select Options", value: "all" });
 
-  const fetchTransaction = async () => {
+  const fetchTransaction = async (page) => {
     try {
-      await dispatch(getAllTransactions(payload));
+      await dispatch(getAllTransactions({...payload, page}));
     } catch (error) {
       toast.error("Something went wrong");
     }
   };
 
-  const fetchTransactionByFilter = async (type, value, date) => {
+  const fetchTransactionByFilter = async (type, value, date, page) => {
     if (type === "all") {
-      fetchTransaction();
+      fetchTransaction(page);
       return;
     }
 
     try {
-      await dispatch(getTransactionsByCategory({ type, query: value, ...date }));
+      await dispatch(getTransactionsByCategory({ type, query: value, ...date, page }));
     } catch (error) {
       toast.error("Something went wrong");
     }
   };
 
   useEffect(() => {
-    fetchTransaction();
+    fetchTransaction(pagination.currentPage);
   }, []);
 
   useEffect(() => {
@@ -132,10 +132,10 @@ const AdminTransactions = () => {
 
   useEffect(() => {
     if (filterOption.value !== "all" && filterType.value !== "provider" ) {
-      fetchTransactionByFilter(filterType.value, filterOption.value, filterDate);
+      fetchTransactionByFilter(filterType.value, filterOption.value, filterDate, 1);
     }
     if (filterType.value === "provider" && providerOption.value !== 'all' && filterOption.value !== "all") {
-      fetchTransactionByFilter(filterType.value, providerOption.value, filterDate);
+      fetchTransactionByFilter(filterType.value, providerOption.value, filterDate, 1);
     }
   }, [filterOption, providerOption, filterDate]);
 
@@ -151,6 +151,14 @@ const AdminTransactions = () => {
 
   const handleFilter =(date)=>{
     setFilterDate(date)
+  }
+
+  const handlePaginationChange = (page) =>{
+    if (filterOption.value !== "All") {
+      fetchTransactionByFilter(filterOption.value, filterOption.value, filterDate, page);
+    } else {
+      fetchTransaction(page);
+    }
   }
 
   return (
@@ -191,7 +199,7 @@ const AdminTransactions = () => {
 
         <p>Total Amount: <span className="font-bold">€ {totalAmount}</span></p>
 
-        <TransactionsTable columns={columns}  data={transactions} hasFilter={true} handleFilter={handleFilter}/>
+        <TransactionsTable columns={columns} totalData={pagination.totalTransactions} handlePaginationChange={handlePaginationChange}  data={transactions} hasFilter={true} handleFilter={handleFilter}/>
       </Section>
     </div>
   );
