@@ -62,6 +62,7 @@ const RadioButton = ({ onFilter, rangeValue, isYear, isMonth, setModalOpen }) =>
 
   const handleRadioChange = (e) => {
     const selectedValue = e.target.value;
+    console.log(selectedValue)
     setValue(selectedValue);
 
     let date;
@@ -75,6 +76,7 @@ const RadioButton = ({ onFilter, rangeValue, isYear, isMonth, setModalOpen }) =>
     }
 
     if (selectedValue !== "dateRange") {
+      console.log(date)
       onFilter(date);
       setModalOpen(false)
     }

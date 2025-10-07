@@ -29,9 +29,9 @@ const AdminTransactions = () => {
   const [providerOptionList, setProviderOptionList] = useState([]);
   const [providerOption, setProviderOption] = useState({ text: "Select Options", value: "all" });
 
-  const fetchTransaction = async (page) => {
+  const fetchTransaction = async (date = payload,page) => {
     try {
-      await dispatch(getAllTransactions({...payload, page}));
+      await dispatch(getAllTransactions({...date, page}));
     } catch (error) {
       toast.error("Something went wrong");
     }
@@ -39,7 +39,7 @@ const AdminTransactions = () => {
 
   const fetchTransactionByFilter = async (type, value, date, page) => {
     if (type === "all") {
-      fetchTransaction(page);
+      fetchTransaction(date, page);
       return;
     }
 
@@ -131,6 +131,7 @@ const AdminTransactions = () => {
   }, [filterType])
 
   useEffect(() => {
+    console.log(filterDate)
     if (filterOption.value !== "all" && filterType.value !== "provider" ) {
       fetchTransactionByFilter(filterType.value, filterOption.value, filterDate, 1);
     }
@@ -150,7 +151,10 @@ const AdminTransactions = () => {
 
 
   const handleFilter =(date)=>{
+    fetchTransactionByFilter(filterType.value, filterOption.value, date, 1);
     setFilterDate(date)
+
+
   }
 
   const handlePaginationChange = (page) =>{
@@ -197,9 +201,9 @@ const AdminTransactions = () => {
           )}
         </div>
 
-        <p>Total Amount: <span className="font-bold">€ {totalAmount}</span></p>
+        <p>Total Amount: <span className="font-bold font-mont text-sm">€ {totalAmount}</span></p>
 
-        <TransactionsTable columns={columns} totalData={pagination.totalTransactions} handlePaginationChange={handlePaginationChange}  data={transactions} hasFilter={true} handleFilter={handleFilter}/>
+        <TransactionsTable filterDate={filterDate} columns={columns} totalData={pagination?.totalTransactions} handlePaginationChange={handlePaginationChange}  data={transactions} hasFilter={true} handleFilter={handleFilter}/>
       </Section>
     </div>
   );

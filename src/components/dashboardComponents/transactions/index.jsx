@@ -3,12 +3,14 @@ import { Menu, Dropdown, Space, Table, Input } from 'antd';
 import { CiMenuKebab } from "react-icons/ci";
 import { MenuBoard, Trash } from 'iconsax-react';
 import Filter from '../../common/Filter';
+import { formatReadableDate } from '../../../utils/methods';
 
 
 
 const TransactionsTable = ({
   columns,
   data,
+  filterDate,
   hasFilter,
   hasSearch,
   totalData = 0,
@@ -34,7 +36,12 @@ const TransactionsTable = ({
           />
         )}
         <div></div>
-        {hasFilter && <Filter onFilter={handleFilter} />}
+        {hasFilter && 
+        <div className='flex items-center gap-2'>
+          <span className='text-[12px] font-mont'>{formatReadableDate(filterDate?.start)} - {formatReadableDate(filterDate?.end)}</span>
+          <Filter onFilter={handleFilter} />
+        </div>
+        }
       </div>
 
       <Table columns={ columns } dataSource={data} pagination={{ pageSize: 20, total: totalData, onChange: (page) => { handlePaginationChange(page) } }} />
